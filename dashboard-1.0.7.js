@@ -2164,7 +2164,7 @@ if (currentUser) {
     // Desainer yang baru menyelesaikan (Approved) sebuah tema tidak boleh mengklaim tema yang sama
     // sebelum diselingi desainer lain, atau sebelum lewat CLAIM_COOLDOWN_MS sejak di-Approve.
     const CLAIM_COOLDOWN_MS = 3 * 24 * 60 * 60 * 1000;
-    const CLAIM_DAY_NAMES = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const CLAIM_DAY_NAMES = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     let claimCooldownMap = {};
     let claimCooldownTimer = null;
     let claimCooldownReloading = false;

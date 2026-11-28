@@ -1057,7 +1057,7 @@
     }
     const s = R.sesi || (S.status && S.status.sesi) || {};
     const tgt = s.target_kata || (S.status && S.status.target_kata) || 1260;
-    isiKartu(`<div class="kq-hero"><div class="kq-emoji kq-pop">🤔</div><h3>Yakin keluar dari buku ini?</h3>
+    isiKartu(`<div class="kq-hero"><div class="kq-emoji kq-pop">⚠️</div><h3>Yakin keluar dari buku ini?</h3>
         <p>Anda <b>belum menyelesaikan target bacaan</b> buku ini karena ada bagian yang dibaca <b>terlalu cepat</b> sehingga tidak dihitung${kw ? ', dan <b>kuisnya belum dikerjakan</b>' : ''}.</p>
         <div class="kq-ringkas">Bacaan sah: <b>${angka(s.kata_sah || 0)} / ${angka(tgt)} kata</b></div></div>
       <div class="kq-aksi"><button type="button" class="kq-tombol" data-q="keluar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar saja</button><button type="button" class="kq-tombol utama" data-q="ulangbaca"><i class="fa-solid fa-rotate-left"></i> Siap, saya ulangi lagi</button></div>`, 'kq-gagal');

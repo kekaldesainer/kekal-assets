@@ -117,6 +117,25 @@
     });
   }
 
+  /** Untuk sampul: nama ustadz/penulis (baris "Ustadz: …", "Penulis: …", dll.) & perintah "sampul: teks". */
+  function infoSampul(isi) {
+    const lines = keMarkdown(isi).split('\n');
+    let penulis = null, sampulTeks = false;
+    for (const l of lines) {
+      if (/^\s*sampul\s*:\s*teks\s*$/i.test(l)) sampulTeks = true;
+      if (penulis) continue;
+      const m = /^[\s>*_\-]*(ustadzah|ustadz|ustaz|penulis|pemateri|pengarang|oleh)\s*[*_]*\s*:\s*(.+)$/i.exec(l);
+      if (!m) continue;
+      let v = polos(m[2]).replace(/[*_]+/g, '').replace(/\s+/g, ' ').trim();
+      if (!v || v.length > 120) continue;
+      const lbl = m[1].toLowerCase();
+      v = v.replace(/^(al-)?ustadzah\s+/i, 'Ustzh. ').replace(/^(al-)?ustad[z]?\s+/i, 'Ust. ');
+      if (/^ustadzah$/.test(lbl) && !/^ustzh\./i.test(v)) v = 'Ustzh. ' + v;
+      if (/^usta/.test(lbl) && lbl !== 'ustadzah' && !/^ust\.?\s/i.test(v)) v = 'Ust. ' + v;
+      penulis = v;
+    }
+    return { penulis, sampul_teks: sampulTeks };
+  }
   function parse(isi) {
     const lines = keMarkdown(isi).split('\n');
     const ctx = { catatan: new Set(), urutCatatan: [], isiCatatan: {}, kuis: [] };
@@ -140,6 +159,7 @@
       const l = lines[i];
       if (!l.trim()) { i++; continue; }
       if (/^\[\^([^\]]+)\]:/.test(l)) { i++; continue; }
+      if (/^\s*sampul\s*:\s*(teks|gambar)\s*$/i.test(l)) { i++; continue; }   // perintah sampul, tidak ditampilkan
       // HTML mentah (kode gambar Blogger, dll.)
       if (/^\s*</.test(l)) {
         const kumpul = [];
@@ -279,8 +299,18 @@
   /* ===================== CSS ===================== */
   const GAYA_CSS = `
   .kb-wrap{font-family:inherit}
+  .kb-wrap .grid > [data-kb-buka]{align-self:start}
   .kb-cover{aspect-ratio:3/4;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--kb-c1,#2563eb),var(--kb-c2,#7c3aed));box-shadow:0 6px 18px -8px rgba(15,23,42,.35)}
   .kb-cover img{width:100%;height:100%;object-fit:cover;display:block}
+  .kb-cover{container-type:inline-size;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .kb-cover-teks{background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.14),transparent 60%),linear-gradient(165deg,var(--kb-s1),var(--kb-s2))}
+  .kb-cover-teks::before{content:'';position:absolute;inset:5cqw;border:1px solid rgba(250,236,210,.4);border-radius:3px;pointer-events:none}
+  .kb-cover-teks::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4.5cqw;background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.06) 70%,transparent);pointer-events:none}
+  .kb-ct{position:absolute;inset:12cqw 11cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#faecd2;font-family:'Bebas Kai','Bebas Neue',Impact,'Arial Narrow',sans-serif;font-weight:400;text-transform:uppercase;overflow:hidden}
+  .kb-ct-atas{font-size:8cqw;line-height:1.1;letter-spacing:.24em;text-indent:.24em;opacity:.82}
+  .kb-ct-judul{font-size:var(--kb-fs,14cqw);line-height:1.02;letter-spacing:.08em;text-indent:.08em;max-width:100%;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .kb-ct-oleh{font-size:6.6cqw;line-height:1.25;letter-spacing:.14em;text-indent:.14em;opacity:.85;max-width:100%}
+  .kb-ct-garis{display:block;width:14cqw;height:1px;background:currentColor;opacity:.55;margin:5.5cqw auto;flex:none}
   .kb-terkunci .kb-cover{filter:grayscale(1);opacity:.55}
   .kb-terkunci{cursor:not-allowed}
   .kb-gembok{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;background:rgba(15,23,42,.35);text-shadow:0 2px 6px rgba(0,0,0,.4)}
@@ -351,9 +381,36 @@
   .kb-pos{margin-left:auto;font-size:11px;color:var(--kb-mute);font-weight:700;white-space:nowrap}
   @media (max-width:640px){.kb-teks{padding:20px 16px 45vh}.kb-sembunyi-hp{display:none!important}.kb-kec input{width:80px}}
   `;
+  /* ---------- sampul buku ---------- */
+  // folder kekal-assets (tempat modul ini dimuat) — untuk file font Bebas Kai (opsional)
+  const ASET_DASAR = ((document.currentScript && document.currentScript.src) || '').replace(/[^/?#]*([?#].*)?$/, '') || 'https://kekaldesainer.github.io/kekal-assets/';
+  const PALET_SAMPUL = [['#1e3a5f', '#0b1a2e'], ['#14532d', '#062a17'], ['#6b1d2a', '#350a12'], ['#3b1f5c', '#1a0c2e'], ['#134e4a', '#062624'], ['#4a2c1a', '#22130a'], ['#2b2f36', '#111317'], ['#1f3b73', '#0d1b3a'], ['#5b2333', '#2a0d17'], ['#2f4a2a', '#132212']];
+  function hashTeks(t) { let h = 0; for (const c of String(t)) h = (h * 31 + c.codePointAt(0)) >>> 0; return h; }
+  /** "Halaqah 01 ~ Pengagungan …" → { atas: 'Halaqah 01', judul: 'Pengagungan …' } */
+  function pecahJudul(j) {
+    const m = /^(.{1,40}?)\s*(?:~|\s[–—-]\s|:)\s*(.+)$/.exec(String(j || '').trim());
+    return m && m[2].trim() ? { atas: m[1].trim(), judul: m[2].trim() } : { atas: '', judul: String(j || '').trim() };
+  }
+  /** Postingan bergambar → gambar saja; tanpa gambar / "sampul: teks" → sampul teks rata tengah. */
+  function sampulHtml(b, info) {
+    info = info || {};
+    if (b.sampul && !info.sampul_teks) return `<img src="${esc(b.sampul)}" alt="" loading="lazy">`;
+    const p = pecahJudul(b.judul);
+    const n = p.judul.length, fs = n <= 12 ? 18 : n <= 22 ? 15.5 : n <= 34 ? 13 : n <= 50 ? 11.2 : n <= 75 ? 9.6 : 8.2;
+    return `<div class="kb-ct" style="--kb-fs:${fs}cqw">${p.atas ? `<div class="kb-ct-atas">${esc(p.atas)}</div><i class="kb-ct-garis"></i>` : ''}<div class="kb-ct-judul">${esc(p.judul)}</div>${info.penulis ? `<i class="kb-ct-garis"></i><div class="kb-ct-oleh">${esc(info.penulis)}</div>` : ''}</div>`;
+  }
+  function warnaSampul(b) { const [s1, s2] = PALET_SAMPUL[hashTeks(b.id || b.judul) % PALET_SAMPUL.length]; return `--kb-s1:${s1};--kb-s2:${s2}`; }
+
   function pasangGaya() {
     if (!document.getElementById('kb-css')) {
       const s = document.createElement('style'); s.id = 'kb-css'; s.textContent = GAYA_CSS; document.head.appendChild(s);
+    }
+    if (!document.getElementById('kb-font-sampul')) {   // Bebas Kai (diunggah ke kekal-assets) → cadangan Bebas Neue (Google Fonts)
+      const s = document.createElement('style'); s.id = 'kb-font-sampul';
+      s.textContent = `@font-face{font-family:'Bebas Kai';src:url('${ASET_DASAR}BebasKai.woff2') format('woff2'),url('${ASET_DASAR}BebasKai.otf') format('opentype'),url('${ASET_DASAR}BebasKai.ttf') format('truetype');font-display:swap}`;
+      document.head.appendChild(s);
+      const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap';
+      document.head.appendChild(l);
     }
     if (!document.getElementById('kb-amiri')) {
       const l = document.createElement('link'); l.id = 'kb-amiri'; l.rel = 'stylesheet';
@@ -459,14 +516,18 @@
         if (e.length < 150) break;
         mulai += 150;
       }
-      const daftar = S.daftar.filter((b) => b.terbit).map((b) => ({ buku_id: b.id, judul: b.judul, kategori: b.kategori === 'Umum' ? 'Umum' : 'KEKAL ' + b.kategori, terbit: b.terbit,
-        jumlah_kuis: isi[b.id] != null ? parse(isi[b.id]).kuis.length : ((S.bukuDb[b.id] && S.bukuDb[b.id].jumlah_kuis) || 0) }));
+      const daftar = S.daftar.filter((b) => b.terbit).map((b) => {
+        const lama = S.bukuDb[b.id] || {}, ada = isi[b.id] != null, sp = ada ? infoSampul(isi[b.id]) : { penulis: lama.penulis || null, sampul_teks: !!lama.sampul_teks };
+        return { buku_id: b.id, judul: b.judul, kategori: b.kategori === 'Umum' ? 'Umum' : 'KEKAL ' + b.kategori, terbit: b.terbit,
+          jumlah_kuis: ada ? parse(isi[b.id]).kuis.length : (lama.jumlah_kuis || 0), penulis: sp.penulis, sampul_teks: sp.sampul_teks };
+      });
       const lama = Object.values(S.bukuDb).filter((x) => x.aktif);
       const sama = daftar.length === lama.length && daftar.every((d) => { const x = S.bukuDb[d.buku_id];
-        return x && x.aktif && x.judul === d.judul && x.kategori === d.kategori && x.jumlah_kuis === d.jumlah_kuis && new Date(x.terbit).getTime() === new Date(d.terbit).getTime(); });
+        return x && x.aktif && x.judul === d.judul && x.kategori === d.kategori && x.jumlah_kuis === d.jumlah_kuis && (x.penulis || null) === d.penulis && !!x.sampul_teks === d.sampul_teks && new Date(x.terbit).getTime() === new Date(d.terbit).getTime(); });
       if (sama) return;
       await rpc('kl_buku_sinkron', { p_daftar: daftar });
       daftar.forEach((d) => { S.bukuDb[d.buku_id] = Object.assign({ aktif: true }, d); });
+      if (S.wadah && S.wadah.isConnected && !R) renderPerpustakaan();   // sampul ikut diperbarui
     } catch (e) { /* dicoba lagi saat admin membuka tab Buku berikutnya */ }
   }
 
@@ -559,7 +620,8 @@
       : S.urutSiap ? `<span class="font-semibold text-blue-600">Sedang membaca</span> · ${persen}%`
       : `${persen}% · Bab ${p.bab || 1} hal. ${p.halaman || 1}`;
     return `<button type="button" data-kb-buka="${esc(b.id)}" class="text-left group${kunci ? ' kb-terkunci' : ''}">
-      <div class="kb-cover" style="--kb-c1:${c1};--kb-c2:${c2}">${b.sampul ? `<img src="${esc(b.sampul)}" alt="" loading="lazy">` : ''}<div class="kb-cover-t">${esc(b.judul)}</div>${kunci ? '<div class="kb-gembok"><i class="fa-solid fa-lock"></i></div>' : ''}</div>
+      ${(() => { const info = S.bukuDb[b.id] || {}, gbr = b.sampul && !info.sampul_teks;
+        return `<div class="kb-cover${gbr ? '' : ' kb-cover-teks'}" style="--kb-c1:${c1};--kb-c2:${c2};${gbr ? '' : warnaSampul(b)}">${sampulHtml(b, info)}${kunci ? '<div class="kb-gembok"><i class="fa-solid fa-lock"></i></div>' : ''}</div>`; })()}
       <div class="mt-2 text-xs font-bold text-slate-800 leading-snug line-clamp-2 group-hover:text-blue-700">${esc(b.judul)}</div>
       <div class="mt-1 h-1.5 rounded-full bg-slate-200 overflow-hidden"><div class="h-full ${selesai || (!S.urutSiap && persen >= 100) ? 'bg-emerald-500' : tinggalKuis ? 'bg-amber-500' : 'bg-blue-500'}" style="width:${kunci ? 0 : persen}%"></div></div>
       <div class="text-[10px] text-slate-400 mt-0.5">${ket}</div>

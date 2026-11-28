@@ -1,0 +1,10498 @@
+/*! KEKAL Studio - Dashboard v1.0.24 | dimuat oleh template Blogger */
+/* 1) Dimuat setelah halaman siap: jalankan handler DOMContentLoaded langsung. */
+(function () {
+  var d = document, orig = d.addEventListener;
+  if (d.readyState === 'loading') return;
+  d.addEventListener = function (type, fn, opt) {
+    if (type === 'DOMContentLoaded') { setTimeout(function () { fn.call(d, new Event('DOMContentLoaded')); }, 0); return; }
+    return orig.call(this, type, fn, opt);
+  };
+  setTimeout(function () { d.addEventListener = orig; }, 0);
+})();
+/* 2) Pasang tampilan dashboard (header, panel, jendela-jendela) di tempatnya. */
+(function () {
+  var html = "\n  <header class='tokopedia-header sticky top-0 z-40 px-3 sm:px-4 py-2.5 sm:py-3 mb-4 sm:mb-6 shadow-sm'>\n    <div class='max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-4'>\n      <div class='flex items-center space-x-2 sm:space-x-3 shrink-0'>\n        <div class='w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shrink-0'>\n          <i class='fa-solid fa-shapes text-sm sm:text-lg'></i>\n        </div>\n       <div>\n          <h1 class='text-xs sm:text-base font-bold text-slate-800 leading-tight truncate max-w-[120px] sm:max-w-none'><span class='kl-blog-title'></span></h1>\n          <div class='flex items-center gap-1.5'>\n            <p class='text-[9px] sm:text-[11px] text-blue-600 font-semibold truncate'>Kelas Kaligrafi Digital</p>\n            <div class='hidden inline-flex items-center gap-1.5 flex-wrap' id='header-designer-level-badge'></div>\n          </div>\n        </div>\n      </div>\n      <div class='flex items-center space-x-1.5 sm:space-x-3' id='auth-section'>\n        <button class='btn-tokopedia-blue text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition flex items-center gap-1.5 shadow-sm' id='btn-open-login'>\n          <i class='fa-solid fa-right-to-bracket'></i> <span>Masuk</span>\n        </button>\n      </div>\n    </div>\n  </header>\n  <div class='max-w-7xl mx-auto px-2.5 sm:px-4 space-y-4 sm:space-y-6' id='app'>\n    <div class='space-y-4 sm:space-y-6' id='main-panel'>\n      <div class='bg-white rounded-xl p-1.5 border border-slate-200 shadow-sm flex items-center space-x-1.5 sm:space-x-2 text-xs font-bold text-slate-600 overflow-x-auto whitespace-nowrap scrollbar-none'>\n        <button class='bg-blue-50 text-blue-600 border border-blue-200 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-claim'>\n          <i class='fa-solid fa-boxes-stacked' id='icon-tab-claim'></i> <span id='txt-tab-claim'>Klaim &amp; Stock Tema</span>\n        </button>\n        <button class='hover:bg-purple-50 text-purple-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-video-tutorials'>\n          <i class='fa-solid fa-circle-play text-purple-600'></i> <span>Video Tutorial Wajib</span>\n          <span class='bg-purple-100 text-purple-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-purple-200 ml-1' id='badge-video-status'>0/0</span>\n        </button>\n        <button class='hover:bg-slate-50 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-dashboard'>\n          <i class='fa-solid fa-chart-line' id='icon-tab-dashboard'></i> <span id='txt-tab-dashboard'>Dashboard Saya</span>\n        </button>\n        <button class='kl-studio-btn hover:bg-violet-50 text-violet-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-studio-icon'>\n          <i class='fa-solid fa-pen-nib'></i> <span>Studio Icon</span>\n        </button>\n        <button class='hover:bg-sky-50 text-sky-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-buku'>\n          <i class='fa-solid fa-book-open'></i> <span>Buku</span>\n        </button>\n        <button class='hover:bg-indigo-50 text-indigo-600 px-3 sm:px-4 py-2 rounded-lg transition hidden flex items-center gap-1.5 shrink-0' id='btn-tab-designer-analytics'>\n          <i class='fa-solid fa-ranking-star'></i> Kinerja Desainer\n        </button>\n        <button class='hover:bg-teal-50 text-teal-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 shrink-0' id='btn-tab-activity-history'>\n          <i class='fa-solid fa-clock-rotate-left text-teal-600'></i> <span>Riwayat Aktivitas</span>\n        </button>\n        <button class='hover:bg-emerald-50 text-emerald-700 px-3 sm:px-4 py-2 rounded-lg transition hidden flex items-center gap-1.5 shrink-0' id='btn-tab-slip-admin'>\n          <i class='fa-solid fa-money-check-dollar'></i> <span>Pengajuan Slip Gaji</span>\n          <span class='hidden bg-rose-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ml-1' id='badge-slip-admin'>0</span>\n        </button>\n        <button class='hover:bg-sky-50 text-sky-700 px-3 sm:px-4 py-2 rounded-lg transition hidden flex items-center gap-1.5 shrink-0' id='btn-tab-transkrip-admin'>\n          <i class='fa-solid fa-closed-captioning'></i> <span>Transkrip</span>\n        </button>\n        <button class='hover:bg-amber-50 text-amber-600 px-3 sm:px-4 py-2 rounded-lg transition hidden flex items-center gap-1.5 ml-auto shrink-0' id='btn-tab-admin'>\n          <i class='fa-solid fa-user-shield'></i> Admin Control Panel\n        </button>\n      </div>\n<div class='hidden bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-2.5 sm:p-3 shadow-sm flex items-center gap-2 sm:gap-3 overflow-hidden w-full' id='announcement-banner'>\n  <div class='bg-amber-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg flex items-center gap-1 shrink-0 z-10 shadow-xs'>\n    <i class='fa-solid fa-bullhorn animate-bounce'></i> INFO\n  </div>\n  <div class='relative flex overflow-hidden w-full'>\n    <div class='flex whitespace-nowrap animate-seamless-marquee hover:[animation-play-state:paused]' id='marquee-track-container' style='width: max-content;'>\n      <div class='font-semibold text-xs text-amber-800 pr-12' id='running-text-content'>\n        Memuat pengumuman...\n      </div>\n      <div class='font-semibold text-xs text-amber-800 pr-12' id='running-text-duplicate'>\n        Memuat pengumuman...\n      </div>\n    </div>\n  </div>\n</div>\n<div class='hidden' id='kl-slip-card'></div>\n  <div class='fixed bg-slate-900/70 backdrop-blur-md z-[9999] flex items-center justify-center hidden opacity-0 transition-opacity duration-300 ease-in-out p-3 sm:p-4' id='modal-flash-banner' style='top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; margin: 0 !important;'>\n    <div class='bg-white text-slate-900 w-full max-w-lg rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative transform scale-95 transition-transform duration-300 ease-in-out modal-body-mobile max-h-[85vh] flex flex-col justify-between' id='modal-flash-banner-card'>\n      <button class='absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition flex items-center justify-center text-sm font-bold z-10' id='btn-close-flash-temp' title='Tutup sementara'>\n        <i class='fa-solid fa-xmark'></i>\n      </button>\n      <div class='space-y-3 overflow-y-auto pr-1 scrollbar-thin mt-1'>\n        <div class='flex items-center gap-2.5 border-b pb-3 text-amber-600 pr-6'>\n          <div class='w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-lg font-black shrink-0'>\n            <i class='fa-solid fa-bullhorn animate-bounce'></i>\n          </div>\n          <div>\n            <h3 class='text-sm sm:text-base font-extrabold text-slate-800 leading-tight'>Pengumuman Penting</h3>\n            <p class='text-[10px] sm:text-[11px] text-slate-500'>Harap baca informasi berikut hingga selesai.</p>\n          </div>\n        </div>\n        <div class='text-xs sm:text-sm text-slate-700 leading-snug py-1' id='flash-banner-content'>\n          Memuat informasi...\n        </div>\n      </div>\n      <div class='pt-3 border-t border-slate-100'>\n        <button class='w-full btn-tokopedia-blue text-xs sm:text-sm font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed' disabled='disabled' id='btn-understand-flash'>\n          <i class='fa-solid fa-clock'></i> <span id='btn-understand-text'>Mengerti (5s)</span>\n        </button>\n      </div>\n    </div>\n  </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-video-tutorials'>\n        <div class='bg-gradient-to-r from-purple-900 to-indigo-900 text-white p-4 sm:p-5 rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-purple-700'>\n          <div class='space-y-1'>\n            <h2 class='text-sm sm:text-base font-black flex items-center gap-2 text-purple-200'>\n              <i class='fa-solid fa-graduation-cap text-purple-300 text-lg'></i> Pembekalan Standardisasi Kualitas Desain Icon\n            </h2>\n            <p class='text-[11px] text-purple-100 leading-relaxed max-w-2xl'>\n              Setiap video wajib ditonton dari awal hingga akhir <b>tanpa skip (tanpa dipercepat)</b>. Tonton secara berurutan sesuai alur modul untuk memenuhi syarat pengambilan tema baru.\n            </p>\n          </div>\n          <div class='bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-xl text-right shrink-0 w-full sm:w-auto flex sm:flex-col justify-between items-center sm:items-end'>\n            <span class='text-[10px] text-purple-200 font-semibold block'>Status Kelengkapan:</span>\n            <span class='text-xs sm:text-sm font-black text-amber-300' id='txt-video-completion-summary'>0 dari 0 Video Selesai</span>\n          </div>\n        </div>\n        <div class='grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6'>\n          <div class='lg:col-span-2 bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-3.5'>\n            <div class='flex items-center justify-between border-b pb-3'>\n              <div class='flex items-center gap-2'>\n                <span class='w-6 h-6 rounded-full bg-purple-600 text-white text-xs font-black flex items-center justify-center' id='txt-playing-number'>1</span>\n                <h3 class='text-xs sm:text-sm font-extrabold text-slate-800' id='txt-playing-title'>Pilih Video Tutorial</h3>\n              </div>\n              <span class='text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200' id='badge-playing-status'>\n                <i class='fa-solid fa-lock text-slate-400 mr-1'></i> Terkunci\n              </span>\n            </div>\n            <div class='relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-inner flex items-center justify-center border border-slate-800'>\n              <div id='yt-tutorial-player'></div>\n              <div class='absolute inset-0 bg-slate-900/90 text-white flex flex-col items-center justify-center text-center p-6 space-y-3 z-10 hidden' id='player-lock-overlay'>\n                <div class='w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-xl'>\n                  <i class='fa-solid fa-lock'></i>\n                </div>\n                <div>\n                  <h4 class='text-xs sm:text-sm font-bold text-white'>Video Masih Terkunci!</h4>\n                  <p class='text-[11px] text-slate-300 mt-1 max-w-sm'>Anda harus tuntas menonton seluruh video sebelumnya terlebih dahulu secara berurutan.</p>\n                </div>\n              </div>\n            </div>\n            <div class='p-3 bg-purple-50/60 border border-purple-200 rounded-xl flex items-center justify-between text-xs font-semibold text-purple-900'>\n              <div class='flex items-center gap-2'>\n                <i class='fa-solid fa-circle-info text-purple-600 text-sm'></i>\n                <span>Kemajuan Tontonan: <b class='text-purple-800 font-extrabold' id='txt-watch-progress-percent'>0%</b></span>\n              </div>\n              <span class='text-[10px] text-purple-700 bg-purple-100 px-2 py-0.5 rounded border border-purple-200 font-bold' id='txt-watch-timer'>00:00 / 00:00</span>\n            </div>\n          </div>\n          <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4 h-fit lg:sticky lg:top-20'>\n            <div class='flex items-center justify-between border-b pb-3'>\n              <h3 class='text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-2'>\n                <i class='fa-solid fa-list-ol text-purple-600'></i> Modul Playlist Video\n              </h3>\n              <span class='text-[10px] text-slate-400 font-semibold' id='txt-total-playlist-count'>0 Video</span>\n            </div>\n            <div class='space-y-2.5 max-h-[480px] overflow-y-auto scrollbar-thin pr-1' id='video-playlist-container'>\n              <div class='p-4 text-center text-xs text-slate-400'>Memuat daftar video tutorial wajib...</div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class='grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6' id='view-claim-designer'>\n        <div class='lg:col-span-2 space-y-4'>\n          <div class='hidden' id='jatah-klaim-banner'></div>\n          <div class='bg-purple-900 text-white p-4 rounded-xl shadow-md border border-purple-700 hidden flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3' id='video-requirement-alert-banner'>\n            <div class='flex items-center gap-3'>\n              <div class='w-10 h-10 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center text-lg font-black shrink-0 shadow-sm animate-bounce'>\n                <i class='fa-solid fa-lock'></i>\n              </div>\n              <div>\n                <h4 class='text-xs sm:text-sm font-extrabold text-amber-300'>Syarat Klaim Tema Belum Terpenuhi!</h4>\n                <p class='text-[11px] text-purple-100 mt-0.5'>\n                  Anda wajib menonton 1 video tutorial dari awal sampai akhir tanpa skip jika stok video masih tersedia sebelum mengambil tema baru.\n                </p>\n              </div>\n            </div>\n            <button class='bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs px-4 py-2.5 rounded-lg transition shadow-sm flex items-center gap-1.5 shrink-0 justify-center' onclick='switchTab(&quot;video-tutorials&quot;)'>\n              <i class='fa-solid fa-circle-play'></i> Tonton Video Sekarang\n            </button>\n          </div>\n          <div class='flex items-center justify-between bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-sm'>\n            <h2 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n              <i class='fa-solid fa-store text-blue-600'></i> Pilih Tema Icon Canva\n            </h2>\n            <span class='text-[10px] sm:text-[11px] text-emerald-600 font-bold bg-emerald-50 px-2 sm:px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5'>\n              <span class='w-2 h-2 rounded-full bg-emerald-500 animate-ping'></span> Sync Realtime\n            </span>\n          </div>\n          <div class='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5' id='theme-grid'>\n            <div class='col-span-1 sm:col-span-2 bg-white p-6 rounded-xl border border-slate-200 text-center text-xs text-slate-400'>\n              Memuat data tema dari database...\n            </div>\n          </div>\n          <div class='text-center pt-2 hidden' id='theme-load-more-container'>\n            <button class='bg-slate-100 hover:bg-blue-50 text-blue-600 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-theme-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak Tema\n            </button>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl space-y-4 h-fit border border-slate-200 shadow-sm lg:sticky lg:top-20' id='form-claim-container'>\n          <h3 class='text-xs font-extrabold text-blue-600 uppercase tracking-wider border-b pb-2.5 flex items-center gap-2'>\n            <i class='fa-solid fa-clipboard-list'></i> Form Klaim Pengerjaan\n          </h3>\n          <div class='p-3 bg-slate-50 rounded-lg text-xs space-y-1.5 border border-slate-200' id='selected-theme-info'>\n            <p class='text-slate-500'>Silakan pilih salah satu tema di sebelah kiri terlebih dahulu.</p>\n          </div>\n          <form class='space-y-3.5 hidden' id='form-claim'>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1'>Jumlah Icon (Nilai)</label>\n              <select class='w-full bg-slate-50 border border-slate-300 text-xs text-slate-800 rounded-lg p-2.5 outline-none focus:border-blue-600 font-semibold' id='input-jumlah'>\n                <option value='3'>3 Icon</option>\n                <option value='6'>6 Icon</option>\n                <option value='9'>9 Icon</option>\n                <option value='12'>12 Icon</option>\n              </select>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-indigo-700 mb-1 flex items-center gap-1'>\n                <i class='fa-solid fa-pen-ruler'></i> Tool Desain Yang Digunakan\n              </label>\n              <select class='w-full bg-indigo-50/50 border border-indigo-200 text-xs text-indigo-900 font-bold rounded-lg p-2.5 outline-none focus:border-indigo-600' id='input-tool-desain'>\n                <option value='Figma'>1. Figma</option>\n                <option value='Infinite Design'>2. Infinite Design</option>\n                <option value='Inkscape'>3. Inkscape</option>\n                <option value='Affinity Designer'>4. Affinity Designer</option>\n                <option value='Bebas (Wajib Rapi)'>5. Bebas (wajib rapi)</option>\n              </select>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1 flex items-center gap-1'>\n                <i class='fa-solid fa-icons text-blue-600'></i> Jenis Icon\n              </label>\n              <select class='w-full bg-slate-50 border border-slate-300 text-xs text-slate-800 rounded-lg p-2.5 outline-none focus:border-blue-600 font-semibold' id='input-jenis-icon' onchange='toggleIconTypeColorLogic()'>\n                <option value='flat'>1. Flat (Gunakan Warna Pastel)</option>\n                <option value='line'>2. Line (Gunakan Hitam 100%)</option>\n                <option value='glyph'>3. Glyph (Gunakan Hitam 100%)</option>\n              </select>\n            </div>\n            <div class='p-3 bg-purple-50/70 border border-purple-200 rounded-xl space-y-2.5' id='ai-color-container'>\n              <div class='flex items-center justify-between'>\n                <span class='text-[11px] font-extrabold text-purple-900 flex items-center gap-1.5'>\n                  <i class='fa-solid fa-wand-magic-sparkles text-purple-600 animate-pulse'></i> Rekomendasi 5 Warna Pastel\n                </span>\n                <button class='text-[10px] bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold px-2 py-1 rounded border border-purple-300 transition flex items-center gap-1 shadow-2xs' id='btn-regenerate-color' onclick='regeneratePaletteColors()' type='button'>\n                  <i class='fa-solid fa-rotate text-purple-600'></i> Regenerate\n                </button>\n              </div>\n              <div class='grid grid-cols-5 gap-1.5 h-10 rounded-lg overflow-hidden border border-slate-300 p-1 bg-white shadow-inner' id='palette-bars-box'>\n                <div class='h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300'>-</div>\n                <div class='h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300'>-</div>\n                <div class='h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300'>-</div>\n                <div class='h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300'>-</div>\n                <div class='h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300'>-</div>\n              </div>\n              <div class='flex items-center justify-between pt-1 gap-2'>\n                <span class='text-[10px] text-purple-700 font-medium truncate' id='txt-palette-status'>Pilih tema flat untuk generate warna.</span>\n                <button class='bg-purple-600 hover:bg-purple-700 text-white text-[10px] font-extrabold px-2.5 py-1.5 rounded-lg transition shadow-xs flex items-center gap-1 shrink-0' id='btn-download-palette' onclick='downloadPaletteAsPNG()' type='button'>\n                  <i class='fa-solid fa-download'></i> Download PNG Panduan Warna\n                </button>\n              </div>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1'>Pengunggahan Canva</label>\n              <select class='w-full bg-slate-50 border border-slate-300 text-xs text-slate-800 rounded-lg p-2.5 outline-none focus:border-blue-600 font-semibold' id='input-upload-type'>\n                <option value='sendiri'>Upload Sendiri (Mandiri)</option>\n                <option value='bantuan'>Dibantu Desainer Lain</option>\n              </select>\n            </div>\n            <div class='hidden' id='uploader-select-box'>\n              <label class='block text-[11px] font-bold text-amber-600 mb-1' id='uploader-select-label'>Pilih Desainer Pembantu</label>\n              <select class='w-full bg-amber-50 border border-amber-300 text-xs text-slate-800 rounded-lg p-2.5 outline-none focus:border-amber-600 font-semibold' id='input-uploader-id'>\n              </select>\n            </div>\n            <div class='hidden' id='syarat-belajar-box'></div>\n            <div>\n              <label class='block text-[11px] font-bold text-blue-700 mb-1 flex items-center gap-1'>\n                <i class='fa-solid fa-graduation-cap'></i> Target Belajar Hari Ini\n              </label>\n              <input class='w-full bg-blue-50/50 border border-blue-200 text-xs text-slate-800 rounded-lg p-2.5 outline-none focus:border-blue-600 font-semibold' id='input-target-belajar' placeholder='Contoh: Kitab Al-Kabair (BAB 3) halaman 234' required='required' type='text'/>\n            </div>\n            <div class='p-3 bg-blue-50/60 border border-blue-200 rounded-lg space-y-2' id='copy-assets-box'>\n              <div>\n                <span class='text-[10px] text-slate-500 font-semibold block mb-0.5'>Judul Icon:</span>\n                <div class='flex items-center justify-between bg-white px-2.5 py-1.5 rounded border border-slate-200'>\n                  <span class='text-[11px] text-blue-700 font-bold truncate' id='txt-judul'>-</span>\n                  <button class='text-[10px] text-blue-600 hover:text-blue-800 font-bold ml-2' id='btn-copy-judul' type='button'><i class='fa-regular fa-copy'></i></button>\n                </div>\n              </div>\n              <div>\n                <span class='text-[10px] text-slate-500 font-semibold block mb-0.5'>Keyword Icon (Pisah Koma):</span>\n                <div class='flex items-center justify-between bg-white px-2.5 py-1.5 rounded border border-slate-200'>\n                  <span class='text-[11px] text-blue-700 font-bold truncate' id='txt-keyword'>-</span>\n                  <button class='text-[10px] text-blue-600 hover:text-blue-800 font-bold ml-2' id='btn-copy-keyword' type='button'><i class='fa-regular fa-copy'></i></button>\n                </div>\n              </div>\n            </div>\n            <div class='space-y-2 pt-1 pb-1 border-t border-slate-200'>\n              <div class='flex items-start gap-2'>\n                <input class='mt-0.5 h-4 w-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer shrink-0' id='check-confirm-claim' type='checkbox'/>\n                <label class='text-[11px] font-medium text-slate-600 leading-tight cursor-pointer' for='check-confirm-claim'>\n                  Saya menyetujui pengerjaan selesai sebelum 23:59.\n                </label>\n              </div>\n              <div class='flex items-start gap-2'>\n                <input class='mt-0.5 h-4 w-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer shrink-0' id='check-confirm-quality' type='checkbox'/>\n                <label class='text-[11px] font-bold text-indigo-900 leading-tight cursor-pointer' for='check-confirm-quality'>\n                  Saya berjanji akan membuat desain icon dengan kualitas tinggi, sangat rapi dan siap menerima konsekuensi yaitu <span class='bg-amber-300 text-rose-700 px-1.5 py-0.5 rounded font-extrabold border border-amber-400 animate-pulse inline-block'>turun level atau diberhentikan</span> apabila tidak sesuai kesepakatan.\n                </label>\n              </div>\n            </div>\n            <button class='w-full btn-tokopedia-blue text-xs font-bold py-3 rounded-lg transition shadow-md flex items-center justify-center gap-2' disabled='disabled' id='btn-submit-claim' type='submit'>\n              <i class='fa-solid fa-cloud-arrow-up'></i> Konfirmasi &amp; Buka Drive\n            </button>\n          </form>\n        </div>\n      </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-claim-admin'>\n        <div id='anggaran-klaim-admin'></div>\n        <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3'>\n          <div class='flex items-center gap-2 text-xs font-bold text-slate-800'>\n            <i class='fa-solid fa-calendar-days text-blue-600 text-base'></i>\n            <span>Filter Periode:</span>\n          </div>\n          <div class='flex flex-wrap items-center gap-2 text-xs'>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Dari:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 w-full sm:w-auto' id='overview-start-date' type='date'/>\n            </div>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Sampai:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 w-full sm:w-auto' id='overview-end-date' type='date'/>\n            </div>\n            <div class='flex gap-2 w-full sm:w-auto mt-1 sm:mt-0'>\n              <button class='bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2 rounded-lg transition shadow-sm flex-1 sm:flex-none' id='btn-filter-overview'>\n                <i class='fa-solid fa-filter'></i> Terapkan\n              </button>\n              <button class='bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3 py-2 rounded-lg transition flex-1 sm:flex-none' id='btn-reset-overview'>\n                Reset\n              </button>\n            </div>\n          </div>\n        </div>\n        <div class='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4'>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>Approved</span>\n              <i class='fa-solid fa-circle-check text-emerald-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-emerald-600 mt-1' id='ov-approved'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>Rejected</span>\n              <i class='fa-solid fa-circle-xmark text-rose-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-rose-600 mt-1' id='ov-rejected'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>In Review</span>\n              <i class='fa-solid fa-clock text-amber-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-amber-500 mt-1' id='ov-review'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>Desainer</span>\n              <i class='fa-solid fa-users text-blue-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-slate-800 mt-1' id='ov-desainer'>0 <span class='text-[10px] text-slate-400 font-normal'>orang</span></h3>\n          </div>\n          <div class='col-span-2 bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm' id='ov-aktif-card'>\n            <div class='flex justify-between items-center gap-2 text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span class='flex items-center gap-1.5'><i class='fa-solid fa-circle-play text-emerald-500 text-xs sm:text-sm'></i> Tema Aktif (bisa diklaim)</span>\n              <span class='rounded-full px-2 py-0.5 text-[10px] font-bold bg-slate-100 text-slate-500' id='ov-aktif-badge'>-</span>\n            </div>\n            <div class='flex items-end justify-between gap-3 mt-1'>\n              <h3 class='text-xl sm:text-2xl font-black text-emerald-600' id='ov-aktif'>0 <span class='text-[10px] text-slate-400 font-normal'>/ 0 tema</span></h3>\n              <button class='text-[11px] font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 shrink-0' id='btn-ov-aktif-lihat' type='button'>Lihat stok tema <i class='fa-solid fa-arrow-right'></i></button>\n            </div>\n            <div class='h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden'><div class='h-full rounded-full transition-all duration-500' id='ov-aktif-bar' style='width:0%;background:#10b981'></div></div>\n            <p class='text-[10px] text-slate-500 mt-1.5' id='ov-aktif-note'>Memuat...</p>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>Total Tema</span>\n              <i class='fa-solid fa-layer-group text-indigo-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-indigo-600 mt-1' id='ov-tema'>0 <span class='text-[10px] text-slate-400 font-normal'>tema</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <div class='flex justify-between items-center text-slate-500 text-[10px] sm:text-[11px] font-semibold'>\n              <span>Sisa Stok</span>\n              <i class='fa-solid fa-cubes text-teal-500 text-xs sm:text-sm'></i>\n            </div>\n            <h3 class='text-xl sm:text-2xl font-black text-teal-600 mt-1' id='ov-sisa-tema'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='col-span-2 md:col-span-4 bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-4 rounded-xl shadow-md'>\n            <div class='flex justify-between items-center text-blue-200 text-[11px] font-semibold'>\n              <span>Total Pengeluaran Gaji</span>\n              <i class='fa-solid fa-wallet text-amber-300 text-base'></i>\n            </div>\n            <h3 class='text-2xl sm:text-3xl font-black mt-1' id='ov-total-pengeluaran'>Rp 0</h3>\n            <p class='text-[9px] text-blue-200 mt-0.5'>*Akumulasi Gaji Desainer (Lvl 2: 750/450, Lvl 3: 2500/1500) + Reward Upload + Bonus Tiering</p>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <div class='flex items-center justify-between border-b pb-3'>\n            <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n              <i class='fa-solid fa-users-gear text-blue-600'></i> Daftar Kelola Desainer System\n            </h3>\n            <button class='bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] px-2.5 py-1.5 rounded-lg font-bold transition flex items-center gap-1 shadow-sm' id='btn-add-designer-overview'>\n              <i class='fa-solid fa-user-plus'></i> Tambah\n            </button>\n          </div>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[500px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-3 sortable-header' onclick='sortOverviewDesigners(&apos;full_name&apos;)'>\n                    Nama <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-overview-full_name'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortOverviewDesigners(&apos;email&apos;)'>\n                    Email <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-overview-email'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortOverviewDesigners(&apos;level&apos;)'>\n                    Level <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-overview-level'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortOverviewDesigners(&apos;role&apos;)'>\n                    Role <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-overview-role'></i>\n                  </th>\n                  <th class='p-3 text-center'>Aksi</th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='overview-designers-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='5'>Memuat data desainer...</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <div class='text-center pt-2 hidden' id='overview-designers-load-more-container'>\n            <button class='bg-slate-100 hover:bg-blue-50 text-blue-600 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-overview-designers-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-designer-analytics'>\n        <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3'>\n          <div class='flex items-center gap-2 text-xs font-bold text-slate-800'>\n            <i class='fa-solid fa-user-check text-indigo-600 text-base'></i>\n            <span>Filter Kinerja Desainer:</span>\n          </div>\n          <div class='flex flex-wrap items-center gap-2 text-xs'>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Desainer:</label>\n              <select class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-800 outline-none focus:border-indigo-600 w-full sm:w-auto bg-slate-50' id='analytics-select-designer' onchange='loadDesignerAnalyticsData()'>\n              </select>\n            </div>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Dari:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-indigo-600 w-full sm:w-auto' id='analytics-start-date' type='date'/>\n            </div>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Sampai:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-indigo-600 w-full sm:w-auto' id='analytics-end-date' type='date'/>\n            </div>\n            <div class='flex gap-2 w-full sm:w-auto mt-1 sm:mt-0'>\n              <button class='bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-2 rounded-lg transition shadow-sm flex-1 sm:flex-none' id='btn-filter-analytics'>\n                <i class='fa-solid fa-filter'></i> Terapkan\n              </button>\n            </div>\n          </div>\n        </div>\n        <div class='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-3xl'>\n          <div class='bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3'>\n            <div class='flex justify-between items-center'>\n              <span class='text-xs font-bold text-slate-700 flex items-center gap-1.5'>\n                <i class='fa-solid fa-database text-emerald-500'></i> Kapasitas Supabase Free\n              </span>\n              <span class='text-[10px] font-bold text-slate-500' id='db-usage-text'>Loading...</span>\n            </div>\n            <div class='w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200'>\n              <div class='bg-emerald-500 h-2 rounded-full transition-all duration-500' id='db-progress-bar' style='width: 0%'></div>\n            </div>\n            <div class='flex justify-between items-center text-[10px] text-slate-400'>\n              <span>Limit: 500 MB</span>\n              <span class='font-bold text-emerald-600' id='db-percentage'>0%</span>\n            </div>\n          </div>\n          <div class='bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3'>\n            <div class='flex justify-between items-center'>\n              <span class='text-xs font-bold text-slate-700 flex items-center gap-1.5'>\n                <i class='fa-solid fa-circle-play text-purple-600'></i> Video Tutorial Wajib\n              </span>\n              <span class='text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200' id='an-video-usage-text'>0 / 0 Video</span>\n            </div>\n            <div class='w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200'>\n              <div class='bg-purple-600 h-2 rounded-full transition-all duration-500' id='an-video-progress-bar' style='width: 0%'></div>\n            </div>\n            <div class='flex justify-between items-center text-[10px] text-slate-400'>\n              <span id='an-video-status-label'>Belum ada data</span>\n              <span class='font-bold text-purple-600' id='an-video-percentage'>0%</span>\n            </div>\n          </div>\n        </div>\n        <div class='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4'>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Total Tema Diambil</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold text-indigo-600 mt-1' id='an-total-tema'>0 <span class='text-[10px] text-slate-400 font-normal'>tema</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Total Icon Dibuat</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold text-blue-600 mt-1' id='an-total-icon'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Status Icon (App / Rej / Rev)</p>\n            <h3 class='text-base sm:text-lg font-black mt-1'>\n              <span class='text-emerald-600' id='an-approved'>0</span> / \n              <span class='text-rose-600' id='an-rejected'>0</span> / \n              <span class='text-amber-500' id='an-review'>0</span>\n            </h3>\n          </div>\n          <div class='bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-3.5 sm:p-4 rounded-xl shadow-md'>\n            <p class='text-[10px] sm:text-[11px] text-emerald-100 font-semibold'>Total Pendapatan</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold mt-1' id='an-total-pendapatan'>Rp 0</h3>\n            <p class='text-[8px] sm:text-[9px] text-emerald-200 mt-0.5' id='an-breakdown-pendapatan'>*Breakdown Gaji</p>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-3'>\n          <div class='flex items-center justify-between border-b pb-3'>\n            <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n              <i class='fa-solid fa-chart-column text-indigo-600'></i> Realtime Kenaikan / Penurunan Kinerja Pekanan\n            </h3>\n            <span class='text-[10px] text-slate-400 font-medium'>Distribusi Mingguan</span>\n          </div>\n          <div class='relative h-64 sm:h-72 w-full'>\n            <canvas id='chartKinerejaPekanan'></canvas>\n          </div>\n        </div>\n        <div class='bg-slate-900 text-white p-4 rounded-xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 border border-indigo-500/30' id='checked-summary-card'>\n          <div class='flex items-center gap-2.5'>\n            <div class='w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0'>\n              <i class='fa-solid fa-square-check'></i>\n            </div>\n            <div>\n              <h4 class='text-xs font-extrabold text-indigo-300 uppercase tracking-wider'>Ringkasan Baris Diceklist</h4>\n              <p class='text-[10px] text-slate-400'><span id='cnt-checked-rows'>0</span> baris terpilih dari tabel di bawah</p>\n            </div>\n          </div>\n          <div class='flex items-center gap-3 text-xs w-full sm:w-auto justify-between sm:justify-end'>\n            <div class='bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-center'>\n              <span class='block text-[9px] text-slate-400 font-semibold'>Total Icon</span>\n              <span class='font-black text-indigo-400 text-sm' id='cnt-total-icon'>0</span>\n            </div>\n            <div class='bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-center'>\n              <span class='block text-[9px] text-emerald-400 font-semibold'>Approved</span>\n              <span class='font-black text-emerald-400 text-sm' id='cnt-approved'>0</span>\n            </div>\n            <div class='bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-center'>\n              <span class='block text-[9px] text-rose-400 font-semibold'>Rejected</span>\n              <span class='font-black text-rose-400 text-sm' id='cnt-rejected'>0</span>\n            </div>\n            <div class='bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-center'>\n              <span class='block text-[9px] text-amber-400 font-semibold'>In Review</span>\n              <span class='font-black text-amber-400 text-sm' id='cnt-review'>0</span>\n            </div>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <div class='flex items-center justify-between border-b pb-3'>\n            <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n              <i class='fa-solid fa-list-check text-indigo-600'></i> Rincian Tema Yang Dikerjakan\n            </h3>\n            <span class='text-[10px] text-slate-400 font-semibold'>*Klik header tabel untuk mengurutkan (A-Z / 0-9)</span>\n          </div>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[650px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-3 text-center w-10'>\n                    <input class='w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer' id='check-all-analytics' onclick='toggleSelectAllAnalytics(this)' type='checkbox'/>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAnalyticsTable(&apos;created_at&apos;)'>\n                    Tanggal Klaim <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-created_at'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAnalyticsTable(&apos;kategori&apos;)'>\n                    Tema / Kategori <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-kategori'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAnalyticsTable(&apos;jumlah_icon&apos;)'>\n                    Total Icon <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-jumlah_icon'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAnalyticsTable(&apos;approved_calc&apos;)'>\n                    Approved <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-approved_calc'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAnalyticsTable(&apos;rejected_count&apos;)'>\n                    Rejected <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-rejected_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAnalyticsTable(&apos;in_review_count&apos;)'>\n                    In Review <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-in_review_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAnalyticsTable(&apos;status_admin&apos;)'>\n                    Status Admin <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-an-status_admin'></i>\n                  </th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='analytics-table-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='8'>Silakan pilih desainer dan klik terapkan filter.</td></tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-my-dashboard'>\n        <div class='hidden' id='designer-status-banner'></div>\n        <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3'>\n          <div class='flex items-center gap-2 text-xs font-bold text-slate-800'>\n            <i class='fa-solid fa-calendar-days text-blue-600 text-base'></i>\n            <span>Filter Laporan:</span>\n          </div>\n          <div class='flex flex-wrap items-center gap-2 text-xs'>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Dari:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 w-full sm:w-auto' id='user-start-date' type='date'/>\n            </div>\n            <div class='flex items-center gap-1.5 w-full sm:w-auto'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Sampai:</label>\n              <input class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 w-full sm:w-auto' id='user-end-date' type='date'/>\n            </div>\n            <div class='flex gap-2 w-full sm:w-auto mt-1 sm:mt-0'>\n              <button class='bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2 rounded-lg transition shadow-sm flex-1 sm:flex-none' id='btn-filter-user'>\n                <i class='fa-solid fa-filter'></i> Terapkan\n              </button>\n              <button class='bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3 py-2 rounded-lg transition flex-1 sm:flex-none' id='btn-reset-user'>\n                Reset\n              </button>\n            </div>\n          </div>\n        </div>\n        <div class='grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4'>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Total Approved</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold text-slate-800 mt-1' id='stat-approved'>0 <span class='text-[10px] text-slate-400 font-normal'>icon</span></h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Upload ke Canva (R1)</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold text-blue-600 mt-1' id='stat-reward1'>Rp 0</h3>\n          </div>\n          <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm'>\n            <p class='text-[10px] sm:text-[11px] text-slate-500 font-semibold'>Bonus Tier (R2)</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold text-amber-500 mt-1' id='stat-reward2-tier'>Rp 0</h3>\n          </div>\n          <div class='bg-blue-600 text-white p-3.5 sm:p-4 rounded-xl shadow-md'>\n            <p class='text-[10px] sm:text-[11px] text-blue-100 font-semibold'>Estimasi Gaji (<span id='stat-user-level-badge'>Level 2</span>)</p>\n            <h3 class='text-xl sm:text-2xl font-extrabold mt-1' id='stat-total-salary'>Rp 0</h3>\n            <p class='text-[8px] sm:text-[9px] text-blue-200 mt-0.5'>*Privat (Anda &amp; Admin)</p>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n            <i class='fa-solid fa-list-check text-blue-600'></i> Status Laporan &amp; Upload Canva\n          </h3>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[650px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-3 sortable-header' onclick='sortUserProjects(&apos;created_at&apos;)'>\n                    Tanggal <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-created_at'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortUserProjects(&apos;kategori&apos;)'>\n                    Tema <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-kategori'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortUserProjects(&apos;jumlah_icon&apos;)'>\n                    Nilai <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-jumlah_icon'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortUserProjects(&apos;in_review_count&apos;)'>\n                    Review <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-in_review_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortUserProjects(&apos;rejected_count&apos;)'>\n                    Reject <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-rejected_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortUserProjects(&apos;approved_calc&apos;)'>\n                    Approve <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-approved_calc'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortUserProjects(&apos;status_admin&apos;)'>\n                    Status <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-user-status_admin'></i>\n                  </th>\n                  <th class='p-3 text-center'>Aksi Pengerjaan</th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='user-projects-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='8'>Memuat data pengerjaan...</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <div class='text-center pt-2 hidden' id='user-load-more-container'>\n            <button class='bg-slate-100 hover:bg-blue-50 text-blue-600 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-user-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak\n            </button>\n          </div>\n        </div>\n      </div>\n      <audio id='notif-sound' playsinline='playsinline' preload='none'>\n        <source src='https://dn711003.ca.archive.org/0/items/coins-497/coins-497.mp3' type='audio/mpeg'/>\n      </audio>\n      <div class='grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 hidden' id='view-admin-themes'>\n        <div class='bg-white p-4 sm:p-5 rounded-xl space-y-4 border border-slate-200 shadow-sm h-fit lg:sticky lg:top-20'>\n          <h3 class='text-xs font-extrabold text-blue-700 uppercase tracking-wider border-b pb-2.5 flex items-center gap-2' id='form-theme-title'>\n            <i class='fa-solid fa-plus-circle'></i> Tambah Tema Baru\n          </h3>\n          <form class='space-y-3' id='form-manage-theme'>\n            <input id='theme-old-kategori' type='hidden'/>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1'>Nama Tema / Kategori</label>\n              <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-blue-600' id='theme-kategori' placeholder='Contoh: Kitab Aqidah' required='required' type='text'/>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-indigo-700 mb-1 flex items-center gap-1'>\n                <i class='fa-solid fa-screwdriver-wrench'></i> Ketentuan Tool Desain (Wajib)\n              </label>\n              <select class='w-full border border-indigo-200 bg-indigo-50/40 rounded-lg p-2.5 text-xs font-bold text-indigo-900 outline-none focus:border-indigo-600' id='theme-tool-desain' required='required'>\n                <option value='Figma'>1. Figma</option>\n                <option value='Infinite Design'>2. Infinite Design</option>\n                <option value='Inkscape'>3. Inkscape</option>\n                <option value='Affinity Designer'>4. Affinity Designer</option>\n                <option value='Bebas (Wajib Rapi)'>5. Bebas (wajib rapi)</option>\n              </select>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1'>Sisa Kuota Icon</label>\n              <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-blue-600' id='theme-kuota' min='0' placeholder='100' required='required' type='number'/>\n            </div>\n            <div>\n              <label class='block text-[11px] font-bold text-slate-700 mb-1'>Judul Icon</label>\n              <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600' id='theme-judul' placeholder='Contoh: 3D Icon Kitab' required='required' type='text'/>\n            </div>\n            <div class='space-y-1.5'>\n        <div class='flex items-center justify-between'>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Keyword (Pisah koma)</label>\n          <span class='text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200' id='keyword-counter-badge'>\n            0 Kata\n          </span>\n        </div>\n        <textarea class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 h-20 font-sans leading-relaxed' id='theme-keyword' oninput='handleKeywordLiveAnalysis()' placeholder='toaster, bread, toast, breakfast...' required='required'></textarea>\n        <div class='p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed hidden' id='keyword-highlight-preview'>\n          <div class='text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1'>Preview &amp; Deteksi Duplikat:</div>\n          <div class='flex flex-wrap gap-1' id='keyword-highlight-words'></div>\n        </div>\n      </div>\n            <div>\n              <label class='block text-[11px] font-bold text-blue-600 mb-1 flex items-center gap-1'>\n                <i class='fa-solid fa-link'></i> Link Sample (URL)\n              </label>\n              <input class='w-full border border-blue-200 bg-blue-50/30 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='theme-sample-url' placeholder='https://drive.google.com/...' type='url'/>\n            </div>\n            <div class='flex gap-2 pt-1'>\n              <button class='w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg transition shadow-sm' id='btn-save-theme' type='submit'>\n                <i class='fa-solid fa-floppy-disk'></i> Simpan Tema\n              </button>\n              <button class='bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-3 rounded-lg transition hidden' id='btn-cancel-theme' type='button'>\n                Batal\n              </button>\n            </div>\n          </form>\n        </div>\n        <div class='lg:col-span-2 min-w-0 bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <div class='flex flex-col xl:flex-row items-start xl:items-center justify-between border-b pb-3 gap-2.5'>\n            <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2 shrink-0'>\n              <i class='fa-solid fa-list-check text-blue-600'></i> <span id='admin-themes-title'>Daftar Stok Tema</span>\n            </h3>\n            <div class='flex flex-col sm:flex-row sm:items-center gap-2 w-full xl:w-auto'>\n              <div class='flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 shrink-0' id='theme-status-filter' role='group' aria-label='Filter status tema'>\n                <button class='tsf-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold whitespace-nowrap transition' data-f='all' onclick='setThemeStatusFilter(&apos;all&apos;)' type='button'>Semua <span class='tsf-n text-[10px] font-semibold opacity-70' id='tsf-n-all'>0</span></button>\n                <button class='tsf-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold whitespace-nowrap transition' data-f='active' onclick='setThemeStatusFilter(&apos;active&apos;)' type='button'><span class='w-1.5 h-1.5 rounded-full bg-emerald-500'></span>Aktif <span class='tsf-n text-[10px] font-semibold opacity-70' id='tsf-n-active'>0</span></button>\n                <button class='tsf-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold whitespace-nowrap transition' data-f='inactive' onclick='setThemeStatusFilter(&apos;inactive&apos;)' type='button'><span class='w-1.5 h-1.5 rounded-full bg-slate-400'></span>Nonaktif <span class='tsf-n text-[10px] font-semibold opacity-70' id='tsf-n-inactive'>0</span></button>\n                <button class='tsf-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold whitespace-nowrap transition' data-f='scheduled' onclick='setThemeStatusFilter(&apos;scheduled&apos;)' title='Tema yang punya jadwal nonaktif' type='button'><i class='fa-regular fa-clock text-amber-500 text-[10px]'></i>Terjadwal <span class='tsf-n text-[10px] font-semibold opacity-70' id='tsf-n-scheduled'>0</span></button>\n              </div>\n              <div class='flex items-center gap-2 w-full sm:w-auto sm:flex-1 xl:flex-none'>\n              <div class='relative w-full xl:w-56'>\n                <i class='fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs'></i>\n                <input class='w-full bg-slate-50 border border-slate-300 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 font-semibold outline-none focus:border-blue-600 focus:bg-white transition' id='input-search-admin-themes' oninput='filterAdminThemesTable()' placeholder='Cari tema, judul, keyword...' type='text'/>\n              </div>\n              <span class='text-[10px] text-slate-500 font-semibold shrink-0' id='total-theme-count'>0 Tema</span>\n              </div>\n            </div>\n          </div>\n          <div class='hidden fixed inset-x-3 bottom-3 z-40 sm:sticky sm:inset-x-auto sm:bottom-auto sm:top-[72px] sm:z-30 flex-wrap items-center gap-1.5 bg-slate-800 text-white rounded-xl shadow-lg px-3 py-2' id='theme-bulk-bar'>\n            <span class='text-[11px] font-bold mr-1 inline-flex items-center gap-1.5'><i class='fa-solid fa-square-check text-blue-300'></i><span id='theme-bulk-count'>0 tema dipilih</span></span>\n            <button class='theme-bulk-btn bg-emerald-500 hover:bg-emerald-600 px-2.5 py-1.5 rounded-lg text-[11px] font-bold inline-flex items-center gap-1' onclick='themeBulkSetActive(true)' type='button'><i class='fa-solid fa-circle-check'></i> Aktifkan</button>\n            <button class='theme-bulk-btn bg-slate-500 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg text-[11px] font-bold inline-flex items-center gap-1' onclick='themeBulkSetActive(false)' type='button'><i class='fa-solid fa-circle-pause'></i> Nonaktifkan</button>\n            <button class='theme-bulk-btn bg-indigo-500 hover:bg-indigo-600 px-2.5 py-1.5 rounded-lg text-[11px] font-bold inline-flex items-center gap-1' onclick='openThemeSchedule()' type='button'><i class='fa-regular fa-clock'></i> Jadwalkan</button>\n            <button class='theme-bulk-btn hidden bg-amber-500 hover:bg-amber-600 px-2.5 py-1.5 rounded-lg text-[11px] font-bold items-center gap-1' id='theme-bulk-unsched' onclick='themeBulkClearSchedule()' type='button'><i class='fa-solid fa-calendar-xmark'></i> Batalkan jadwal</button>\n            <button class='theme-bulk-btn bg-rose-600 hover:bg-rose-700 px-2.5 py-1.5 rounded-lg text-[11px] font-bold inline-flex items-center gap-1' onclick='themeBulkDelete()' type='button'><i class='fa-solid fa-trash'></i> Hapus</button>\n            <button class='ml-auto text-[11px] font-bold text-slate-300 hover:text-white px-2 py-1.5' onclick='themeSelClear()' type='button'>Batal</button>\n          </div>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[600px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-2 w-8 text-center'><input aria-label='Pilih semua tema yang tampil' class='w-4 h-4 accent-blue-600 cursor-pointer align-middle' id='theme-sel-all' onclick='themeSelAll(this)' title='Pilih semua tema yang cocok dengan filter &amp; pencarian' type='checkbox'/></th>\n                  <th class='p-3 sortable-header' onclick='sortAdminThemes(&apos;kategori&apos;)'>\n                    Tema <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-themes-kategori'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminThemes(&apos;sisa_kuota&apos;)'>\n                    Stok <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-themes-sisa_kuota'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAdminThemes(&apos;judul&apos;)'>\n                    Judul <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-themes-judul'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAdminThemes(&apos;keyword&apos;)'>\n                    Keyword <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-themes-keyword'></i>\n                  </th>\n                 <th class='p-3 text-center'>Sample</th>\n                  <th class='p-3 text-center'>Status</th>\n                  <th class='p-3 text-center'>Aksi</th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='admin-themes-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='8'>Memuat stok tema...</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <div class='text-center pt-2 hidden' id='themes-load-more-container'>\n            <button class='bg-slate-100 hover:bg-blue-50 text-blue-600 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-themes-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-slip-admin'></div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-buku'></div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-studio-icon'></div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-transkrip-admin'></div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-admin'>\n        <div class='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-900 text-white p-4 sm:p-5 rounded-xl shadow-md'>\n          <div>\n            <h2 class='text-sm font-bold flex items-center gap-2 text-amber-400'>\n              <i class='fa-solid fa-user-shield'></i> Control Panel Manager\n            </h2>\n            <p class='text-[10px] sm:text-[11px] text-slate-400'>Moderasi Pendapatan &amp; Cetak Slip Gaji PDF</p>\n          </div>\n          <div class='flex gap-2 flex-wrap w-full sm:w-auto'>\n            <button class='bg-purple-600 hover:bg-purple-500 text-white text-[11px] sm:text-xs px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm flex-1 sm:flex-none justify-center' id='btn-open-manage-videos'>\n              <i class='fa-solid fa-video'></i> Kelola Video Tutorial\n            </button>\n            <button class='bg-amber-500 hover:bg-amber-600 text-white text-[11px] sm:text-xs px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm flex-1 sm:flex-none justify-center' id='btn-open-announcement-modal'>\n              <i class='fa-solid fa-bullhorn'></i> Running Text\n            </button>\n            <button class='bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] sm:text-xs px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm flex-1 sm:flex-none justify-center' id='btn-open-flash-announcement-modal'>\n              <i class='fa-solid fa-window-restore'></i> Pop-up Informasi Login\n            </button>\n            <button class='bg-blue-600 hover:bg-blue-500 text-white text-[11px] sm:text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-sm flex-1 sm:flex-none justify-center' id='btn-export-excel'>\n              <i class='fa-solid fa-file-excel'></i> Export\n            </button>\n            <button class='bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs px-3 py-2 rounded-lg transition flex items-center gap-1 shadow w-full sm:w-auto justify-center' id='btn-open-slip-gaji'>\n              <i class='fa-solid fa-print'></i> Cetak Slip Gaji\n            </button>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <div class='flex flex-col sm:flex-row items-center justify-between gap-3 border-b pb-3'>\n            <h3 class='text-xs font-bold text-slate-800 flex items-center gap-2'>\n              <i class='fa-solid fa-list-check text-blue-600'></i> Daftar Laporan Pengerjaan Desainer\n            </h3>\n            <div class='relative w-full sm:w-72'>\n              <i class='fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs'></i>\n              <input class='w-full bg-slate-50 border border-slate-300 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 font-semibold outline-none focus:border-blue-600 focus:bg-white transition' id='input-search-admin-projects' oninput='filterAdminProjectsTable()' placeholder='Cari desainer, tema, status...' type='text'/>\n            </div>\n          </div>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[750px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-3 sortable-header' onclick='sortAdminProjects(&apos;created_at&apos;)'>\n                    Tanggal <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-created_at'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAdminProjects(&apos;designer_name&apos;)'>\n                    Desainer <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-designer_name'></i>\n                  </th>\n                  <th class='p-3 sortable-header' onclick='sortAdminProjects(&apos;kategori&apos;)'>\n                    Tema <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-kategori'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminProjects(&apos;jumlah_icon&apos;)'>\n                    Nilai <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-jumlah_icon'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminProjects(&apos;in_review_count&apos;)'>\n                    Review <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-in_review_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminProjects(&apos;rejected_count&apos;)'>\n                    Reject <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-rejected_count'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminProjects(&apos;approved_calc&apos;)'>\n                    Approve <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-approved_calc'></i>\n                  </th>\n                  <th class='p-3 text-center sortable-header' onclick='sortAdminProjects(&apos;status_admin&apos;)'>\n                    Status <i class='fa-solid fa-sort text-slate-300 ml-1' id='sort-icon-admin-status_admin'></i>\n                  </th>\n                  <th class='p-3 text-center'>Aksi Kendali</th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='admin-table-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='9'>Memuat data laporan desainer...</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <div class='text-center pt-2 hidden' id='admin-load-more-container'>\n            <button class='bg-slate-100 hover:bg-blue-50 text-blue-600 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-admin-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class='space-y-4 sm:space-y-6 hidden' id='view-activity-history'>\n        <div class='bg-amber-50 border border-amber-300 text-amber-900 rounded-xl p-3 sm:p-3.5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 no-print' id='activity-retention-banner'>\n          <div class='flex items-center gap-2.5'>\n            <div class='w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm shrink-0 shadow-2xs'>\n              <i class='fa-solid fa-hourglass-half animate-pulse'></i>\n            </div>\n            <div>\n              <h4 class='text-xs font-extrabold text-amber-950'>Peringatan Pembersihan Log Otomatis</h4>\n              <p class='text-[11px] text-amber-800 leading-snug'>\n                Data riwayat aktivitas ini akan terhapus otomatis sesuai jadwal retensi sistem (<b id='txt-retention-days-label'>30 Hari</b>). Silakan export CSV atau PDF sebelum waktu habis.\n              </p>\n            </div>\n          </div>\n          <div class='bg-white border border-amber-300 px-3 py-1.5 rounded-lg text-center shrink-0 self-end sm:self-center shadow-2xs'>\n            <span class='block text-[9px] font-bold text-slate-400 uppercase tracking-wider'>Sisa Waktu Sebelum Terhapus</span>\n            <span class='text-xs sm:text-sm font-black text-rose-600 font-mono' id='activity-retention-countdown'>Memuat timer...</span>\n          </div>\n        </div>\n        <div class='bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3'>\n          <div class='flex items-center gap-2 text-xs font-bold text-slate-800'>\n            <i class='fa-solid fa-clock-rotate-left text-teal-600 text-base'></i>\n            <span>Log Riwayat Aktivitas Sistem</span>\n          </div>\n          <div class='flex flex-wrap items-center gap-2 text-xs no-print'>\n            <div class='hidden flex items-center gap-1.5 w-full sm:w-auto' id='activity-admin-filter-box'>\n              <label class='text-slate-500 font-semibold text-[11px]'>Desainer:</label>\n              <select class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-800 outline-none focus:border-teal-600 bg-slate-50' id='activity-filter-user' onchange='loadActivityHistory(true)'>\n                <option value='ALL'>Semua Desainer</option>\n              </select>\n            </div>\n            <select class='border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-teal-600 bg-slate-50 w-full sm:w-auto' id='activity-filter-type' onchange='loadActivityHistory(true)'>\n              <option value='ALL'>Semua Aktivitas</option>\n              <option value='KLAIM'>Klaim Tema</option>\n              <option value='UPLOAD_DRIVE'>Upload Drive</option>\n              <option value='LAPORAN'>Kirim Laporan</option>\n              <option value='UPLOAD_CANVA'>Upload Canva</option>\n              <option value='UPLOAD_ADOBE'>Upload Adobe</option>\n              <option value='MODERASI'>Approve / Reject Admin</option>\n              <option value='AUTH'>Login Akun</option>\n            </select>\n            <button class='bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 justify-center' onclick='exportActivityHistoryCSV()' type='button'>\n              <i class='fa-solid fa-file-csv'></i> Export CSV\n            </button>\n            <button class='bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 justify-center' onclick='exportActivityHistoryPDF()' type='button'>\n              <i class='fa-solid fa-file-pdf'></i> Export PDF\n            </button>\n            <button class='bg-teal-600 hover:bg-teal-700 text-white font-bold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 justify-center' onclick='loadActivityHistory(true)' type='button'>\n              <i class='fa-solid fa-rotate'></i> Refresh\n            </button>\n          </div>\n        </div>\n        <div class='bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm space-y-4'>\n          <div class='overflow-x-auto scrollbar-thin'>\n            <table class='w-full text-left border-collapse text-xs min-w-[600px]'>\n              <thead>\n                <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                  <th class='p-3 w-40'>Waktu</th>\n                  <th class='p-3 w-44'>Pengguna</th>\n                  <th class='p-3 text-center w-32'>Kategori</th>\n                  <th class='p-3'>Detail Aktivitas</th>\n                </tr>\n              </thead>\n              <tbody class='divide-y divide-slate-100' id='activity-history-body'>\n                <tr><td class='p-4 text-center text-slate-400' colspan='4'>Memuat riwayat aktivitas...</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <div class='text-center pt-2 hidden' id='activity-load-more-container'>\n            <button class='bg-slate-100 hover:bg-teal-50 text-teal-700 border border-slate-300 font-bold text-xs px-5 py-2.5 rounded-lg transition shadow-xs inline-flex items-center gap-1.5' id='btn-activity-load-more'>\n              <i class='fa-solid fa-angles-down'></i> Tampilkan Lebih Banyak\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-manage-videos'>\n    <div class='bg-white text-slate-900 w-full max-w-2xl rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-manage-videos'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='border-b pb-3 flex items-center justify-between'>\n        <div>\n          <h3 class='text-base font-extrabold text-slate-800 flex items-center gap-2'>\n            <i class='fa-solid fa-video text-purple-600'></i> Pengaturan Video Tutorial Wajib\n          </h3>\n          <p class='text-xs text-slate-500 mt-0.5'>Video baru yang ditambahkan otomatis menjadi syarat wajib tonton desainer.</p>\n        </div>\n      </div>\n      <form class='bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3' id='form-video-item'>\n        <input id='video-edit-id' type='hidden'/>\n        <div class='grid grid-cols-1 sm:grid-cols-3 gap-3'>\n          <div class='sm:col-span-2'>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Judul Video Tutorial</label>\n            <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-purple-600 bg-white' id='input-video-title' placeholder='Contoh: Modul 1 - Standar Kerapian Path Icon' required='required' type='text'/>\n          </div>\n          <div>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Urutan Modul</label>\n            <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-purple-600 bg-white' id='input-video-sort' min='1' placeholder='1' required='required' type='number'/>\n          </div>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Link / Video ID YouTube</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-semibold outline-none focus:border-purple-600 bg-white' id='input-video-yt-id' placeholder='https://www.youtube.com/watch?v=dQw4w9WgXcQ atau dQw4w9WgXcQ' required='required' type='text'/>\n          <span class='text-[10px] text-slate-400 mt-1 block'>*Sistem otomatis mengekstrak Video ID unik dari URL YouTube yang dimasukkan.</span>\n        </div>\n        <div class='flex gap-2 pt-1'>\n          <button class='w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 rounded-lg transition shadow-sm flex items-center justify-center gap-1.5' id='btn-save-video-item' type='submit'>\n            <i class='fa-solid fa-floppy-disk'></i> Simpan Video\n          </button>\n          <button class='bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 rounded-lg transition hidden' id='btn-cancel-video-edit' type='button'>\n            Batal\n          </button>\n        </div>\n      </form>\n      <div class='space-y-2'>\n        <h4 class='text-xs font-bold text-slate-700 flex items-center gap-1.5'>\n          <i class='fa-solid fa-list-check text-purple-600'></i> Daftar Modul Aktif dalam System\n        </h4>\n        <div class='overflow-x-auto scrollbar-thin border border-slate-200 rounded-xl'>\n          <table class='w-full text-left border-collapse text-xs table-fixed'>\n            <thead>\n              <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                <th class='p-2.5 text-center w-12'>No</th>\n                <th class='p-2.5'>Judul</th>\n                <th class='p-2.5 text-center w-32'>ID</th>\n                <th class='p-2.5 text-center w-24'>Aksi</th>\n              </tr>\n            </thead>\n            <tbody class='divide-y divide-slate-100' id='admin-video-list-body'>\n              <tr><td class='p-4 text-center text-slate-400' colspan='4'>Memuat daftar video...</td></tr>\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-announcement'>\n    <div class='bg-white text-slate-900 w-full max-w-md rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-announcement'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='border-b pb-3'>\n        <h3 class='text-base font-extrabold text-slate-800 flex items-center gap-2'>\n          <i class='fa-solid fa-bullhorn text-amber-500'></i> Kelola Info Running Text\n        </h3>\n        <p class='text-xs text-slate-500 mt-0.5'>Tampil secara realtime di layar desainer.</p>\n      </div>\n      <form class='space-y-3' id='form-announcement'>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Pesan Pengumuman</label>\n          <textarea class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-semibold outline-none focus:border-amber-500 h-24' id='input-announcement-msg' placeholder='Ketik info di sini...' required='required'></textarea>\n        </div>\n        <div class='flex items-center gap-2'>\n          <input checked='checked' class='h-4 w-4 text-amber-600 rounded border-slate-300 cursor-pointer' id='check-announcement-active' type='checkbox'/>\n          <label class='text-xs font-bold text-slate-700 cursor-pointer' for='check-announcement-active'>Tampilkan ke Desainer</label>\n        </div>\n        <div class='flex gap-2 pt-2'>\n          <button class='w-full bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold py-2.5 rounded-lg transition shadow-sm' type='submit'>\n            <i class='fa-solid fa-floppy-disk'></i> Simpan &amp; Publish\n          </button>\n          <button class='bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 text-xs font-bold px-3 py-2.5 rounded-lg transition' id='btn-delete-announcement' type='button'>\n            Hapus\n          </button>\n        </div>\n      </form>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-manage-flash-banner'>\n    <div class='bg-white text-slate-900 w-full max-w-2xl rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-manage-flash'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='border-b pb-3'>\n        <h3 class='text-base font-extrabold text-slate-800 flex items-center gap-2'>\n          <i class='fa-solid fa-window-restore text-indigo-600'></i> Kelola Pop-up Informasi Login\n        </h3>\n        <p class='text-xs text-slate-500 mt-0.5'>Kelola daftar pengumuman pop-up berdasarkan target penerima desainer.</p>\n      </div>\n      <form class='bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3' id='form-flash-announcement'>\n        <input id='flash-edit-id' type='hidden'/>\n        <div class='grid grid-cols-1 sm:grid-cols-2 gap-3'>\n          <div>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Target Penerima Informasi</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-indigo-600 bg-white' id='flash-target-type' onchange='handleFlashTargetTypeChange()'>\n              <option value='all'>Semua Desainer</option>\n              <option value='level'>Berdasarkan Level Desainer</option>\n              <option value='designer'>Desainer Spesifik</option>\n            </select>\n          </div>\n          <div class='hidden' id='flash-target-level-box'>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Pilih Level Desainer</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-indigo-600 bg-white' id='flash-target-level-val'>\n              <option value='2'>Level 2</option>\n              <option value='3'>Level 3</option>\n            </select>\n          </div>\n          <div class='hidden' id='flash-target-designer-box'>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Pilih Desainer Spesifik</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold outline-none focus:border-indigo-600 bg-white' id='flash-target-designer-val'>\n            </select>\n          </div>\n        </div>\n        <div>\n          <div class='flex items-center justify-between mb-1'>\n            <label class='block text-[11px] font-bold text-slate-700'>Isi Informasi</label>\n            <span class='text-[10px] text-slate-400'>Format Obsidian aktif (tag HTML tidak dirender, kecuali garis bawah)</span>\n          </div>\n          <div class='flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-t-lg border border-b-0 border-slate-300' id='flash-editor-toolbar'>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] font-black border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;# &quot;, &quot;&quot;, &quot;Judul Utama&quot;, true);' title='Heading 1 (Ctrl+1)' type='button'>\n              H1\n            </button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;## &quot;, &quot;&quot;, &quot;Sub Judul&quot;, true);' title='Heading 2 (Ctrl+2)' type='button'>\n              H2\n            </button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;### &quot;, &quot;&quot;, &quot;Sub Heading&quot;, true);' title='Heading 3 (Ctrl+3)' type='button'>\n              H3\n            </button>\n            <span class='h-4 w-[1px] bg-slate-300 mx-0.5'></span>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;**&quot;, &quot;**&quot;, &quot;teks tebal&quot;);' title='Tebal (Ctrl+B)' type='button'>\n              <i class='fa-solid fa-bold'></i>\n            </button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] font-italic border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;*&quot;, &quot;*&quot;, &quot;teks miring&quot;);' title='Miring (Ctrl+I)' type='button'>\n              <i class='fa-solid fa-italic'></i>\n            </button>\n           <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] underline border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;u&quot;, &quot;u&quot;, &quot;teks garis bawah&quot;);' title='Garis Bawah (Ctrl+U)' type='button'>\n  <i class='fa-solid fa-underline'></i>\n</button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] line-through border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;~~&quot;, &quot;~~&quot;, &quot;teks dicoret&quot;);' title='Coret' type='button'>\n              <i class='fa-solid fa-strikethrough'></i>\n            </button>\n            <button class='px-2 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded text-[11px] font-bold border border-amber-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;==&quot;, &quot;==&quot;, &quot;teks highlight&quot;);' title='Highlight Teks' type='button'>\n              <i class='fa-solid fa-highlighter'></i>\n            </button>\n            <span class='h-4 w-[1px] bg-slate-300 mx-0.5'></span>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;- &quot;, &quot;&quot;, &quot;Item daftar&quot;, true);' title='Bullet List (Daftar Poin)' type='button'>\n              <i class='fa-solid fa-list-ul'></i>\n            </button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;1. &quot;, &quot;&quot;, &quot;Item urutan&quot;, true);' title='Numbered List (Daftar Angka)' type='button'>\n              <i class='fa-solid fa-list-ol'></i>\n            </button>\n            <span class='h-4 w-[1px] bg-slate-300 mx-0.5'></span>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;[&quot;, &quot;](https://link.com)&quot;, &quot;Teks Link&quot;);' title='Sisipkan Link (Ctrl+K)' type='button'>\n              <i class='fa-solid fa-link'></i>\n            </button>\n            <button class='px-2 py-1 bg-white hover:bg-slate-200 text-slate-700 rounded text-[11px] border border-slate-300 transition shadow-sm' onclick='applyMarkdownStyle(&quot;&gt; &quot;, &quot;&quot;, &quot;Teks kutipan&quot;, true);' title='Kutipan (Quote Block)' type='button'>\n              <i class='fa-solid fa-quote-left'></i>\n            </button>\n          </div>\n          <textarea class='w-full border border-slate-300 rounded-b-lg p-2.5 text-xs font-sans outline-none focus:border-indigo-600 h-28 leading-relaxed bg-white' id='flash-message-content' placeholder='Tuliskan informasi di sini (contoh: # Judul, **teks tebal**, - poin 1, 1. nomor 1, dll)...' required='required'></textarea>\n        </div>\n        <div class='flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200'>\n          <input checked='checked' class='h-4 w-4 text-indigo-600 rounded border-slate-300 cursor-pointer' id='flash-is-active' type='checkbox'/>\n          <label class='text-xs font-bold text-slate-700 cursor-pointer' for='flash-is-active'>Aktifkan Pop-up Informasi Ini</label>\n        </div>\n        <div class='flex gap-2 pt-1'>\n          <button class='w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition shadow-sm flex items-center justify-center gap-1.5' id='btn-save-flash-item' type='submit'>\n            <i class='fa-solid fa-floppy-disk'></i> Simpan &amp; Publish Realtime\n          </button>\n          <button class='bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 rounded-lg transition hidden' id='btn-cancel-flash-edit' onclick='resetFlashBannerForm()' type='button'>\n            Batal\n          </button>\n        </div>\n      </form>\n      <div class='space-y-2'>\n        <h4 class='text-xs font-bold text-slate-700 flex items-center gap-1.5'>\n          <i class='fa-solid fa-list-check text-indigo-600'></i> Daftar Pop-up Informasi Aktif\n        </h4>\n        <div class='overflow-x-auto scrollbar-thin border border-slate-200 rounded-xl'>\n          <table class='w-full text-left border-collapse text-xs min-w-[500px]'>\n            <thead>\n              <tr class='border-b border-slate-200 text-slate-500 bg-slate-50 font-bold'>\n                <th class='p-2.5 text-center w-12'>No</th>\n                <th class='p-2.5'>Target Penerima</th>\n                <th class='p-2.5'>Isi Informasi</th>\n                <th class='p-2.5 text-center'>Status</th>\n                <th class='p-2.5 text-center'>Aksi</th>\n              </tr>\n            </thead>\n            <tbody class='divide-y divide-slate-100' id='admin-flash-list-body'>\n              <tr><td class='p-4 text-center text-slate-400' colspan='5'>Memuat daftar informasi...</td></tr>\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-login'>\n    <div class='bg-white text-slate-900 w-full max-w-sm rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-login'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='text-center'>\n        <h3 class='text-base font-extrabold text-slate-800'>Masuk Akun Desainer</h3>\n        <p class='text-xs text-slate-500 mt-1'>Masukkan Email &amp; Password dari Admin</p>\n      </div>\n      <form class='space-y-3' id='form-login'>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Email</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='login-email' placeholder='desainer@domain.com' required='required' type='email'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Password</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='login-password' placeholder='••••••••' required='required' type='password'/>\n        </div>\n        <button class='w-full btn-tokopedia-blue text-xs font-bold py-3 rounded-lg transition shadow-sm' type='submit'>Masuk Sekarang</button>\n      </form>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-add-user'>\n    <div class='bg-white text-slate-900 w-full max-w-md rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-add-user'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='text-center border-b pb-3'>\n        <h3 class='text-base font-extrabold text-blue-900'>Daftarkan Desainer Baru</h3>\n      </div>\n      <form class='space-y-3' id='form-reg-user'>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Nama Lengkap Desainer</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-bold' id='reg-fullname' placeholder='Contoh: Husnul Aqidah' required='required' type='text'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Email Desainer</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600' id='reg-email' placeholder='husnulaqidah@gmail.com' required='required' type='email'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Password Awal</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600' id='reg-password' placeholder='Minimal 6 karakter' required='required' type='password'/>\n        </div>\n        <div class='grid grid-cols-1 sm:grid-cols-2 gap-2'>\n          <div>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Level Desainer</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='reg-level'>\n              <option value='2'>Level 2 (Rp 750 / Rp 450)</option>\n              <option value='3'>Level 3 (Rp 2.500 / Rp 1.500)</option>\n            </select>\n          </div>\n          <div>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Role System</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='reg-role'>\n              <option value='designer'>Desainer / Uploader</option>\n              <option value='admin'>Admin / Manager</option>\n            </select>\n          </div>\n        </div>\n        <button class='w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-sm' id='btn-submit-reg-user' type='submit'>Simpan &amp; Buat Akun</button>\n      </form>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-edit-user'>\n    <div class='bg-white text-slate-900 w-full max-w-md rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700' id='btn-close-edit-user'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='text-center border-b pb-3'>\n        <h3 class='text-base font-extrabold text-blue-900'>Edit Profil Desainer</h3>\n      </div>\n      <form class='space-y-3' id='form-edit-user'>\n        <input id='edit-user-id' type='hidden'/>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Nama Lengkap Desainer</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-bold' id='edit-fullname' required='required' type='text'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Email (Readonly)</label>\n          <input class='w-full border border-slate-200 bg-slate-100 rounded-lg p-2.5 text-xs text-slate-500 font-semibold outline-none cursor-not-allowed' id='edit-email' readonly='readonly' type='email'/>\n        </div>\n        <div class='grid grid-cols-1 sm:grid-cols-2 gap-2'>\n          <div>\n            <label class='block text-[11px] font-bold text-blue-600 mb-1'>Level Desainer</label>\n            <select class='w-full border border-blue-300 bg-blue-50/40 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-bold' id='edit-level'>\n              <option value='2'>Level 2 (Rp 750 / Rp 450)</option>\n              <option value='3'>Level 3 (Rp 2.500 / Rp 1.500)</option>\n            </select>\n          </div>\n          <div>\n            <label class='block text-[11px] font-bold text-slate-700 mb-1'>Role / Jabatan</label>\n            <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='edit-role'>\n              <option value='designer'>Desainer / Uploader</option>\n              <option value='admin'>Admin / Manager</option>\n            </select>\n          </div>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-emerald-700 mb-1 flex items-center gap-1'>\n            <i class='fa-solid fa-graduation-cap'></i> NIP Santri HSI (opsional)\n          </label>\n          <input autocomplete='off' class='w-full border border-emerald-200 bg-emerald-50/30 rounded-lg p-2.5 text-xs outline-none focus:border-emerald-600 font-semibold' id='edit-nip-hsi' placeholder='Kosongkan jika bukan santri HSI' type='text'/>\n          <p class='text-[10px] text-slate-400 mt-1'>Desainer yang mengetik NIP ini dengan benar boleh mengganti wajib baca buku dengan target belajar HSI. NIP tidak terlihat oleh desainer.</p>\n        </div>\n        <div class='pt-2 border-t border-slate-100'>\n          <label class='block text-[11px] font-bold text-rose-600 mb-1 flex items-center gap-1'>\n            <i class='fa-solid fa-key'></i> Reset Password (Opsional)\n          </label>\n          <input class='w-full border border-rose-200 bg-rose-50/30 rounded-lg p-2.5 text-xs outline-none focus:border-rose-600' id='edit-password' placeholder='Biarkan kosong jika tidak diubah' type='password'/>\n        </div>\n        <button class='w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-3 rounded-lg transition shadow-sm' id='btn-submit-edit-user' type='submit'>Simpan Perubahan</button>\n      </form>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-edit-project'>\n    <div class='bg-white text-slate-900 w-full max-w-md rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl border border-slate-200 relative modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1' id='btn-close-edit-project' onclick='closeEditProjectModal()' type='button'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='text-center border-b pb-3'>\n        <h3 class='text-base font-extrabold text-blue-900'>Edit Detail Laporan Desainer</h3>\n      </div>\n      <form class='space-y-3' id='form-edit-project'>\n        <input id='edit-proj-id' type='hidden'/>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Target Belajar</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='edit-proj-target' required='required' type='text'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Tool Desain</label>\n          <select class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-semibold' id='edit-proj-tool'>\n            <option value='Figma'>1. Figma</option>\n            <option value='Infinite Design'>2. Infinite Design</option>\n            <option value='Inkscape'>3. Inkscape</option>\n            <option value='Affinity Designer'>4. Affinity Designer</option>\n            <option value='Bebas (Wajib Rapi)'>5. Bebas (wajib rapi)</option>\n          </select>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-slate-700 mb-1'>Nilai / Total Icon</label>\n          <input class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 font-bold' id='edit-proj-jumlah' min='1' required='required' type='number'/>\n        </div>\n        <div>\n          <label class='block text-[11px] font-bold text-amber-700 mb-1 flex items-center gap-1'>\n            <i class='fa-solid fa-hand-holding-hand'></i> Desainer Pembantu (Uploader)\n          </label>\n          <select class='w-full border border-amber-300 bg-amber-50/40 rounded-lg p-2.5 text-xs outline-none focus:border-amber-600 font-bold text-slate-800' id='edit-proj-uploader-id'>\n          </select>\n        </div>\n        <button class='w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-3 rounded-lg transition shadow-sm' id='btn-submit-edit-proj' type='submit'>Simpan Perubahan</button>\n      </form>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4' id='modal-slip-gaji'>\n    <div class='bg-white text-slate-900 w-full max-w-lg rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl relative border border-slate-200 modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <button class='absolute top-3 right-3 text-slate-400 hover:text-slate-700 no-print' id='btn-close-slip-gaji'>\n        <i class='fa-solid fa-xmark text-lg'></i>\n      </button>\n      <div class='text-center border-b pb-3'>\n        <h2 class='text-sm sm:text-base font-extrabold uppercase tracking-wide text-blue-900'>SALARY JASA DESAIN ELEMEN CANVA</h2>\n        <p class='text-xs font-bold text-slate-600 mt-0.5' id='slip-periode'>Periode: -</p>\n      </div>\n      <div class='bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2 no-print'>\n        <div class='text-[11px] font-bold text-slate-700 flex items-center gap-1.5'>\n          <i class='fa-solid fa-calendar-days text-blue-600'></i> Filter Periode Slip Gaji:\n        </div>\n        <div class='grid grid-cols-2 gap-2 text-xs'>\n          <div>\n            <label class='block text-[10px] text-slate-500 font-semibold mb-0.5'>Dari Tanggal:</label>\n            <input class='w-full border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 bg-white' id='slip-start-date' type='date'/>\n          </div>\n          <div>\n            <label class='block text-[10px] text-slate-500 font-semibold mb-0.5'>Sampai Tanggal:</label>\n            <input class='w-full border border-slate-300 rounded-lg p-1.5 font-bold text-slate-700 outline-none focus:border-blue-600 bg-white' id='slip-end-date' type='date'/>\n          </div>\n        </div>\n      </div>\n      <div class='text-xs space-y-2 border-b pb-3'>\n        <div class='flex justify-between items-center no-print'>\n          <span class='font-bold text-slate-600'>Pilih Desainer:</span>\n          <select class='border rounded px-2 py-1 text-xs outline-none bg-slate-50 font-bold text-blue-800 max-w-[180px] sm:max-w-none' id='select-slip-user'>\n          </select>\n        </div>\n        <div class='flex justify-between items-center'>\n          <span class='text-slate-500'>Nama Desainer</span>\n          <span class='font-bold text-blue-900' id='slip-nama'>-</span>\n        </div>\n        <div class='flex justify-between items-center'>\n          <span class='text-slate-500'>Level Desainer</span>\n          <span class='font-bold px-2 py-0.5 rounded text-[10px]' id='slip-level-badge'>Level 2</span>\n        </div>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Total Desain</span>\n          <span class='font-bold'><span id='slip-total-desain'>0</span> desain</span>\n        </div>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Total Desain Ditolak</span>\n          <span class='font-bold text-rose-600'><span id='slip-ditolak'>0</span> kali</span>\n        </div>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Total Desain Diterima</span>\n          <span class='font-bold text-emerald-600'><span id='slip-diterima'>0</span> kali</span>\n        </div>\n      </div>\n      <div class='text-xs space-y-2 border-b pb-3'>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Hasil Desain (<span id='slip-tarif-label'>Rp 750 / Rp 450</span>)</span>\n          <span class='font-bold'>Rp <span id='slip-hasil-desain'>0</span> ,-</span>\n        </div>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Reward 1 (Upload ke Canva)</span>\n          <span class='font-bold'>Rp <span id='slip-reward-1'>0</span> ,-</span>\n        </div>\n        <div class='flex justify-between'>\n          <span class='text-slate-500'>Reward 2 (Bonus Tiering)</span>\n          <span class='font-bold'>Rp <span id='slip-reward-2'>0</span> ,-</span>\n        </div>\n      </div>\n      <div class='flex justify-between items-center text-sm font-extrabold pt-1'>\n        <span class='text-slate-800'>Total Pendapatan</span>\n        <span class='text-blue-700 text-base font-black'>Rp <span id='slip-total-pendapatan'>0</span> ,-</span>\n      </div>\n      <div class='pt-2 no-print flex justify-end gap-2'>\n        <button class='bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2 rounded-lg font-bold transition' id='btn-close-slip-gaji-2'>Tutup</button>\n        <button class='btn-tokopedia-blue text-xs px-4 py-2 rounded-lg font-bold transition flex items-center gap-1.5' id='btn-print-slip'>\n          <i class='fa-solid fa-print'></i> Cetak PDF\n        </button>\n      </div>\n    </div>\n  </div>\n  <div class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center hidden p-3 sm:p-4' id='modal-custom-dialog'>\n    <div class='bg-white text-slate-900 w-full max-w-sm rounded-2xl p-5 space-y-4 shadow-2xl border border-slate-200 relative text-center modal-body-mobile max-h-[90vh] overflow-y-auto scrollbar-thin'>\n      <div class='w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl' id='dialog-icon-bg'>\n        <i class='fa-solid' id='dialog-icon'></i>\n      </div>\n      <div>\n        <h3 class='text-sm font-bold text-slate-800' id='dialog-title'>Notifikasi</h3>\n        <p class='text-xs text-slate-500 mt-1 whitespace-pre-line leading-relaxed' id='dialog-message'>Pesan sistem...</p>\n      </div>\n      <div class='hidden space-y-2' id='dialog-prompt-container'>\n        <textarea class='w-full border border-slate-300 rounded-lg p-2.5 text-xs outline-none focus:border-blue-600 h-20 font-semibold' id='dialog-prompt-input' placeholder='Masukkan alasan/catatan...'></textarea>\n      </div>\n      <div class='flex justify-center gap-2 pt-1' id='dialog-actions'>\n        <button class='bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-4 py-2 rounded-lg transition hidden' id='dialog-btn-cancel'>Batal</button>\n        <button class='btn-tokopedia-blue text-xs font-bold px-5 py-2 rounded-lg transition shadow-sm' id='dialog-btn-ok'>OK</button>\n      </div>\n    </div>\n  </div>";
+  var mount = document.getElementById('kl-dash-mount');
+  if (mount) { mount.insertAdjacentHTML('beforebegin', html); mount.parentNode.removeChild(mount); }
+  else document.body.insertAdjacentHTML('beforeend', html);
+  var t = document.title;
+  document.querySelectorAll('.kl-blog-title').forEach(function (el) { el.textContent = t; });
+})();
+/* 3) Logika dashboard (tidak diubah). */
+    const SUPABASE_URL = "https://btsqpddnilujfxnarvwn.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_YwWHi5DOT1ZEbeeWiQfJxA_Cs1rEdHn";
+    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw43dWEgVDODKcgRHOQ81KJPSPE8gkZee__sBJW36s6erB9mC91d4AdPnMU0rSkWOhb/exec";
+    const CANVA_UPLOAD_URL = "https://www.canva.com/creators/element/upload";
+
+    // ==========================================
+    // HELPER KEAMANAN TAMPILAN (ANTI-XSS)
+    // esc()     -> untuk teks dari database yang dimasukkan ke innerHTML
+    // jsArg()   -> untuk argumen string di dalam onclick="..."
+    // safeUrl() -> hanya izinkan link http/https/mailto
+    // ==========================================
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[ch]));
+    }
+
+    function jsArg(value) {
+      return esc(JSON.stringify(String(value ?? '')));
+    }
+
+    function safeUrl(url, fallback = '#') {
+      const str = String(url || '').trim();
+      return /^(https?:\/\/|mailto:)/i.test(str) ? esc(str) : fallback;
+    }
+
+    let notifOutsideClickBound = false;
+    let adminPresenceTimer = null;
+    let pendingYouTubeVideoId = null;
+
+    let supabaseClient = null;
+    let supabaseAdminNoSession = null;
+    let currentUser = null;
+    let selectedThemeData = null;
+    let themesStockMap = {}; 
+    let userProfilesMap = {}; 
+    let userLevelsMap = {};
+    let userEmailsMap = {}; 
+    let userLastSeenMap = {}; 
+    let debounceTimer = null;
+    let countdownInterval = null;
+    let isEditingAdminTable = false;
+    // Tabel admin ditahan render hanya saat admin benar-benar mengetik di dalamnya (klik tombol tidak menahan)
+    function adminTabelSedangDiketik() {
+      const el = document.activeElement;
+      return !!(el && el.closest && el.closest('#admin-table-body') && (el.matches('input, textarea, select') || el.isContentEditable));
+    }
+    let isAdminUser = false;
+    let isUsersLoaded = false;
+    let realtimeSyncTimer = null;
+    let lastAdminTableHash = "";
+    let lastUserTableHash = "";
+    let lastThemesTableHash = "";
+    let heartbeatInterval = null;
+    let kinerjaChartInstance = null;
+    
+    // State Fitur Video Tutorial
+    let ytPlayer = null;
+    let ytApiReady = false;
+    let currentVideoList = [];
+    let userCompletedVideoIds = new Set();
+    let activeVideoIndex = 0;
+    let watchProgressInterval = null;
+    let maxWatchedTime = 0;
+    let isVideoRequirementMet = false;
+
+    // State Fitur AI Color Palette
+    let currentGeneratedColors = [];
+
+    const processedExpiredProjects = new Set();
+
+    let adminTableLimit = 10;
+    let userTableLimit = 10;
+    let themeGridLimit = 10;
+    let themesTableLimit = 10;
+    let overviewDesignersTableLimit = 10;
+
+    let overviewSortCol = 'full_name';
+    let overviewSortDir = 'asc';
+
+    let userSortCol = 'created_at';
+    let userSortDir = 'desc';
+
+    let themesSortCol = 'kategori';
+    let themesSortDir = 'asc';
+
+    let adminSortCol = 'created_at';
+    let adminSortDir = 'desc';
+
+    let analyticsSortCol = 'created_at';
+    let analyticsSortDir = 'desc';
+    let analyticsProjectsData = [];
+
+    let allAdminThemesData = []; 
+    let allAdminProjectsData = [];
+
+    let isAudioUnlocked = false;
+
+    function unlockAudio() {
+      if (isAudioUnlocked) return;
+      const audio = document.getElementById('notif-sound');
+      if (audio) {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          isAudioUnlocked = true;
+          document.removeEventListener('click', unlockAudio);
+        }).catch(() => {});
+      }
+    }
+
+    document.addEventListener('click', unlockAudio);
+
+    function playNotifSound() {
+      const audio = document.getElementById('notif-sound');
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            console.warn("Autoplay audio terhalang browser atau gagal dimuat:", err);
+          });
+        }
+      }
+    }
+
+    // Helper Ekstraksi YouTube Video ID
+    function extractYouTubeId(urlOrId) {
+      if (!urlOrId) return '';
+      const str = urlOrId.trim();
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = str.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : str;
+    }
+
+    function formatFullDateTime(dateString) {
+      if (!dateString) return '-';
+      const d = new Date(dateString);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const seconds = String(d.getSeconds()).padStart(2, '0');
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function formatNotifUploadTime(dateString) {
+      if (!dateString) return '-';
+      const d = new Date(dateString);
+      const namaHariList = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
+      const namaHari = namaHariList[d.getDay()];
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const seconds = String(d.getSeconds()).padStart(2, '0');
+      return `${namaHari}, ${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
+    }
+
+    function formatTimeAgo(dateString) {
+      if (!dateString) return 'Belum pernah online';
+      const d = new Date(dateString);
+      const now = new Date();
+      const diffSecs = Math.floor((now - d) / 1000);
+
+      if (diffSecs < 120) return 'Online';
+      if (diffSecs < 3600) return `${Math.floor(diffSecs / 60)} menit lalu`;
+      if (diffSecs < 86400) return `${Math.floor(diffSecs / 3600)} jam lalu`;
+      if (diffSecs < 172800) return `Kemarin ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+
+    async function sendUserHeartbeat() {
+      if (!currentUser) return;
+      const nowIso = new Date().toISOString();
+      await supabaseClient.from('profiles').update({ last_seen: nowIso }).eq('id', currentUser.id);
+    }
+
+    function startHeartbeatLoop() {
+      if (heartbeatInterval) clearInterval(heartbeatInterval);
+      sendUserHeartbeat();
+      heartbeatInterval = setInterval(sendUserHeartbeat, 30000);
+    }
+
+    function showModalAlert(title, message, type = 'info') {
+      return new Promise((resolve) => {
+        const dialog = document.getElementById('modal-custom-dialog');
+        const iconBg = document.getElementById('dialog-icon-bg');
+        const icon = document.getElementById('dialog-icon');
+        const titleEl = document.getElementById('dialog-title');
+        const msgEl = document.getElementById('dialog-message');
+        const promptBox = document.getElementById('dialog-prompt-container');
+        const btnCancel = document.getElementById('dialog-btn-cancel');
+        const btnOk = document.getElementById('dialog-btn-ok');
+
+        promptBox.classList.add('hidden');
+        btnCancel.classList.add('hidden');
+        btnOk.innerText = "OK";
+        btnOk.className = "btn-tokopedia-blue text-xs font-bold px-5 py-2 rounded-lg transition shadow-sm";
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+
+        if (type === 'error') {
+          iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-rose-50 text-rose-600 border border-rose-200";
+          icon.className = "fa-solid fa-circle-xmark";
+        } else if (type === 'success') {
+          iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-emerald-50 text-emerald-600 border border-emerald-200";
+          icon.className = "fa-solid fa-circle-check";
+        } else if (type === 'warning') {
+          iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-amber-50 text-amber-600 border border-amber-200";
+          icon.className = "fa-solid fa-triangle-exclamation";
+        } else {
+          iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-blue-50 text-blue-600 border border-blue-200";
+          icon.className = "fa-solid fa-circle-info";
+        }
+
+        dialog.classList.remove('hidden');
+        btnOk.onclick = () => { dialog.classList.add('hidden'); resolve(true); };
+      });
+    }
+
+    function showModalConfirm(title, message) {
+      return new Promise((resolve) => {
+        const dialog = document.getElementById('modal-custom-dialog');
+        const iconBg = document.getElementById('dialog-icon-bg');
+        const icon = document.getElementById('dialog-icon');
+        const titleEl = document.getElementById('dialog-title');
+        const msgEl = document.getElementById('dialog-message');
+        const promptBox = document.getElementById('dialog-prompt-container');
+        const btnCancel = document.getElementById('dialog-btn-cancel');
+        const btnOk = document.getElementById('dialog-btn-ok');
+
+        promptBox.classList.add('hidden');
+        btnCancel.classList.remove('hidden');
+        btnOk.innerText = "Ya, Lanjutkan";
+        btnOk.className = "bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm";
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+        iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-rose-50 text-rose-600 border border-rose-200";
+        icon.className = "fa-solid fa-triangle-exclamation";
+
+        dialog.classList.remove('hidden');
+        btnOk.onclick = () => { dialog.classList.add('hidden'); resolve(true); };
+        btnCancel.onclick = () => { dialog.classList.add('hidden'); resolve(false); };
+      });
+    }
+
+    function showModalPrompt(title, message) {
+      return new Promise((resolve) => {
+        const dialog = document.getElementById('modal-custom-dialog');
+        const iconBg = document.getElementById('dialog-icon-bg');
+        const icon = document.getElementById('dialog-icon');
+        const titleEl = document.getElementById('dialog-title');
+        const msgEl = document.getElementById('dialog-message');
+        const promptBox = document.getElementById('dialog-prompt-container');
+        const promptInput = document.getElementById('dialog-prompt-input');
+        const btnCancel = document.getElementById('dialog-btn-cancel');
+        const btnOk = document.getElementById('dialog-btn-ok');
+
+        promptInput.value = '';
+        promptBox.classList.remove('hidden');
+        btnCancel.classList.remove('hidden');
+        btnOk.innerText = "Kirim Catatan";
+        btnOk.className = "bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm";
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+        iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-amber-50 text-amber-600 border border-amber-200";
+        icon.className = "fa-solid fa-comment-dots";
+
+        dialog.classList.remove('hidden');
+        btnOk.onclick = () => { const val = promptInput.value.trim(); dialog.classList.add('hidden'); resolve(val); };
+        btnCancel.onclick = () => { dialog.classList.add('hidden'); resolve(null); };
+      });
+    }
+
+    // ==========================================
+    // LOGIKA FITUR BARU 1: TOGGLE JENIS ICON
+    // ==========================================
+    function toggleIconTypeColorLogic() {
+      const jenisIcon = document.getElementById('input-jenis-icon').value;
+      const aiContainer = document.getElementById('ai-color-container');
+      const statusTxt = document.getElementById('txt-palette-status');
+
+      if (jenisIcon === 'flat') {
+        aiContainer.classList.remove('opacity-50', 'pointer-events-none');
+        if (selectedThemeData && selectedThemeData.kategori) {
+          generateGeminiPastelColors(selectedThemeData.kategori);
+        } else {
+          statusTxt.innerText = "Pilih tema untuk memuat warna pastel AI.";
+        }
+      } else {
+        aiContainer.classList.add('opacity-50', 'pointer-events-none');
+        statusTxt.innerText = `Jenis Icon "${jenisIcon.toUpperCase()}" tidak membutuhkan warna pastel AI.`;
+        resetPaletteUIBoxes();
+      }
+    }
+
+    function resetPaletteUIBoxes() {
+      const barsBox = document.getElementById('palette-bars-box');
+      if (barsBox) {
+        barsBox.innerHTML = `
+          <div class="h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">-</div>
+          <div class="h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">-</div>
+          <div class="h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">-</div>
+          <div class="h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">-</div>
+          <div class="h-full rounded text-[9px] font-bold text-slate-400 flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">-</div>
+        `;
+      }
+      currentGeneratedColors = [];
+    }
+
+    // ==========================================
+    // LOGIKA FITUR BARU 2: GEMINI AI COLOR GENERATOR
+    // ==========================================
+    function generatePastelColorFromSeed(seedStr, offset = 0) {
+      let hash = 0;
+      for (let i = 0; i < seedStr.length; i++) {
+        hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const hue = Math.abs((hash + offset * 73) % 360);
+      const saturation = 55 + (Math.abs(hash * (offset + 1)) % 25); // 55% - 80%
+      const lightness = 75 + (Math.abs(hash * (offset + 3)) % 15);  // 75% - 90% (Soft Pastel)
+      
+      return hslToHex(hue, saturation, lightness);
+    }
+
+    function hslToHex(h, s, l) {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+    }
+
+    function generateGeminiPastelColors(kategoriName) {
+      const jenisIcon = document.getElementById('input-jenis-icon').value;
+      if (jenisIcon !== 'flat') return;
+
+      const randomSalt = Math.floor(Math.random() * 1000);
+      const seedBase = kategoriName + "_" + randomSalt;
+
+      const colors = [];
+      for (let i = 0; i < 5; i++) {
+        colors.push(generatePastelColorFromSeed(seedBase, i * 17));
+      }
+
+      currentGeneratedColors = colors;
+      renderPaletteUI(colors, kategoriName);
+    }
+
+    function regeneratePaletteColors() {
+      if (!selectedThemeData || !selectedThemeData.kategori) {
+        showModalAlert("Pilih Tema", "Pilih salah satu tema icon flat terlebih dahulu!", "warning");
+        return;
+      }
+      generateGeminiPastelColors(selectedThemeData.kategori);
+    }
+
+    function renderPaletteUI(colors, kategoriName) {
+      const barsBox = document.getElementById('palette-bars-box');
+      const statusTxt = document.getElementById('txt-palette-status');
+      if (!barsBox) return;
+
+      barsBox.innerHTML = colors.map(hex => `
+        <div onclick="copyToClipboard('${hex}')" style="background-color: ${hex};" class="h-full rounded flex items-center justify-center font-bold text-[9px] text-slate-800/80 shadow-xs cursor-pointer hover:scale-105 transition border border-black/10" title="Klik untuk Copy Hex">
+          ${hex}
+        </div>
+      `).join('');
+
+      if (statusTxt) {
+        statusTxt.innerText = `Gunakan warna ini untuk "${kategoriName}"`;
+      }
+    }
+
+    // ==========================================
+    // LOGIKA FITUR BARU 3: DOWNLOAD PALETTE PNG (CANVAS)
+    // ==========================================
+    function downloadPaletteAsPNG() {
+      if (!currentGeneratedColors || currentGeneratedColors.length < 5) {
+        showModalAlert("Palet Kosong", "Generate palet warna pastel terlebih dahulu!", "warning");
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 450;
+      const ctx = canvas.getContext('2d');
+
+      // 1. Background Kartu
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 2. Header
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 24px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Panduan Palet Warna Pastel', 40, 50);
+
+      ctx.fillStyle = '#2563EB';
+      ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
+      const themeTitle = selectedThemeData ? selectedThemeData.kategori : 'Koleksi Icon Flat';
+      ctx.fillText(`Tema Icon: ${themeTitle}`, 40, 80);
+
+      // 3. Render 5 Swatch Warna
+      const startX = 40;
+      const startY = 110;
+      const swatchWidth = 130;
+      const swatchHeight = 220;
+      const gap = 16;
+
+      currentGeneratedColors.forEach((hex, idx) => {
+        const x = startX + idx * (swatchWidth + gap);
+
+        // Box Warna
+        ctx.fillStyle = hex;
+        ctx.beginPath();
+        ctx.roundRect(x, startY, swatchWidth, swatchHeight, 12);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+        ctx.stroke();
+
+        // Label Kode HEX
+        ctx.fillStyle = '#1E293B';
+        ctx.font = 'bold 14px monospace';
+        ctx.fillText(hex, x + 25, startY + swatchHeight + 30);
+      });
+
+      // 4. Footer Brand Info
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '12px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Palet warna ini dibuat oleh Kelas Kaligrafi Digital (KEKAL)', 40, 420);
+
+      // Download Trigger
+      const imageURL = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Palet_Warna_Pastel_${themeTitle.replace(/\s+/g, '_')}.png`;
+      link.href = imageURL;
+      link.click();
+    }
+
+    window.onYouTubeIframeAPIReady = function() {
+      ytApiReady = true;
+      if (pendingYouTubeVideoId) {
+        const vid = pendingYouTubeVideoId;
+        pendingYouTubeVideoId = null;
+        initOrLoadYouTubePlayer(vid);
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      supabaseAdminNoSession = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+      });
+
+      initDefaultDates();
+      initEventListeners();
+      loadThemes();
+      checkActiveUser();
+      listenRealtimeThemes();
+      loadAnnouncement();
+      loadFlashBannerAnnouncement();
+     listenRealtimePopupNotice();
+      listenRealtimeAnnouncement();
+    });
+
+    function initDefaultDates() {
+      const now = new Date();
+      let startYear = now.getFullYear();
+      let startMonth = now.getMonth();
+      if (now.getDate() < 29) {
+        startMonth -= 1;
+        if (startMonth < 0) { startMonth = 11; startYear -= 1; }
+      }
+      const startDateObj = new Date(startYear, startMonth, 29);
+      const yearStr = startDateObj.getFullYear();
+      const monthStr = String(startDateObj.getMonth() + 1).padStart(2, '0');
+      const startDayFormatted = `${yearStr}-${monthStr}-29`;
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayFormatted = `${year}-${month}-${day}`;
+
+      document.getElementById('overview-start-date').value = startDayFormatted;
+      document.getElementById('overview-end-date').value = todayFormatted;
+
+      document.getElementById('user-start-date').value = startDayFormatted;
+      document.getElementById('user-end-date').value = todayFormatted;
+
+      document.getElementById('slip-start-date').value = startDayFormatted;
+      document.getElementById('slip-end-date').value = todayFormatted;
+
+      document.getElementById('analytics-start-date').value = startDayFormatted;
+      document.getElementById('analytics-end-date').value = todayFormatted;
+    }
+
+    function initEventListeners() {
+      document.getElementById('btn-open-login').addEventListener('click', () => document.getElementById('modal-login').classList.remove('hidden'));
+      document.getElementById('btn-close-login').addEventListener('click', () => document.getElementById('modal-login').classList.add('hidden'));
+
+      document.getElementById('form-login').addEventListener('submit', handleEmailLogin);
+
+      document.getElementById('btn-tab-claim').addEventListener('click', () => switchTab('claim'));
+      document.getElementById('btn-tab-video-tutorials').addEventListener('click', () => switchTab('video-tutorials'));
+      document.getElementById('btn-tab-dashboard').addEventListener('click', () => switchTab('my-dashboard'));
+      document.getElementById('btn-tab-designer-analytics').addEventListener('click', () => switchTab('designer-analytics'));
+      document.getElementById('btn-tab-admin').addEventListener('click', () => switchTab('admin'));
+      document.getElementById('btn-tab-slip-admin').addEventListener('click', () => switchTab('slip-admin'));
+      document.getElementById('btn-tab-transkrip-admin').addEventListener('click', () => switchTab('transkrip-admin'));
+      document.getElementById('btn-tab-studio-icon').addEventListener('click', () => switchTab('studio-icon'));
+      document.getElementById('btn-tab-buku').addEventListener('click', () => switchTab('buku'));
+
+      document.getElementById('btn-tab-activity-history').addEventListener('click', () => switchTab('activity-history'));
+      const btnActLoadMore = document.getElementById('btn-activity-load-more');
+      if (btnActLoadMore) {
+        btnActLoadMore.addEventListener('click', () => { activityHistoryLimit += 15; loadActivityHistory(false); });
+      }
+
+      document.getElementById('btn-copy-judul').addEventListener('click', () => copyText('txt-judul'));
+      document.getElementById('btn-copy-keyword').addEventListener('click', () => copyText('txt-keyword'));
+
+      document.getElementById('input-upload-type').addEventListener('change', toggleUploaderSelect);
+      document.getElementById('form-claim').addEventListener('submit', handleClaimSubmit);
+      let allPopupNoticesList = []; // State array penampung data dari Supabase
+
+    // 1. Event listener tombol Buka Modal Admin
+    const btnOpenFlash = document.getElementById('btn-open-flash-announcement-modal');
+    if (btnOpenFlash) {
+      btnOpenFlash.addEventListener('click', async () => {
+        // Isi dropdown desainer
+        const selectDes = document.getElementById('flash-target-designer-val');
+        if (selectDes && typeof userProfilesMap !== 'undefined') {
+          selectDes.innerHTML = Object.keys(userProfilesMap).map(id => `<option value="${esc(id)}">${esc(userProfilesMap[id])}</option>`).join('');
+        }
+        
+        resetFlashBannerForm();
+        await loadAdminPopupNoticesList();
+        document.getElementById('modal-manage-flash-banner').classList.remove('hidden');
+      });
+    }
+
+    // 2. Event listener Tutup Modal Admin
+    const btnCloseFlash = document.getElementById('btn-close-manage-flash');
+    if (btnCloseFlash) {
+      btnCloseFlash.addEventListener('click', () => {
+        document.getElementById('modal-manage-flash-banner').classList.add('hidden');
+      });
+    }
+
+    // 3. Helper mendapatkan String Label Target (untuk pengecekan duplikat UI)
+    function getTargetLabelString(targetType, targetValue) {
+      if (targetType === 'all') return 'Semua Desainer';
+      if (targetType === 'level') return `Level ${targetValue}`;
+      if (targetType === 'designer') return userProfilesMap[targetValue] || targetValue;
+      return targetType;
+    }
+
+  // 4. Load Tabel Daftar Informasi di Modal Admin
+    async function loadAdminPopupNoticesList() {
+      const tbody = document.getElementById('admin-flash-list-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="5">Memuat data...</td></tr>`;
+
+      const { data, error } = await supabaseClient
+        .from('popup_notices')
+        .select('*');
+
+      if (error) {
+        console.error("Error fetching popup notices:", error);
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-rose-500 font-bold" colspan="5">Gagal mengambil data: ${esc(error.message)}</td></tr>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        allPopupNoticesList = [];
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="5">Belum ada daftar informasi.</td></tr>`;
+        return;
+      }
+
+      allPopupNoticesList = data.sort((a, b) => new Date(b.created_at || b.updated_at || 0) - new Date(a.created_at || a.updated_at || 0));
+
+      tbody.innerHTML = allPopupNoticesList.map((item, index) => {
+        const targetType = item.target_type || item.type || 'all';
+        const targetVal = item.target_value || item.value || '';
+        const messageText = item.message || item.content || '';
+        const isActive = item.is_active !== undefined ? item.is_active : true;
+
+        const targetLabel = getTargetLabelString(targetType, targetVal);
+        const readByList = Array.isArray(item.read_by) ? item.read_by : [];
+        const isRead = readByList.length > 0;
+
+        let statusBadge = `<span class="text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200">Nonaktif</span>`;
+       if (isRead) {
+          const readerNames = readByList.map(uid => userProfilesMap[uid] || 'Desainer').join(', ');
+          statusBadge = `<span title="Dibaca oleh: ${esc(readerNames)}" class="inline-flex items-center justify-center whitespace-nowrap text-[10px] bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded border border-blue-200 cursor-help"><i class="fa-solid fa-check-double mr-1"></i>Dibaca (${readByList.length})</span>`;
+        } else if (isActive) {
+          statusBadge = `<span class="inline-flex items-center justify-center whitespace-nowrap text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded border border-emerald-200">Aktif</span>`;
+        } else {
+          statusBadge = `<span class="inline-flex items-center justify-center whitespace-nowrap text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200">Nonaktif</span>`;
+        }
+
+        const cleanPreview = String(messageText).replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim();
+        const shortPreview = cleanPreview.length > 20 ? cleanPreview.slice(0, 20) + '...' : (cleanPreview || '-');
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-2 text-center font-bold text-slate-700">${index + 1}</td>
+            <td class="p-2 font-bold text-indigo-900 truncate" title="${esc(targetLabel)}">${esc(targetLabel)}</td>
+            <td class="p-2 text-slate-600 text-[11px] max-w-[140px] sm:max-w-[200px] truncate" title="${esc(cleanPreview)}">
+              ${esc(shortPreview)}
+            </td>
+            <td class="p-2 text-center whitespace-nowrap">${statusBadge}</td>
+            <td class="p-2 text-center whitespace-nowrap space-x-1">
+              <button type="button" onclick="window.editFlashNoticeItem(${jsArg(item.id)})" class="bg-amber-500 hover:bg-amber-600 text-white px-2 py-1.5 rounded text-[11px] font-bold shadow-sm transition active:scale-95" title="Edit">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button type="button" onclick="window.deleteFlashNoticeItem(${jsArg(item.id)})" class="bg-rose-600 hover:bg-rose-700 text-white px-2 py-1.5 rounded text-[11px] font-bold shadow-sm transition active:scale-95" title="Hapus">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+  // 5. Submit Form Tambah / Edit Informasi (Dengan Proteksi Target Duplikat + Baris ke-{x})
+    const formFlash = document.getElementById('form-flash-announcement');
+    if (formFlash) {
+      formFlash.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const editId = document.getElementById('flash-edit-id').value;
+        const type = document.getElementById('flash-target-type').value;
+        let val = '';
+        if (type === 'level') val = document.getElementById('flash-target-level-val').value;
+        if (type === 'designer') val = document.getElementById('flash-target-designer-val').value;
+
+        const msg = document.getElementById('flash-message-content').value.trim();
+        const active = document.getElementById('flash-is-active').checked;
+
+        // --- PENGECEKAN DUPLIKAT TARGET ---
+        const currentTargetKey = `${type}_${val}`;
+        
+        for (let i = 0; i < allPopupNoticesList.length; i++) {
+          const item = allPopupNoticesList[i];
+          const itemKey = `${item.target_type}_${item.target_value}`;
+
+          // Jika sedang edit, abaikan baris yang sedang diedit itu sendiri
+          if (editId && item.id === editId) continue;
+
+          if (itemKey === currentTargetKey) {
+            const rowNumber = i + 1; // Nomor baris urutan ke-{x}
+            const targetName = getTargetLabelString(type, val);
+            
+            await showModalAlert(
+              "Target Duplikat!",
+              `Target "${targetName}" sudah ada di daftar tabel informasi pada baris urutan ke-${rowNumber}.\n\nSilakan pilih target lain atau edit baris urutan ke-${rowNumber} tersebut.`,
+              "warning"
+            );
+            return; // Hentikan proses simpan
+          }
+        }
+
+        const btnSave = document.getElementById('btn-save-flash-item');
+        btnSave.disabled = true;
+
+       const payload = {
+          target_type: type,
+          target_value: val,
+          message: msg,
+          is_active: active,
+          read_by: [],
+          updated_at: new Date().toISOString()
+        };
+
+        let err = null;
+        if (editId) {
+          // MODE EDIT: Update berdasarkan ID yang ada
+          const { error } = await supabaseClient
+            .from('popup_notices')
+            .update(payload)
+            .eq('id', editId);
+          err = error;
+        } else {
+          // MODE TAMBAH BARU: Generasi ID unik acak agar tidak konflik Primary Key
+          payload.id = 'notice_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+          
+          const { error } = await supabaseClient
+            .from('popup_notices')
+            .insert([payload]);
+          err = error;
+        }
+
+        btnSave.disabled = false;
+
+       if (!err) {
+          await showModalAlert("Berhasil", "Pop-up Informasi Login berhasil disimpan!", "success");
+          resetFlashBannerForm();
+          await loadAdminPopupNoticesList(); // <--- Panggil refresh tabel di sini
+        } else {
+          await showModalAlert("Gagal Simpan", err.message, "error");
+        }
+      });
+    }
+
+   // 6. Mode Edit Item Informasi (Daftarkan ke window global)
+    window.editFlashNoticeItem = function(id) {
+      const item = allPopupNoticesList.find(x => String(x.id) === String(id));
+      if (!item) return;
+
+      const editIdEl = document.getElementById('flash-edit-id');
+      const targetTypeEl = document.getElementById('flash-target-type');
+      const msgEl = document.getElementById('flash-message-content');
+      const activeEl = document.getElementById('flash-is-active');
+
+      if (editIdEl) editIdEl.value = item.id;
+      if (targetTypeEl) {
+        targetTypeEl.value = item.target_type || item.type || 'all';
+        handleFlashTargetTypeChange();
+      }
+
+      const targetVal = item.target_value || item.value || '';
+      if (item.target_type === 'level') {
+        const lvlEl = document.getElementById('flash-target-level-val');
+        if (lvlEl) lvlEl.value = targetVal;
+      }
+      if (item.target_type === 'designer') {
+        const desEl = document.getElementById('flash-target-designer-val');
+        if (desEl) desEl.value = targetVal;
+      }
+
+      if (msgEl) msgEl.value = item.message || item.content || '';
+      if (activeEl) activeEl.checked = item.is_active !== undefined ? item.is_active : true;
+
+      const btnCancel = document.getElementById('btn-cancel-flash-edit');
+      const btnSave = document.getElementById('btn-save-flash-item');
+
+      if (btnCancel) btnCancel.classList.remove('hidden');
+      if (btnSave) btnSave.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Informasi`;
+    };
+
+    // 7. Reset Form Admin
+    function resetFlashBannerForm() {
+      document.getElementById('form-flash-announcement').reset();
+      document.getElementById('flash-edit-id').value = '';
+      document.getElementById('flash-target-type').value = 'all';
+      handleFlashTargetTypeChange();
+      document.getElementById('btn-cancel-flash-edit').classList.add('hidden');
+      document.getElementById('btn-save-flash-item').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan & Publish Realtime`;
+    }
+
+   // 8. Hapus Item Informasi (Daftarkan ke window global)
+    window.deleteFlashNoticeItem = async function(id) {
+      const item = allPopupNoticesList.find(x => String(x.id) === String(id));
+      const targetType = item ? (item.target_type || item.type || 'all') : 'all';
+      const targetVal = item ? (item.target_value || item.value || '') : '';
+      const targetLabel = getTargetLabelString(targetType, targetVal);
+
+      const confirmed = await showModalConfirm("Konfirmasi Hapus", `Apakah Anda yakin ingin menghapus informasi untuk target "${targetLabel}"?`);
+      if (confirmed) {
+        const { error } = await supabaseClient.from('popup_notices').delete().eq('id', id);
+        if (error) {
+          await showModalAlert("Gagal Hapus", error.message, "error");
+        } else {
+          await showModalAlert("Terhapus", "Informasi berhasil dihapus!", "success");
+          await loadAdminPopupNoticesList();
+        }
+      }
+    };
+
+      const checkConfirm = document.getElementById('check-confirm-claim');
+      const checkQuality = document.getElementById('check-confirm-quality');
+      
+      function validateClaimFormSubmitBtn() {
+        const c1 = checkConfirm ? checkConfirm.checked : false;
+        const c2 = checkQuality ? checkQuality.checked : false;
+        document.getElementById('btn-submit-claim').disabled = !(c1 && c2) || !isVideoRequirementMet;
+      }
+
+      if (checkConfirm) checkConfirm.addEventListener('change', validateClaimFormSubmitBtn);
+      if (checkQuality) checkQuality.addEventListener('change', validateClaimFormSubmitBtn);
+
+      document.getElementById('btn-export-excel').addEventListener('click', exportToSpreadsheet);
+
+      document.getElementById('btn-add-designer-overview').addEventListener('click', () => document.getElementById('modal-add-user').classList.remove('hidden'));
+      document.getElementById('btn-close-add-user').addEventListener('click', () => document.getElementById('modal-add-user').classList.add('hidden'));
+      document.getElementById('form-reg-user').addEventListener('submit', handleRegisterUser);
+
+      document.getElementById('btn-close-edit-user').addEventListener('click', () => document.getElementById('modal-edit-user').classList.add('hidden'));
+      document.getElementById('form-edit-user').addEventListener('submit', handleUpdateUserProfile);
+
+      document.getElementById('btn-filter-overview').addEventListener('click', loadAdminOverviewData);
+      document.getElementById('btn-reset-overview').addEventListener('click', () => { initDefaultDates(); loadAdminOverviewData(); });
+
+      document.getElementById('btn-filter-user').addEventListener('click', loadUserDashboardData);
+      document.getElementById('btn-reset-user').addEventListener('click', () => { initDefaultDates(); loadUserDashboardData(); });
+
+      document.getElementById('btn-filter-analytics').addEventListener('click', loadDesignerAnalyticsData);
+
+      document.getElementById('form-manage-theme').addEventListener('submit', handleSaveTheme);
+      document.getElementById('btn-cancel-theme').addEventListener('click', resetThemeForm);
+
+      document.getElementById('slip-start-date').addEventListener('change', calculateSalaryForSelectedUser);
+      document.getElementById('slip-end-date').addEventListener('change', calculateSalaryForSelectedUser);
+      document.getElementById('select-slip-user').addEventListener('change', calculateSalaryForSelectedUser);
+
+      document.getElementById('btn-open-slip-gaji').addEventListener('click', async () => {
+        document.getElementById('modal-slip-gaji').classList.remove('hidden');
+        await loadUsersList();
+        calculateSalaryForSelectedUser();
+      });
+
+      document.getElementById('btn-close-slip-gaji').addEventListener('click', () => document.getElementById('modal-slip-gaji').classList.add('hidden'));
+      document.getElementById('btn-close-slip-gaji-2').addEventListener('click', () => document.getElementById('modal-slip-gaji').classList.add('hidden'));
+      document.getElementById('btn-print-slip').addEventListener('click', () => window.print());
+
+      document.getElementById('btn-open-manage-videos').addEventListener('click', () => {
+        document.getElementById('modal-manage-videos').classList.remove('hidden');
+        loadAdminVideoList();
+      });
+      document.getElementById('btn-close-manage-videos').addEventListener('click', () => document.getElementById('modal-manage-videos').classList.add('hidden'));
+      document.getElementById('form-video-item').addEventListener('submit', handleSaveVideoItem);
+      document.getElementById('btn-cancel-video-edit').addEventListener('click', resetVideoForm);
+
+      document.getElementById('btn-admin-load-more').addEventListener('click', () => { adminTableLimit += 10; renderAdminProjectsTable(); });
+      document.getElementById('btn-user-load-more').addEventListener('click', () => { userTableLimit += 10; loadUserDashboardData(); });
+
+      const btnThemeLoad = document.getElementById('btn-theme-load-more');
+      if (btnThemeLoad) btnThemeLoad.addEventListener('click', () => { themeGridLimit += 10; loadThemes(); });
+
+      const btnThemesTableLoad = document.getElementById('btn-themes-load-more');
+      if (btnThemesTableLoad) btnThemesTableLoad.addEventListener('click', () => { themesTableLimit += 10; renderAdminThemesTable(); });
+
+      const btnOverviewLoad = document.getElementById('btn-overview-designers-load-more');
+      if (btnOverviewLoad) btnOverviewLoad.addEventListener('click', () => { overviewDesignersTableLimit += 10; renderOverviewDesignersTable(); });
+
+      const btnOpenAnn = document.getElementById('btn-open-announcement-modal');
+      if (btnOpenAnn) {
+        btnOpenAnn.addEventListener('click', async () => {
+          const { data } = await supabaseClient.from('announcements').select('*').eq('id', 'GLOBAL').maybeSingle();
+          if (data) {
+            document.getElementById('input-announcement-msg').value = data.message || '';
+            document.getElementById('check-announcement-active').checked = data.is_active;
+          }
+          document.getElementById('modal-announcement').classList.remove('hidden');
+        });
+      }
+
+      document.getElementById('btn-close-announcement').addEventListener('click', () => document.getElementById('modal-announcement').classList.add('hidden'));
+      document.getElementById('form-announcement').addEventListener('submit', handleSaveAnnouncement);
+      document.getElementById('btn-delete-announcement').addEventListener('click', handleDeleteAnnouncement);
+
+      initNotifDropdownListeners();
+
+  // Auto-check pengumuman saat tab kembali aktif/fokus
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && currentUser) {
+      loadFlashBannerAnnouncement();
+    }
+  });
+}
+    
+
+    async function loadVideoTutorialsSection() {
+      try {
+        const { data: videos, error: vErr } = await supabaseClient
+          .from('tutorial_videos')
+          .select('*')
+          .order('sort_order', { ascending: true });
+
+        if (vErr || !videos) {
+          console.warn("Gagal memuat video tutorial:", vErr?.message);
+          return;
+        }
+
+        currentVideoList = videos;
+
+        if (currentUser) {
+          const { data: userProgress } = await supabaseClient
+            .from('user_video_progress')
+            .select('video_id, is_completed')
+            .eq('user_id', currentUser.id)
+            .eq('is_completed', true);
+
+          userCompletedVideoIds = new Set(userProgress ? userProgress.map(p => p.video_id) : []);
+        } else {
+          userCompletedVideoIds = new Set();
+        }
+
+        if (currentVideoList.length === 0) {
+          isVideoRequirementMet = true;
+        } else {
+          const completedCount = currentVideoList.filter(v => userCompletedVideoIds.has(v.id)).length;
+          if (completedCount >= currentVideoList.length) {
+            isVideoRequirementMet = true;
+          } else {
+            isVideoRequirementMet = false;
+          }
+        }
+
+        updateVideoRequirementUI();
+        renderVideoPlaylist();
+
+        if (currentVideoList.length > 0) {
+          let firstUncompletedIdx = currentVideoList.findIndex(v => !userCompletedVideoIds.has(v.id));
+          if (firstUncompletedIdx === -1) firstUncompletedIdx = 0;
+          selectVideoToPlay(firstUncompletedIdx);
+        }
+      } catch (err) {
+        console.error("Error loadVideoTutorialsSection:", err);
+      }
+    }
+
+    function updateVideoRequirementUI() {
+      const alertBanner = document.getElementById('video-requirement-alert-banner');
+      const badgeStatus = document.getElementById('badge-video-status');
+      const summaryTxt = document.getElementById('txt-video-completion-summary');
+
+      const total = currentVideoList.length;
+      const completedCount = currentVideoList.filter(v => userCompletedVideoIds.has(v.id)).length;
+
+      if (badgeStatus) badgeStatus.innerText = `${completedCount}/${total}`;
+      if (summaryTxt) summaryTxt.innerText = `${completedCount} dari ${total} Video Selesai`;
+
+      if (alertBanner) {
+        if (!isVideoRequirementMet && total > 0) {
+          alertBanner.classList.remove('hidden');
+        } else {
+          alertBanner.classList.add('hidden');
+        }
+      }
+    }
+
+    function renderVideoPlaylist() {
+      const container = document.getElementById('video-playlist-container');
+      const countEl = document.getElementById('txt-total-playlist-count');
+      if (!container) return;
+
+      countEl.innerText = `${currentVideoList.length} Video`;
+
+      if (currentVideoList.length === 0) {
+        container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Belum ada video tutorial wajib yang diunggah Admin.</div>`;
+        return;
+      }
+
+      container.innerHTML = currentVideoList.map((v, index) => {
+        const isCompleted = userCompletedVideoIds.has(v.id);
+        
+        let isUnlocked = false;
+        if (index === 0) {
+          isUnlocked = true;
+        } else {
+          const prevVideo = currentVideoList[index - 1];
+          if (userCompletedVideoIds.has(prevVideo.id)) {
+            isUnlocked = true;
+          }
+        }
+
+        const isActive = (index === activeVideoIndex);
+
+        let iconBadge = `<i class="fa-solid fa-lock text-slate-400"></i>`;
+        let cardBg = `bg-slate-50 border-slate-200 opacity-60 cursor-not-allowed`;
+        let statusTag = `<span class="text-[9px] text-slate-400 font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Terkunci</span>`;
+
+        if (isCompleted) {
+          iconBadge = `<i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>`;
+          statusTag = `<span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Selesai</span>`;
+          cardBg = isActive ? `bg-purple-50/90 border-purple-400 shadow-sm` : `bg-white border-slate-200 hover:border-purple-300 cursor-pointer`;
+        } else if (isUnlocked) {
+          iconBadge = `<i class="fa-solid fa-circle-play text-purple-600 text-sm"></i>`;
+          statusTag = `<span class="text-[9px] text-purple-700 font-bold bg-purple-50 px-2 py-0.5 rounded border border-purple-200">Wajib Ditonton</span>`;
+          cardBg = isActive ? `bg-purple-50/90 border-purple-400 shadow-sm` : `bg-white border-slate-200 hover:border-purple-300 cursor-pointer`;
+        }
+
+        return `
+          <div onclick="${isUnlocked ? `selectVideoToPlay(${index})` : ''}" class="p-3 rounded-xl border transition flex items-start gap-2.5 ${cardBg}">
+            <span class="w-6 h-6 rounded-lg bg-slate-100 font-extrabold text-[11px] text-slate-700 flex items-center justify-center shrink-0 border border-slate-200 mt-0.5">${esc(v.sort_order || (index + 1))}</span>
+            <div class="flex-1 space-y-1">
+              <h5 class="text-xs font-bold text-slate-800 leading-snug line-clamp-2">${esc(v.title)}</h5>
+              <div class="flex items-center justify-between">
+                ${statusTag}
+                <span>${iconBadge}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectVideoToPlay(index) {
+      if (index < 0 || index >= currentVideoList.length) return;
+
+      activeVideoIndex = index;
+      renderVideoPlaylist();
+
+      const video = currentVideoList[index];
+      const ytId = extractYouTubeId(video.youtube_video_id);
+
+      document.getElementById('txt-playing-number').innerText = video.sort_order || (index + 1);
+      document.getElementById('txt-playing-title').innerText = video.title;
+
+      const isCompleted = userCompletedVideoIds.has(video.id);
+      const badgePlaying = document.getElementById('badge-playing-status');
+
+      if (isCompleted) {
+        badgePlaying.className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+        badgePlaying.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Selesai (Bisa Diputar Ulang)`;
+      } else {
+        badgePlaying.className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200";
+        badgePlaying.innerHTML = `<i class="fa-solid fa-play text-purple-600 mr-1"></i> Sedang Menonton (Tanpa Skip)`;
+      }
+
+      maxWatchedTime = 0;
+      document.getElementById('txt-watch-progress-percent').innerText = '0%';
+      document.getElementById('txt-watch-timer').innerText = '00:00 / 00:00';
+
+      initOrLoadYouTubePlayer(ytId);
+    }
+
+    function initOrLoadYouTubePlayer(videoId) {
+      // API YouTube dimuat async: simpan dulu ID video, putar setelah API siap
+      if (!window.YT || typeof YT.Player !== 'function') {
+        pendingYouTubeVideoId = videoId;
+        return;
+      }
+      if (!ytPlayer) {
+        ytPlayer = new YT.Player('yt-tutorial-player', {
+          height: '100%',
+          width: '100%',
+          videoId: videoId,
+          playerVars: {
+            'playsinline': 1,
+            'rel': 0,
+            'modestbranding': 1,
+            'controls': 1
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      } else {
+        ytPlayer.loadVideoById(videoId);
+      }
+    }
+
+    function onPlayerReady(event) {}
+
+    function onPlayerStateChange(event) {
+      if (watchProgressInterval) clearInterval(watchProgressInterval);
+
+      if (event.data === YT.PlayerState.PLAYING) {
+        watchProgressInterval = setInterval(trackWatchProgress, 500);
+      } else if (event.data === YT.PlayerState.ENDED) {
+        handleVideoEnded();
+      }
+      fokusOnState(event.data);
+    }
+
+    function trackWatchProgress() {
+      if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+
+      const currentVid = currentVideoList[activeVideoIndex];
+      const isCompleted = userCompletedVideoIds.has(currentVid.id);
+
+      const currentTime = ytPlayer.getCurrentTime();
+      const duration = ytPlayer.getDuration();
+
+      if (!duration || duration === 0) return;
+
+      if (!isCompleted) {
+        if (currentTime > maxWatchedTime + 2) {
+          ytPlayer.seekTo(maxWatchedTime, true);
+          showModalAlert("Dilarang Skip", "Video tutorial wajib ditonton secara penuh dari awal sampai akhir tanpa dipercepat/dilewati.", "warning");
+          return;
+        } else {
+          if (currentTime > maxWatchedTime) {
+            maxWatchedTime = currentTime;
+          }
+        }
+      }
+
+      const percent = Math.min(100, Math.floor((currentTime / duration) * 100));
+      document.getElementById('txt-watch-progress-percent').innerText = `${percent}%`;
+
+      const curM = String(Math.floor(currentTime / 60)).padStart(2, '0');
+      const curS = String(Math.floor(currentTime % 60)).padStart(2, '0');
+      const durM = String(Math.floor(duration / 60)).padStart(2, '0');
+      const durS = String(Math.floor(duration % 60)).padStart(2, '0');
+
+      document.getElementById('txt-watch-timer').innerText = `${curM}:${curS} / ${durM}:${durS}`;
+    }
+
+    async function handleVideoEnded() {
+      if (watchProgressInterval) clearInterval(watchProgressInterval);
+
+      const video = currentVideoList[activeVideoIndex];
+      if (!video) return;
+
+      if (!userCompletedVideoIds.has(video.id) && currentUser) {
+        userCompletedVideoIds.add(video.id);
+
+        try {
+          await supabaseClient
+            .from('user_video_progress')
+            .upsert([{
+              user_id: currentUser.id,
+              video_id: video.id,
+              is_completed: true,
+              completed_at: new Date().toISOString()
+            }], { onConflict: 'user_id,video_id' });
+
+          await showModalAlert("Selamat! 🎉", `Anda telah menyelesaikan video "${video.title}". Syarat tontonan diperbarui!`, "success");
+
+          const completedCount = currentVideoList.filter(v => userCompletedVideoIds.has(v.id)).length;
+          if (completedCount >= 1 || completedCount >= currentVideoList.length) {
+            isVideoRequirementMet = true;
+          }
+
+          updateVideoRequirementUI();
+          renderVideoPlaylist();
+
+          switchTab('claim');
+
+          if (selectedThemeData && selectedThemeData.kategori) {
+            selectTheme(selectedThemeData.kategori);
+          }
+
+          return;
+        } catch (err) {
+          console.error("Gagal simpan progress video:", err);
+        }
+      }
+
+      const completedCount = currentVideoList.filter(v => userCompletedVideoIds.has(v.id)).length;
+      if (completedCount >= 1 || completedCount >= currentVideoList.length) {
+        isVideoRequirementMet = true;
+      }
+
+      updateVideoRequirementUI();
+      renderVideoPlaylist();
+    }
+
+    async function loadAdminVideoList() {
+      const tbody = document.getElementById('admin-video-list-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="4">Memuat data video...</td></tr>`;
+
+      const { data: videos, error } = await supabaseClient
+        .from('tutorial_videos')
+        .select('*')
+        .order('sort_order', { ascending: true });
+
+      if (error || !videos || videos.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="4">Belum ada video tutorial wajib dalam database.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = videos.map(v => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="p-2.5 text-center font-bold text-slate-800">${esc(v.sort_order)}</td>
+          <td class="p-2.5 font-bold text-purple-900 break-words">${esc(v.title)}</td>
+          <td class="p-2.5 text-center text-slate-500 font-mono text-[11px] truncate">${esc(v.youtube_video_id)}</td>
+          <td class="p-2.5 text-center space-x-1">
+            <button onclick="editAdminVideoItem(${jsArg(v.id)}, ${jsArg(v.title)}, ${jsArg(v.youtube_video_id)}, ${Number(v.sort_order) || 1})" class="bg-amber-500 hover:bg-amber-600 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm" title="Edit">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="deleteAdminVideoItem(${jsArg(v.id)}, ${jsArg(v.title)})" class="bg-rose-600 hover:bg-rose-700 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm" title="Hapus">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function handleSaveVideoItem(e) {
+      e.preventDefault();
+      const editId = document.getElementById('video-edit-id').value;
+      const title = document.getElementById('input-video-title').value.trim();
+      const rawYtId = document.getElementById('input-video-yt-id').value.trim();
+      const sortOrder = parseInt(document.getElementById('input-video-sort').value) || 1;
+
+      const ytId = extractYouTubeId(rawYtId);
+      if (!ytId) return await showModalAlert("Validasi Gagal", "Masukkan Video ID / URL YouTube yang valid!", "warning");
+
+      const btnSave = document.getElementById('btn-save-video-item');
+      btnSave.disabled = true;
+      btnSave.innerText = "Menyimpan...";
+
+      if (editId) {
+        const { error } = await supabaseClient.from('tutorial_videos').update({
+          title: title,
+          youtube_video_id: ytId,
+          sort_order: sortOrder
+        }).eq('id', editId);
+
+        if (error) await showModalAlert("Gagal Update", error.message, "error");
+        else await showModalAlert("Berhasil", "Video tutorial diperbarui!", "success");
+      } else {
+        const { error } = await supabaseClient.from('tutorial_videos').insert([{
+          title: title,
+          youtube_video_id: ytId,
+          sort_order: sortOrder
+        }]);
+
+        if (error) await showModalAlert("Gagal Tambah", error.message, "error");
+        else await showModalAlert("Berhasil", "Video tutorial baru otomatis masuk ke daftar syarat tonton desainer!", "success");
+      }
+
+      btnSave.disabled = false;
+      btnSave.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Video`;
+      resetVideoForm();
+      loadAdminVideoList();
+      loadVideoTutorialsSection();
+    }
+
+    function editAdminVideoItem(id, title, ytId, sortOrder) {
+      document.getElementById('video-edit-id').value = id;
+      document.getElementById('input-video-title').value = title;
+      document.getElementById('input-video-yt-id').value = ytId;
+      document.getElementById('input-video-sort').value = sortOrder;
+      document.getElementById('btn-cancel-video-edit').classList.remove('hidden');
+    }
+
+    function resetVideoForm() {
+      document.getElementById('form-video-item').reset();
+      document.getElementById('video-edit-id').value = '';
+      document.getElementById('btn-cancel-video-edit').classList.add('hidden');
+    }
+
+    async function deleteAdminVideoItem(id, title) {
+      const confirmed = await showModalConfirm("Konfirmasi Hapus", `Yakin ingin menghapus video tutorial "${title}"?`);
+      if (confirmed) {
+        const { error } = await supabaseClient.from('tutorial_videos').delete().eq('id', id);
+        if (error) await showModalAlert("Gagal Hapus", error.message, "error");
+        else {
+          await showModalAlert("Terhapus", "Video tutorial berhasil dihapus!", "success");
+          loadAdminVideoList();
+          loadVideoTutorialsSection();
+        }
+      }
+    }
+
+    async function loadAnnouncement() {
+      try {
+        const { data } = await supabaseClient
+          .from('announcements')
+          .select('*')
+          .eq('id', 'GLOBAL')
+          .maybeSingle();
+
+        updateRunningTextUI(data);
+      } catch (err) {
+        console.warn("Announcement error:", err.message);
+      }
+    }
+
+   function updateRunningTextUI(data) {
+  const banner = document.getElementById('announcement-banner');
+  const content = document.getElementById('running-text-content');
+  const duplicate = document.getElementById('running-text-duplicate');
+  const track = document.getElementById('marquee-track-container');
+
+  if (data && data.is_active && data.message && data.message.trim() !== '') {
+    const textMsg = data.message.trim();
+    
+    if (content) content.innerText = textMsg;
+    if (duplicate) duplicate.innerText = textMsg;
+
+    if (track) {
+      // Kecepatan adaptif menyesuaikan panjang kalimat
+      const calculatedDuration = Math.max(12, Math.round(textMsg.length * 0.25));
+      track.style.animationDuration = `${calculatedDuration}s`;
+    }
+
+    banner.classList.remove('hidden');
+  } else {
+    banner.classList.add('hidden');
+    if (content) content.innerText = '';
+    if (duplicate) duplicate.innerText = '';
+  }
+}
+    function listenRealtimeAnnouncement() {
+      supabaseClient
+        .channel('public:announcements')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, (payload) => {
+          if (payload.new) updateRunningTextUI(payload.new);
+        })
+        .subscribe();
+    }
+
+function listenRealtimePopupNotice() {
+  supabaseClient
+    .channel('public:popup_notices')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'popup_notices' }, (payload) => {
+      const row = payload.new && payload.new.id ? payload.new : null;
+      if (payload.eventType === 'DELETE' || (row && !row.is_active)) {
+        const id = row ? row.id : (payload.old && payload.old.id);
+        if (id) dropFlashNotice(id);
+      } else if (row) {
+        // Abaikan update yang hanya mengubah read_by (desainer lain klik "Saya Mengerti")
+        if (flashSeenSig[row.id] !== flashNoticeSig(row)) showSmoothFlashModal(row, true);
+      }
+      const modalManage = document.getElementById('modal-manage-flash-banner');
+      if (modalManage && !modalManage.classList.contains('hidden')) {
+        loadAdminPopupNoticesList();
+      }
+    })
+    .subscribe();
+}
+    async function handleSaveAnnouncement(e) {
+      e.preventDefault();
+      const message = document.getElementById('input-announcement-msg').value.trim();
+      const isActive = document.getElementById('check-announcement-active').checked;
+
+      const { error } = await supabaseClient
+        .from('announcements')
+        .upsert({
+          id: 'GLOBAL',
+          message: message,
+          is_active: isActive,
+          updated_at: new Date().toISOString()
+        });
+
+      if (!error) {
+        await showModalAlert("Berhasil", "Running text berhasil diperbarui!", "success");
+        document.getElementById('modal-announcement').classList.add('hidden');
+      } else {
+        await showModalAlert("Gagal Update", error.message, "error");
+      }
+    }
+
+    async function handleDeleteAnnouncement() {
+      const confirmed = await showModalConfirm("Konfirmasi Hapus", "Yakin ingin mengosongkan pengumuman running text?");
+      if (!confirmed) return;
+
+      const { error } = await supabaseClient
+        .from('announcements')
+        .update({ message: '', is_active: false })
+        .eq('id', 'GLOBAL');
+
+      if (!error) {
+        document.getElementById('input-announcement-msg').value = '';
+        document.getElementById('check-announcement-active').checked = false;
+        await showModalAlert("Berhasil", "Pengumuman dikosongkan!", "success");
+        document.getElementById('modal-announcement').classList.add('hidden');
+      } else {
+        await showModalAlert("Gagal Hapus", error.message, "error");
+      }
+    }
+
+    function sortArrayData(array, col, dir) {
+      if (!array || array.length === 0) return array;
+      return array.sort((a, b) => {
+        let valA = a[col] ?? '';
+        let valB = b[col] ?? '';
+
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+
+        if (valA < valB) return dir === 'asc' ? -1 : 1;
+        if (valA > valB) return dir === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function updateSortHeaderIcons(prefix, activeCol, dir, columns) {
+      columns.forEach(c => {
+        const icon = document.getElementById(`${prefix}-${c}`);
+        if (icon) {
+          if (c === activeCol) {
+            icon.className = dir === 'asc' 
+              ? 'fa-solid fa-sort-up text-indigo-600 ml-1' 
+              : 'fa-solid fa-sort-down text-indigo-600 ml-1';
+          } else {
+            icon.className = 'fa-solid fa-sort text-slate-300 ml-1';
+          }
+        }
+      });
+    }
+
+    function sortOverviewDesigners(col) {
+      if (overviewSortCol === col) { overviewSortDir = overviewSortDir === 'asc' ? 'desc' : 'asc'; }
+      else { overviewSortCol = col; overviewSortDir = 'asc'; }
+      renderOverviewDesignersTable();
+    }
+
+    function sortUserProjects(col) {
+      if (userSortCol === col) { userSortDir = userSortDir === 'asc' ? 'desc' : 'asc'; }
+      else { userSortCol = col; userSortDir = 'asc'; }
+      loadUserDashboardData();
+    }
+
+    function sortAdminThemes(col) {
+      if (themesSortCol === col) { themesSortDir = themesSortDir === 'asc' ? 'desc' : 'asc'; }
+      else { themesSortCol = col; themesSortDir = 'asc'; }
+      loadAdminThemesTable();
+    }
+
+    function sortAdminProjects(col) {
+      if (adminSortCol === col) { adminSortDir = adminSortDir === 'asc' ? 'desc' : 'asc'; }
+      else { adminSortCol = col; adminSortDir = 'asc'; }
+      loadAdminProjects();
+    }
+
+    function sortAnalyticsTable(col) {
+      if (analyticsSortCol === col) { analyticsSortDir = analyticsSortDir === 'asc' ? 'desc' : 'asc'; }
+      else { analyticsSortCol = col; analyticsSortDir = 'asc'; }
+      renderAnalyticsTable();
+    }
+
+    async function exportToSpreadsheet() {
+      const btnExport = document.getElementById('btn-export-excel');
+      btnExport.disabled = true;
+      btnExport.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memproses...`;
+
+      try {
+        const { data: projects, error } = await supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error || !projects || projects.length === 0) {
+          await showModalAlert("Peringatan", "Tidak ada data laporan untuk diexport.", "warning");
+          return;
+        }
+
+        let csvContent = "Tanggal,Nama Desainer,Level,Target Belajar,Tool Desain,Tema / Kategori,Jumlah Icon,In Review,Rejected,Approved,Status Admin,URL Drive\n";
+
+        projects.forEach(p => {
+          const dateStr = formatFullDateTime(p.created_at);
+          const desainerName = (userProfilesMap[p.designer_id] || 'Desainer').replace(/"/g, '""');
+          const desainerLevel = userLevelsMap[p.designer_id] || 2;
+          const targetBelajar = (p.target_belajar || '-').replace(/"/g, '""');
+          const toolDesain = (p.tool_desain || 'Bebas').replace(/"/g, '""');
+          const kategori = (p.kategori || '-').replace(/"/g, '""');
+          const totalNilai = p.jumlah_icon || 0;
+          const inReview = Number(p.in_review_count) || 0;
+          const rejected = Number(p.rejected_count) || 0;
+          const approved = Math.max(0, totalNilai - (rejected + inReview));
+          const statusAdmin = p.status_admin || 'Pending';
+          const driveUrl = p.drive_folder_url || '-';
+
+          csvContent += `"${dateStr}","${desainerName}",Level ${desainerLevel},"${targetBelajar}","${toolDesain}","${kategori}",${totalNilai},${inReview},${rejected},${approved},"${statusAdmin}","${driveUrl}"\n`;
+        });
+
+        const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Laporan_Desainer_Icon_Canva_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        await showModalAlert("Berhasil Export", "Laporan berhasil diunduh ke Spreadsheet / CSV!", "success");
+      } catch (err) {
+        await showModalAlert("Gagal Export", err.message, "error");
+      } finally {
+        btnExport.disabled = false;
+        btnExport.innerHTML = `<i class="fa-solid fa-file-excel"></i> Export Spreadsheet`;
+      }
+    }
+
+
+    async function checkActiveUser() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (window.klSetGuestMode) window.klSetGuestMode(!user); // tamu → landing page, login → dashboard
+      if (user) {
+        currentUser = user;
+        userEmailsMap[user.id] = user.email;
+        startHeartbeatLoop();
+        await showMainPanel();
+        loadFlashBannerAnnouncement();
+      }
+    }
+
+    async function handleEmailLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        await showModalAlert("Gagal Login", error.message, "error");
+      } else {
+        currentUser = data.user;
+        userEmailsMap[currentUser.id] = currentUser.email;
+        document.getElementById('modal-login').classList.add('hidden');
+        if (window.klSetGuestMode) window.klSetGuestMode(false); // langsung ke dashboard
+        startHeartbeatLoop();
+        await showMainPanel();
+        await logUserActivity('AUTH', 'Berhasil masuk (login) ke dalam sistem.');
+        loadFlashBannerAnnouncement();
+      }
+    }
+
+    async function handleRegisterUser(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('reg-fullname').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const role = document.getElementById('reg-role').value;
+      const level = parseInt(document.getElementById('reg-level').value) || 2;
+
+      const btnSub = document.getElementById('btn-submit-reg-user');
+      btnSub.disabled = true;
+      btnSub.innerText = "Memproses...";
+
+      try {
+        const { data, error } = await supabaseAdminNoSession.auth.signUp({
+          email: email,
+          password: password,
+          options: { data: { full_name: fullName } }
+        });
+
+        if (error) throw error;
+
+        if (data.user) {
+          const { error: upsertErr } = await supabaseClient
+            .from('profiles')
+            .upsert([{ 
+              id: data.user.id, 
+              full_name: fullName, 
+              role: role, 
+              level: level,
+              email: email 
+            }], { onConflict: 'id' });
+
+          if (upsertErr) console.warn("Upsert profiles err:", upsertErr.message);
+
+          userProfilesMap[data.user.id] = fullName;
+          userLevelsMap[data.user.id] = level;
+          userEmailsMap[data.user.id] = email;
+
+          await showModalAlert("Pendaftaran Sukses", `Akun desainer (${fullName} - Level ${level}) berhasil dibuat.`, "success");
+          document.getElementById('modal-add-user').classList.add('hidden');
+          document.getElementById('form-reg-user').reset();
+
+          await loadUsersList();
+          await renderOverviewDesignersTable();
+          if (isAdminUser) loadAdminOverviewData();
+          await loadAdminProjects();
+        }
+      } catch (err) {
+        await showModalAlert("Gagal Pendaftaran", err.message, "error");
+      } finally {
+        btnSub.disabled = false;
+        btnSub.innerText = "Simpan & Buat Akun";
+      }
+    }
+
+    async function showMainPanel() {
+      document.getElementById('auth-section').innerHTML = `
+        <div class="relative inline-block" id="notif-wrapper">
+          <button id="btn-notif-bell" class="relative p-1.5 sm:p-2 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-full transition focus:outline-none">
+            <i class="fa-solid fa-bell text-base sm:text-lg"></i>
+            <span id="notif-badge-count" class="hidden absolute -top-1 -right-1.5 bg-rose-600 text-white text-[9px] font-black min-w-[18px] h-[18px] px-1.5 py-0.5 rounded-md flex items-center justify-center leading-none border-2 border-white shadow-xs animate-pulse">0</span>
+          </button>
+
+          <div id="notif-dropdown-menu" class="hidden absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-xl border border-slate-200 z-50 overflow-hidden divide-y divide-slate-100">
+            <div class="p-3 bg-slate-50 flex items-center justify-between border-b border-slate-200">
+              <span class="text-xs font-extrabold text-slate-800 flex items-center gap-1.5">
+                <i class="fa-solid fa-bell text-blue-600"></i> Pemberitahuan
+              </span>
+              <button id="btn-mark-all-read" class="text-[10px] font-bold text-blue-600 hover:underline">Tandai Dibaca</button>
+            </div>
+            
+            <div class="max-h-72 overflow-y-auto divide-y divide-slate-100 scrollbar-thin" id="notif-items-container">
+              <div class="p-4 text-center text-xs text-slate-400">Tidak ada pemberitahuan baru.</div>
+            </div>
+          </div>
+        </div>
+
+        <span class="hidden sm:inline-block text-xs text-slate-700 font-bold bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 truncate max-w-[120px]">${currentUser.email}</span>
+        
+        <button id="btn-logout" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs px-2.5 py-1.5 rounded-lg transition border border-rose-200 shrink-0 flex items-center gap-1">
+          <i class="fa-solid fa-right-from-bracket sm:hidden"></i>
+          <span class="hidden sm:inline">Logout</span>
+        </button>
+      `;
+
+      document.getElementById('btn-logout').addEventListener('click', logout);
+      initNotifDropdownListeners();
+
+      await loadUsersList();
+      await loadVideoTutorialsSection();
+      
+if (currentUser) {
+  evaluateAndUpdateDesignerLevel(currentUser.id);
+}
+      const { data: profile } = await supabaseClient.from('profiles').select('role, level').eq('id', currentUser.id).single();
+      
+      if ((profile && profile.role === 'admin') || currentUser.email === 'meongtivi.official@gmail.com') {
+        isAdminUser = true;
+        document.getElementById('btn-tab-admin').classList.remove('hidden');
+        document.getElementById('btn-tab-designer-analytics').classList.remove('hidden');
+        
+        document.getElementById('txt-tab-claim').innerText = "Ikhtisar";
+        document.getElementById('icon-tab-claim').className = "fa-solid fa-chart-pie";
+
+        document.getElementById('txt-tab-dashboard').innerText = "Kelola Stok Tema";
+        document.getElementById('icon-tab-dashboard').className = "fa-solid fa-list-check";
+
+        switchTab('claim'); 
+        checkSupabaseUsage();
+        await loadAdminOverviewData();
+        await loadAdminThemesTable();
+        await loadAdminProjects();
+        fetchDesignerNotifications();
+        slipInitAdmin();
+        trInitAdmin();
+      } else {
+        isAdminUser = false;
+        document.getElementById('btn-tab-admin').classList.add('hidden');
+        document.getElementById('btn-tab-designer-analytics').classList.add('hidden');
+
+        document.getElementById('txt-tab-claim').innerText = "Klaim & Stock Tema";
+        document.getElementById('icon-tab-claim').className = "fa-solid fa-boxes-stacked";
+
+        document.getElementById('txt-tab-dashboard').innerText = "Dashboard Saya";
+        document.getElementById('icon-tab-dashboard').className = "fa-solid fa-chart-line";
+
+        switchTab('claim');
+        loadUserDashboardData();
+        fetchDesignerNotifications();
+        slipInitDesigner();
+      }
+    }
+
+    async function logout() {
+      if (heartbeatInterval) clearInterval(heartbeatInterval);
+      if (watchProgressInterval) clearInterval(watchProgressInterval);
+      await supabaseClient.auth.signOut();
+      window.location.reload();
+    }
+
+    function listenRealtimeThemes() {
+      supabaseClient
+        .channel('public:themes_stock')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'themes_stock' }, () => {
+          loadThemes();
+          if (isAdminUser) {
+            loadAdminOverviewData();
+            loadAdminThemesTable();
+          }
+        })
+        .subscribe();
+
+      supabaseClient
+        .channel('public:notifications')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, (payload) => {
+          if (payload.new && currentUser && payload.new.user_id === currentUser.id) {
+            playNotifSound();
+            fetchDesignerNotifications();
+          }
+        })
+        .subscribe();
+
+      supabaseClient
+        .channel('public:tutorial_videos')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'tutorial_videos' }, () => {
+          loadVideoTutorialsSection();
+        })
+        .subscribe();
+
+      supabaseClient
+        .channel('public:profiles')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async (payload) => {
+          if (payload.new) {
+            userLastSeenMap[payload.new.id] = payload.new.last_seen;
+            if (currentUser && payload.new.id === currentUser.id && Array.isArray(payload.new.read_notifs)) {
+              localStorage.setItem(`read_notifs_${currentUser.id}`, JSON.stringify(payload.new.read_notifs));
+              fetchDesignerNotifications();
+            }
+          }
+          scheduleAdminPresenceRefresh();
+        })
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, async () => {
+          await loadUsersList();
+          if (isAdminUser) await renderOverviewDesignersTable();
+        })
+        .subscribe();
+
+      
+
+    supabaseClient
+        .channel('realtime-icon-projects-main')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'icon_projects' }, (payload) => {
+          // 1. Bunyikan notifikasi untuk Desainer jika proyek miliknya di-Approve / Reject oleh Admin
+          if (payload.eventType === 'UPDATE' && currentUser && !isAdminUser && payload.new.designer_id === currentUser.id) {
+            if (payload.new.status_admin === 'Approved' || payload.new.status_admin === 'Rejected') {
+              playNotifSound();
+            }
+          }
+
+          // 2. Bunyikan notifikasi untuk Admin jika ada klaim baru (INSERT) atau desainer upload/kirim laporan (UPDATE)
+          if (currentUser && isAdminUser) {
+            if (payload.eventType === 'INSERT') {
+              playNotifSound();
+            } else if (payload.eventType === 'UPDATE' && ['Uploaded', 'Submitted', 'Revised'].includes(payload.new.status_admin)) {
+              playNotifSound();
+            }
+          }
+
+          // 3. Debounce update UI (menahan rentetan event agar hanya render 1x dengan mulus)
+          clearTimeout(realtimeSyncTimer);
+          realtimeSyncTimer = setTimeout(() => {
+            if (isAdminUser) {
+              if (!isEditingAdminTable && !adminTabelSedangDiketik()) {
+                loadAdminProjects(true);
+              }
+              const overviewView = document.getElementById('view-claim-admin');
+              if (overviewView && !overviewView.classList.contains('hidden')) {
+                loadAdminOverviewData();
+              }
+              const analyticsView = document.getElementById('view-designer-analytics');
+              if (analyticsView && !analyticsView.classList.contains('hidden')) {
+                loadDesignerAnalyticsData();
+              }
+            } else {
+              loadThemes();
+              loadUserDashboardData(true);
+            }
+
+            fetchDesignerNotifications();
+
+            if (!document.getElementById('modal-slip-gaji').classList.contains('hidden')) {
+              calculateSalaryForSelectedUser();
+            }
+          }, 400);
+        })
+        .subscribe();
+    }
+
+    // Gabungkan rentetan event heartbeat (tiap user tiap 30 detik) menjadi 1x render per 3 detik
+    function scheduleAdminPresenceRefresh() {
+      if (!isAdminUser) return;
+      if (adminPresenceTimer) return;
+      adminPresenceTimer = setTimeout(() => {
+        adminPresenceTimer = null;
+        if (document.hidden) return;
+        const overviewView = document.getElementById('view-claim-admin');
+        if (overviewView && !overviewView.classList.contains('hidden')) renderOverviewDesignersTable();
+        const adminView = document.getElementById('view-admin');
+        if (adminView && !adminView.classList.contains('hidden')) renderAdminProjectsTable();
+      }, 3000);
+    }
+
+    // Sinkronisasi ringan hanya saat tab browser kembali dibuka setelah ditinggal
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && currentUser && !isEditingAdminTable) {
+        if (isAdminUser) {
+          loadAdminProjects(true);
+        } else {
+          loadThemes();
+          loadUserDashboardData(true);
+        }
+      }
+    });
+
+    let prevUnreadCount = 0;
+
+    async function fetchDesignerNotifications() {
+      if (!currentUser) return;
+
+      const storageKey = `read_notifs_${currentUser.id}`;
+      let localReadIds = JSON.parse(localStorage.getItem(storageKey) || '[]').map(id => String(id));
+
+      // Ambil daftar notifikasi yang sudah dibuka dari device mana pun (Supabase)
+      let dbReadIds = [];
+      try {
+        const { data: profData } = await supabaseClient
+          .from('profiles')
+          .select('read_notifs')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+        if (profData && Array.isArray(profData.read_notifs)) {
+          dbReadIds = profData.read_notifs.map(id => String(id));
+        }
+      } catch (e) {
+        console.warn("Gagal sinkronisasi read_notifs:", e.message);
+      }
+
+      const readSet = new Set([...localReadIds, ...dbReadIds]);
+      localStorage.setItem(storageKey, JSON.stringify([...readSet]));
+
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+      let unreadEvents = [];
+
+      try {
+        const { data: dbNotifs } = await supabaseClient
+          .from('notifications')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .eq('is_read', false)
+          .order('created_at', { ascending: false });
+
+        if (dbNotifs && dbNotifs.length > 0) {
+          dbNotifs.forEach(n => {
+            const key = `db_notif_${n.id}`;
+            if (!readSet.has(key)) {
+              const notifTime = n.created_at || new Date().toISOString();
+              const formattedCanvaTs = formatNotifUploadTime(notifTime);
+              unreadEvents.push({
+                eventKey: key,
+                dbId: n.id,
+                projectId: n.project_id || '',
+                title: n.title || 'Pemberitahuan Baru',
+                sub: n.message || '',
+                time: notifTime,
+                customTime: formattedCanvaTs,
+                iconClass: 'fa-bell text-blue-600'
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Gagal mengambil notifikasi database:", err.message);
+      }
+
+      if (isAdminUser) {
+        const { data: projects } = await supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .or(`created_at.gte.${twentyFourHoursAgo},updated_at.gte.${twentyFourHoursAgo}`)
+          .order('updated_at', { ascending: false });
+
+        if (projects) {
+          projects.forEach(p => {
+            // 1. Notifikasi Desainer Klaim Tema Baru
+            if (p.created_at && new Date(p.created_at) >= new Date(twentyFourHoursAgo)) {
+              const key = `claim_${p.id}`;
+              if (!readSet.has(key)) {
+                unreadEvents.push({
+                  eventKey: key,
+                  projectId: p.id,
+                  title: `${userProfilesMap[p.designer_id] || 'Desainer'} baru saja mengklaim ${p.jumlah_icon} Icon ${p.kategori}`,
+                  sub: '',
+                  time: p.created_at,
+                  customTime: formatNotifUploadTime(p.created_at),
+                  iconClass: 'fa-circle-plus text-blue-600 bg-blue-50'
+                });
+              }
+            }
+
+            // 2. Notifikasi Desainer Klik "Sudah Upload" & Berhasil Verifikasi Drive
+            if (p.canva_submitted_at && new Date(p.canva_submitted_at) >= new Date(twentyFourHoursAgo)) {
+              const keyDrive = `drive_upload_${p.id}_${new Date(p.canva_submitted_at).getTime()}`;
+              const namaDesainer = userProfilesMap[p.designer_id] || 'Desainer';
+              const isRevisi = (Number(p.rejected_count) > 0 || (p.catatan_admin && p.catatan_admin.trim() !== ''));
+              if (!readSet.has(keyDrive)) {
+                unreadEvents.push({
+                  eventKey: keyDrive,
+                  projectId: p.id,
+                  title: isRevisi
+                    ? `${namaDesainer} berhasil merevisi ${p.jumlah_icon} ${p.kategori}`
+                    : `${namaDesainer} berhasil mengupload ${p.jumlah_icon} ${p.kategori}`,
+                  sub: isRevisi
+                    ? 'Status: File Revisi Terverifikasi di Google Drive'
+                    : 'Status: Berhasil Verifikasi Google Drive',
+                  time: p.canva_submitted_at,
+                  customTime: formatNotifUploadTime(p.canva_submitted_at),
+                  iconClass: 'fa-check-double text-teal-600 bg-teal-50'
+                });
+              }
+            }
+
+            // 3. Notifikasi Desainer Klik "Kirim Laporan" ke Grup Telegram
+            if (p.status_admin === 'Submitted' && p.updated_at && new Date(p.updated_at) >= new Date(twentyFourHoursAgo)) {
+              const keyReport = `telegram_report_${p.id}`;
+              const namaDesainer = userProfilesMap[p.designer_id] || 'Desainer';
+              if (!readSet.has(keyReport)) {
+                unreadEvents.push({
+                  eventKey: keyReport,
+                  projectId: p.id,
+                  title: `${namaDesainer} telah mengirim laporan ${p.jumlah_icon} ${p.kategori} ke Grup Telegram KEKAL Studio`,
+                  sub: 'Status: Laporan Terkirim',
+                  time: p.updated_at,
+                  customTime: formatNotifUploadTime(p.updated_at),
+                  iconClass: 'fa-paper-plane text-indigo-600 bg-indigo-50'
+                });
+              }
+            }
+
+            // 4. Notifikasi Desainer Klik Upload Canva
+            if (p.canva_uploaded_info && p.updated_at && new Date(p.updated_at) >= new Date(twentyFourHoursAgo)) {
+              const uploadTime = p.updated_at;
+              const keyCanva = `canva_upload_${p.id}`;
+              const parsedUploader = p.canva_uploaded_info.includes(' oleh ')
+                ? p.canva_uploaded_info.split(' oleh ')[1].trim()
+                : (userProfilesMap[p.uploader_id || p.designer_id] || 'Desainer');
+
+              if (!readSet.has(keyCanva)) {
+                unreadEvents.push({
+                  eventKey: keyCanva,
+                  projectId: p.id,
+                  title: `(${p.jumlah_icon}) Icon ${p.kategori} berhasil diupload oleh ${parsedUploader}`,
+                  sub: `Status: Selesai Upload Canva`,
+                  time: uploadTime,
+                  customTime: formatNotifUploadTime(uploadTime),
+                  iconClass: 'fa-cloud-arrow-up text-emerald-600 bg-emerald-50'
+                });
+              }
+            }
+          });
+        }
+
+        const now = new Date();
+        if (projects) {
+          projects.forEach(p => {
+            let isExp = false;
+            if (p.deadline_drive && new Date(p.deadline_drive) < now) isExp = true;
+            
+            if (isExp && !p.canva_submitted_at && p.status_admin !== 'Approved') {
+              const dName = userProfilesMap[p.designer_id] || 'Desainer';
+              const keyExp = `expired_${p.id}`;
+              if (!readSet.has(keyExp)) {
+                unreadEvents.push({
+                  eventKey: keyExp,
+                  projectId: p.id,
+                  title: `⚠️ Klaim Expired: ${dName}`,
+                  sub: `Tema "${p.kategori}" (${p.jumlah_icon} Icon) telah habis waktu pengerjaannya.`,
+                  time: p.deadline_drive || p.created_at,
+                  iconClass: 'fa-triangle-exclamation text-rose-500 bg-rose-50'
+                });
+              }
+            }
+          });
+        }
+      } else {
+        const { data: projects } = await supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .eq('designer_id', currentUser.id)
+          .in('status_admin', ['Approved', 'Rejected'])
+          .gte('updated_at', twentyFourHoursAgo)
+          .order('updated_at', { ascending: false });
+
+        if (projects) {
+          projects.forEach(p => {
+            const isApproved = p.status_admin === 'Approved';
+            const eventTime = p.updated_at || p.created_at;
+            // Gunakan key stabil tanpa timestamp agar tidak muncul ulang saat updated_at berubah
+            const key = isApproved
+              ? `status_${p.id}_Approved`
+              : `status_${p.id}_Rejected_${new Date(eventTime).getTime()}`;
+
+            if (!readSet.has(key)) {
+              unreadEvents.push({
+                eventKey: key,
+                projectId: p.id,
+                title: isApproved 
+                  ? `Tema "${p.kategori}" sebanyak ${p.jumlah_icon} icon telah disetujui! 🎉` 
+                  : `Tema "${p.kategori}" sebanyak ${p.jumlah_icon} icon membutuhkan perbaikan`,
+                sub: isApproved 
+                  ? `Selamat! Desain Anda telah disetujui Admin. Silakan segera upload ke Canva.` 
+                  : `Catatan Admin: ${p.catatan_admin || 'Mohon cek dan perbaiki file di Drive.'}`,
+                time: eventTime,
+                customTime: formatNotifUploadTime(eventTime),
+                iconClass: isApproved ? 'fa-circle-check text-emerald-500' : 'fa-circle-xmark text-rose-500'  
+              });
+            }
+          });
+        }
+      }
+
+		unreadEvents.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+      const badgeEl = document.getElementById('notif-badge-count');
+      const container = document.getElementById('notif-items-container');
+      const unreadCount = unreadEvents.length;
+
+      if (unreadCount > prevUnreadCount) {
+        playNotifSound();
+      }
+      prevUnreadCount = unreadCount;
+
+      if (badgeEl) {
+        if (unreadCount > 0) {
+          badgeEl.innerText = unreadCount >= 100 ? '99+' : unreadCount;
+          badgeEl.classList.remove('hidden');
+        } else {
+          badgeEl.classList.add('hidden');
+        }
+      }
+
+      if (container) {
+        if (unreadCount === 0) {
+          container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Tidak ada pemberitahuan baru (24 Jam Terakhir).</div>`;
+          return;
+        }
+
+        container.innerHTML = unreadEvents.map(item => `
+          <div id="notif-item-${esc(item.eventKey)}" onclick="clickNotifEvent(${jsArg(item.eventKey)}, ${jsArg(item.projectId || '')}, ${jsArg(item.dbId || '')})" class="p-3 bg-blue-50/40 hover:bg-blue-50 transition cursor-pointer flex items-start gap-2.5 border-b border-slate-100 last:border-none">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm bg-slate-100">
+              <i class="fa-solid ${item.iconClass}"></i>
+            </div>
+            <div class="flex-1 space-y-0.5">
+              <h5 class="text-[11px] font-bold text-slate-800 leading-tight">${esc(item.title)}</h5>
+              <p class="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">${esc(item.sub)}</p>
+              <span class="text-[9px] text-slate-400 font-semibold block pt-0.5">
+                <i class="fa-regular fa-clock text-[8px] mr-1"></i>${item.customTime || formatFullDateTime(item.time)}
+              </span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-rose-600 shrink-0 mt-1"></span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function initNotifDropdownListeners() {
+      const btnBell = document.getElementById('btn-notif-bell');
+      const dropdown = document.getElementById('notif-dropdown-menu');
+      const btnMarkRead = document.getElementById('btn-mark-all-read');
+
+      if (btnBell && dropdown) {
+        btnBell.onclick = (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle('hidden');
+        };
+        // Pasang listener klik-di-luar cukup sekali (sebelumnya terpasang ganda)
+        if (!notifOutsideClickBound) {
+          notifOutsideClickBound = true;
+          document.addEventListener('click', (e) => {
+            const dd = document.getElementById('notif-dropdown-menu');
+            const bell = document.getElementById('btn-notif-bell');
+            if (dd && bell && !dd.contains(e.target) && !bell.contains(e.target)) {
+              dd.classList.add('hidden');
+            }
+          });
+        }
+      }
+
+      if (btnMarkRead) {
+        btnMarkRead.onclick = () => { markAllNotifsAsRead(); };
+      }
+    }
+
+    async function clickNotifEvent(eventKey, projId, dbId) {
+      const dropdown = document.getElementById('notif-dropdown-menu');
+      if (dropdown) dropdown.classList.add('hidden');
+
+      await markSingleNotifAsRead(eventKey);
+
+      if (dbId) {
+        await supabaseClient.from('notifications').update({ is_read: true }).eq('id', dbId);
+      }
+
+      if (!isAdminUser) {
+        switchTab('my-dashboard');
+        await loadUserDashboardData();
+        if (projId) scrollToProjectRow(projId);
+      } else {
+        switchTab('admin');
+        await loadAdminProjects();
+      }
+    }
+
+    function scrollToProjectRow(projId) {
+      setTimeout(() => {
+        const targetRow = document.getElementById(`user-row-${projId}`);
+        if (targetRow) {
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetRow.classList.add('animate-highlight-target');
+          setTimeout(() => { targetRow.classList.remove('animate-highlight-target'); }, 2500);
+        }
+      }, 300);
+    }
+
+    async function saveReadNotifsToSupabase(readIdsArray) {
+      if (!currentUser) return;
+      const trimmedIds = readIdsArray.slice(-250);
+      localStorage.setItem(`read_notifs_${currentUser.id}`, JSON.stringify(trimmedIds));
+      try {
+        await supabaseClient
+          .from('profiles')
+          .update({ read_notifs: trimmedIds })
+          .eq('id', currentUser.id);
+      } catch (err) {
+        console.warn("Gagal menyimpan read_notifs ke Supabase:", err.message);
+      }
+    }
+
+    async function markSingleNotifAsRead(eventKey) {
+      if (!currentUser) return;
+      const storageKey = `read_notifs_${currentUser.id}`;
+      let readIds = JSON.parse(localStorage.getItem(storageKey) || '[]').map(id => String(id));
+      const strKey = String(eventKey);
+
+      // Simpan langsung ke localStorage & hapus item dari UI seketika (Optimistic UI)
+      if (!readIds.includes(strKey)) {
+        readIds.push(strKey);
+        localStorage.setItem(storageKey, JSON.stringify(readIds.slice(-250)));
+      }
+
+      const itemEl = document.getElementById(`notif-item-${strKey}`);
+      if (itemEl) itemEl.remove();
+
+      const remainingItems = document.querySelectorAll('#notif-items-container [id^="notif-item-"]').length;
+      const badgeEl = document.getElementById('notif-badge-count');
+      if (badgeEl) {
+        if (remainingItems > 0) {
+          badgeEl.innerText = remainingItems >= 100 ? '99+' : remainingItems;
+        } else {
+          badgeEl.classList.add('hidden');
+          const container = document.getElementById('notif-items-container');
+          if (container) {
+            container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Tidak ada pemberitahuan baru (24 Jam Terakhir).</div>`;
+          }
+        }
+      }
+      prevUnreadCount = remainingItems;
+
+      await saveReadNotifsToSupabase(readIds);
+      await fetchDesignerNotifications();
+    }
+
+    async function markAllNotifsAsRead() {
+      if (!currentUser) return;
+      const storageKey = `read_notifs_${currentUser.id}`;
+      let readIds = JSON.parse(localStorage.getItem(storageKey) || '[]').map(id => String(id));
+      
+      const notifItems = document.querySelectorAll('#notif-items-container [id^="notif-item-"]');
+      notifItems.forEach(item => {
+        const key = item.id.replace('notif-item-', '');
+        if (!readIds.includes(key)) readIds.push(key);
+      });
+
+      // Kosongkan badge & daftar notifikasi seketika
+      localStorage.setItem(storageKey, JSON.stringify(readIds.slice(-250)));
+      const badgeEl = document.getElementById('notif-badge-count');
+      if (badgeEl) badgeEl.classList.add('hidden');
+      const container = document.getElementById('notif-items-container');
+      if (container) {
+        container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Tidak ada pemberitahuan baru (24 Jam Terakhir).</div>`;
+      }
+      prevUnreadCount = 0;
+
+      await saveReadNotifsToSupabase(readIds);
+      await fetchDesignerNotifications();
+    }
+    /* ---------- Jeda klaim ulang tema yang sama ---------- */
+    // Desainer yang baru menyelesaikan (Approved) sebuah tema tidak boleh mengklaim tema yang sama
+    // sebelum diselingi desainer lain, atau sebelum lewat CLAIM_COOLDOWN_MS sejak di-Approve.
+    const CLAIM_COOLDOWN_MS = 3 * 24 * 60 * 60 * 1000;
+    const CLAIM_DAY_NAMES = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    let claimCooldownMap = {};
+    let claimCooldownTimer = null;
+    let claimCooldownReloading = false;
+
+    /** { kategori: Date kapan boleh klaim lagi } untuk desainer yang sedang login. */
+    async function getClaimCooldowns() {
+      const out = {};
+      if (!currentUser) return out;
+      try {
+        const { data: mine, error } = await supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .eq('designer_id', currentUser.id)
+          .order('created_at', { ascending: false })
+          .limit(300);
+        if (error || !mine) return out;
+
+        // Klaim terakhir saya per tema, yang sudah Approved dan masih dalam masa jeda
+        const now = Date.now();
+        const latest = {};
+        mine.forEach(p => { if (p.kategori && !latest[p.kategori]) latest[p.kategori] = p; });
+        const locked = {};
+        Object.values(latest).forEach(p => {
+          if (p.status_admin !== 'Approved') return;
+          const approvedAt = new Date(p.approved_at || p.updated_at || p.created_at).getTime();
+          if (!isFinite(approvedAt)) return;
+          const unlock = approvedAt + CLAIM_COOLDOWN_MS;
+          if (unlock > now) locked[p.kategori] = { since: p.created_at, unlock };
+        });
+        const names = Object.keys(locked);
+        if (!names.length) return out;
+
+        // Sudah diselingi desainer lain setelah klaim saya? → kunci dibuka
+        const oldest = names.map(k => locked[k].since).filter(Boolean).sort()[0];
+        let others = [];
+        if (oldest) {
+          const { data: rows } = await supabaseClient
+            .from('icon_projects')
+            .select('kategori, designer_id, created_at')
+            .in('kategori', names)
+            .neq('designer_id', currentUser.id)
+            .gt('created_at', oldest);
+          others = rows || [];
+        }
+        names.forEach(k => {
+          const since = new Date(locked[k].since).getTime();
+          const interleaved = others.some(r => r.kategori === k && new Date(r.created_at).getTime() > since);
+          if (!interleaved) out[k] = new Date(locked[k].unlock);
+        });
+      } catch (e) {
+        console.error('Gagal memeriksa jeda klaim:', e);
+      }
+      return out;
+    }
+
+    /** "Senin, 23-11-2026 pukul 14:05:10" */
+    function formatClaimUnlock(d) {
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${CLAIM_DAY_NAMES[d.getDay()]}, ${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()} pukul ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    /** "2h 03j 12m 05d" (hari, jam, menit, detik) */
+    function formatClaimCountdown(ms) {
+      const t = Math.max(0, Math.ceil(ms / 1000));
+      const d = Math.floor(t / 86400), h = Math.floor(t % 86400 / 3600), m = Math.floor(t % 3600 / 60), s = t % 60;
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d ? d + 'h ' : ''}${pad(h)}j ${pad(m)}m ${pad(s)}d`;
+    }
+
+    /** Pesan jeda + hitung mundur yang berjalan selama dialog terbuka. */
+    function showClaimCooldownAlert(kategori, unlock) {
+      const title = 'Tema Sedang Jeda';
+      const text = () => {
+        const ms = unlock.getTime() - Date.now();
+        return `Anda baru saja menyelesaikan tema "${kategori}". Agar tema ini bergiliran dengan desainer lain, Anda boleh mengklaim tema ${kategori} pada hari ${formatClaimUnlock(unlock)}, atau lebih cepat jika desainer lain mengklaim tema ini lebih dulu.\n\nSisa waktu: ${ms > 0 ? formatClaimCountdown(ms) : 'sudah bisa diklaim, silakan pilih tema ini lagi.'}`;
+      };
+      const done = showModalAlert(title, text(), 'warning');
+      const dialog = document.getElementById('modal-custom-dialog');
+      const titleEl = document.getElementById('dialog-title');
+      const msgEl = document.getElementById('dialog-message');
+      const timer = setInterval(() => {
+        if (dialog.classList.contains('hidden') || titleEl.innerText !== title) return clearInterval(timer);
+        msgEl.innerText = text();
+      }, 1000);
+      return done.then((r) => { clearInterval(timer); return r; });
+    }
+
+    /** Hitung mundur di kartu tema; saat habis, daftar tema dimuat ulang. */
+    function startClaimCooldownTicker() {
+      if (claimCooldownTimer) return;
+      claimCooldownTimer = setInterval(() => {
+        let expired = false;
+        document.querySelectorAll('[data-claim-unlock]').forEach(el => {
+          const ms = Number(el.dataset.claimUnlock) - Date.now();
+          if (ms <= 0) { expired = true; return; }
+          const txt = el.querySelector('.claim-cd-text');
+          if (txt) txt.textContent = formatClaimCountdown(ms);
+        });
+        if (expired && !claimCooldownReloading) {
+          claimCooldownReloading = true;
+          Promise.resolve(loadThemes()).finally(() => { claimCooldownReloading = false; });
+        }
+      }, 1000);
+    }
+
+   async function loadThemes() {
+      try {
+        const { data: themes, error } = await supabaseClient.from('themes_stock').select('*');
+        const grid = document.getElementById('theme-grid');
+        const loadMoreContainer = document.getElementById('theme-load-more-container');
+
+        if (error || !themes || themes.length === 0) {
+          grid.innerHTML = `<div class="col-span-1 sm:col-span-2 bg-white p-6 rounded-xl border border-slate-200 text-center text-xs text-slate-500">
+            Belum ada data stok tema di Supabase.
+          </div>`;
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        themesStockMap = {};
+        themes.forEach(t => { themesStockMap[t.kategori] = t; });
+
+        // Check apakah desainer login punya tugas aktif yang belum diklik "Sudah Upload"
+       // Check apakah desainer login punya tugas aktif yang belum selesai (Belum disetujui / belum dikonfirmasi upload)
+// Cek apakah desainer login masih memiliki desain yang statusnya BELUM "Approved"
+let hasActiveUnfinished = false;
+if (currentUser) {
+  const { data: activeUnfinishedList } = await supabaseClient
+    .from('icon_projects')
+    .select('id, status_admin')
+    .eq('designer_id', currentUser.id)
+    .neq('status_admin', 'Approved')
+    .limit(1);
+
+  hasActiveUnfinished = activeUnfinishedList && activeUnfinishedList.length > 0;
+}
+claimCooldownMap = currentUser ? await getClaimCooldowns() : {};
+if (Object.keys(claimCooldownMap).length) startClaimCooldownTicker();
+
+        // --- TAMBAHAN KODE BARU MULAI DI SINI ---
+        const activeThemesOnly = themes.filter(t => themeIsOpen(t));
+        if (activeThemesOnly.length === 0) {
+          grid.innerHTML = `<div class="col-span-1 sm:col-span-2 bg-white p-6 rounded-xl border border-slate-200 text-center text-xs text-slate-500">
+            Saat ini belum ada tema aktif yang tersedia.
+          </div>`;
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+        // --- TAMBAHAN KODE BARU SELESAI ---
+
+        let sortedThemes = activeThemesOnly.sort((a, b) => {
+          const kuotaA = Number(a.sisa_kuota) || 0;
+          const kuotaB = Number(b.sisa_kuota) || 0;
+
+          if (kuotaA === 0 && kuotaB > 0) return 1;
+          if (kuotaA > 0 && kuotaB === 0) return -1;
+          if (kuotaB !== kuotaA) return kuotaB - kuotaA;
+          return (b.id || 0) - (a.id || 0);
+        });
+
+        const visibleThemes = sortedThemes.slice(0, themeGridLimit);
+        if (loadMoreContainer) {
+          if (sortedThemes.length > themeGridLimit) {
+            loadMoreContainer.classList.remove('hidden');
+          } else {
+            loadMoreContainer.classList.add('hidden');
+          }
+        }
+
+        grid.innerHTML = visibleThemes.map(t => {
+          let badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-200";
+          let statusTxt = t.status_stok;
+
+          if (t.sisa_kuota <= 0 || t.status_stok === 'Habis') {
+            badgeColor = "bg-rose-50 text-rose-700 border-rose-200";
+            statusTxt = "Habis";
+          }
+
+          const targetUrl = t.sample_url && t.sample_url.trim() !== '' 
+            ? t.sample_url 
+            : generateFlaticonSearchUrl(t.kategori);
+
+          const sampleBtn = `
+            <a href="${safeUrl(targetUrl, 'https://www.flaticon.com')}" target="_blank" rel="noopener" onclick="event.stopPropagation();" class="text-[10px] text-blue-600 font-bold bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 flex items-center gap-1">
+              <i class="fa-solid fa-up-right-from-square"></i> Sample
+            </a>
+          `;
+
+          const toolTag = t.tool_desain ? `
+            <span class="text-[9px] bg-slate-100 text-slate-600 font-bold px-1.5 py-0.5 rounded border border-slate-200 flex items-center gap-1">
+              <i class="fa-solid fa-pen-ruler text-indigo-500"></i> ${esc(t.tool_desain)}
+            </span>
+          ` : '';
+
+          // Logika Tombol Klaim Berdasarkan Status Desainer & Stok
+          let claimActionBtn = '';
+          if (hasActiveUnfinished) {
+            claimActionBtn = `
+              <span class="text-slate-400 font-bold flex items-center gap-1 cursor-not-allowed text-[10px] bg-slate-100 px-2 py-0.5 rounded border border-slate-200" title="Selesaikan tugas sebelumnya terlebih dahulu">
+                <i class="fa-solid fa-lock text-slate-400"></i> Selesaikan Tugas Aktif
+              </span>`;
+          } else if (t.sisa_kuota <= 0 || t.status_stok === 'Habis') {
+            claimActionBtn = `
+              <span class="text-rose-500 font-bold flex items-center gap-1 cursor-not-allowed text-[10px]">
+                Stok Habis
+              </span>`;
+          } else if (claimCooldownMap[t.kategori]) {
+            const unlockAt = claimCooldownMap[t.kategori];
+            claimActionBtn = `
+              <span data-claim-unlock="${unlockAt.getTime()}" class="text-amber-700 font-bold flex items-center gap-1 cursor-not-allowed text-[10px] bg-amber-50 px-2 py-0.5 rounded border border-amber-200 whitespace-nowrap" title="${esc('Boleh diklaim lagi: ' + formatClaimUnlock(unlockAt) + ' (atau lebih cepat jika desainer lain mengklaim tema ini)')}">
+                <i class="fa-solid fa-hourglass-half"></i> Jeda <span class="claim-cd-text">${formatClaimCountdown(unlockAt.getTime() - Date.now())}</span>
+              </span>`;
+          } else {
+            claimActionBtn = `
+              <span class="text-blue-600 font-bold hover:underline flex items-center gap-1">
+                Klaim Tema <i class="fa-solid fa-chevron-right text-[9px]"></i>
+              </span>`;
+          }
+
+          return `
+            <div onclick="selectTheme(${jsArg(t.kategori)})" class="tokopedia-card p-3.5 sm:p-4 hover:border-blue-500 cursor-pointer transition space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <h4 class="text-xs font-bold text-slate-800 min-w-0 break-words">${esc(t.kategori)}</h4>
+                <span class="border px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap shrink-0 ${badgeColor}">${esc(statusTxt)} (${esc(t.sisa_kuota)} icon)</span>
+              </div>
+              <p class="text-[11px] text-slate-500 line-clamp-2">${esc(t.judul || 'Tidak ada judul')}</p>
+              
+              <div class="pt-1 flex items-center justify-between text-[11px]">
+                <div class="flex items-center gap-1">
+                  ${toolTag}
+                  ${sampleBtn}
+                </div>
+                ${claimActionBtn}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error("Error loadThemes:", err);
+      }
+    }
+
+ async function selectTheme(kategori) {
+      if (!currentUser) {
+        await showModalAlert("Akses Ditolak", "Silakan login terlebih dahulu untuk mengklaim tema.", "warning");
+        document.getElementById('modal-login').classList.remove('hidden');
+        return;
+      }
+
+      // 1. Validasi Syarat Menonton Video Tutorial Wajib
+      if (!isVideoRequirementMet && currentVideoList.length > 0) {
+        await showModalAlert(
+          "Syarat Klaim Belum Terpenuhi!", 
+          "Anda wajib menonton 1 video tutorial dari awal sampai akhir tanpa skip sebelum mengambil tema baru.", 
+          "warning"
+        );
+        switchTab('video-tutorials');
+        return;
+      }
+
+     // 2. Validasi Tugas Aktif yang Statusnya Belum Approved
+      const { data: activeUnfinished } = await supabaseClient
+        .from('icon_projects')
+        .select('id, status_admin')
+        .eq('designer_id', currentUser.id)
+        .neq('status_admin', 'Approved')
+        .limit(1);
+
+      if (activeUnfinished && activeUnfinished.length > 0) {
+        await showModalAlert(
+          "Pekerjaan Belum Selesai!",
+          "Anda masih memiliki desain yang berstatus Pending Review / dalam proses pengerjaan. Tunggu hingga status menjadi 'Approved' sebelum mengklaim tema baru.",
+          "warning"
+        );
+        return;
+      }
+
+      // 2b. Jeda klaim ulang tema yang sama (belum diselingi desainer lain & belum lewat 3 hari)
+      const cooldownNow = await getClaimCooldowns();
+      if (cooldownNow[kategori]) {
+        await showClaimCooldownAlert(kategori, cooldownNow[kategori]);
+        return;
+      }
+
+      // 3. Ambil Data Tema dari Supabase
+      const { data: theme } = await supabaseClient.from('themes_stock').select('*').eq('kategori', kategori).single();
+      if (!theme) return;
+		if (!themeIsOpen(theme)) {
+        await showModalAlert("Tema Nonaktif", "Tema ini sedang dinonaktifkan oleh Admin.", "warning");
+        return;
+      }
+      if (theme.sisa_kuota <= 0) {
+        await showModalAlert("Stok Habis", "Stok tema ini sudah tidak tersedia.", "warning");
+        return;
+      }
+
+      selectedThemeData = theme;
+      
+      const targetSampleUrl = (theme.sample_url && theme.sample_url.trim() !== '') 
+        ? theme.sample_url 
+        : generateFlaticonSearchUrl(theme.kategori);
+
+      const sampleLinkInfo = `
+        <div class="pt-1">
+          <a href="${safeUrl(targetSampleUrl, 'https://www.flaticon.com')}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+            <i class="fa-solid fa-up-right-from-square"></i> Lihat Sample Desain Icon
+          </a>
+        </div>
+      `;
+
+      const toolRequired = theme.tool_desain || 'Bebas (Wajib Rapi)';
+
+      document.getElementById('selected-theme-info').innerHTML = `
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-800 text-xs">${esc(theme.kategori)}</span>
+            <span class="text-emerald-600 font-bold text-[10px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 whitespace-nowrap">Sisa ${esc(theme.sisa_kuota)} Icon</span>
+          </div>
+          <div class="text-[11px] bg-indigo-50 border border-indigo-200 text-indigo-900 p-2 rounded-lg font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-screwdriver-wrench text-indigo-600"></i> Tool Ketentuan Admin: <span class="text-indigo-700 underline">${esc(toolRequired)}</span>
+          </div>
+          ${sampleLinkInfo}
+        </div>
+      `;
+
+      // Set Tool Desain
+      const toolSelectEl = document.getElementById('input-tool-desain');
+      if (toolSelectEl) {
+        toolSelectEl.value = theme.tool_desain || 'Bebas (Wajib Rapi)';
+      }
+
+      // Deteksi & Kunci Jenis Icon Automatis
+      const jenisIconSelect = document.getElementById('input-jenis-icon');
+      const katLower = theme.kategori.toLowerCase();
+
+      if (katLower.includes('flat')) {
+        jenisIconSelect.value = 'flat';
+        jenisIconSelect.disabled = true;
+      } else if (katLower.includes('line')) {
+        jenisIconSelect.value = 'line';
+        jenisIconSelect.disabled = true;
+      } else if (katLower.includes('glyph')) {
+        jenisIconSelect.value = 'glyph';
+        jenisIconSelect.disabled = true;
+      } else {
+        jenisIconSelect.disabled = false;
+      }
+
+    
+     // Set Judul
+document.getElementById('txt-judul').innerText = theme.judul || '-';
+
+// Mengacak (Shuffle) Urutan Keyword setiap kali tema diklaim/dipilih
+let originalKeywordStr = theme.keyword || '-';
+if (originalKeywordStr !== '-') {
+  // Pisahkan string berdasarkan koma, hilangkan spasi berlebih di tiap kata kunci
+  let keywordArr = originalKeywordStr.split(',').map(k => k.trim()).filter(k => k !== '');
+  
+  // Acak urutannya
+  let shuffledArr = shuffleArray(keywordArr);
+  
+  // Gabungkan kembali dengan pemisah koma dan spasi ", "
+  document.getElementById('txt-keyword').innerText = shuffledArr.join(', ');
+} else {
+  document.getElementById('txt-keyword').innerText = '-';
+}
+      
+      const checkConfirm = document.getElementById('check-confirm-claim');
+      const checkQuality = document.getElementById('check-confirm-quality');
+      
+      if (checkConfirm) checkConfirm.checked = false;
+      if (checkQuality) checkQuality.checked = false;
+      
+      document.getElementById('btn-submit-claim').disabled = true;
+      document.getElementById('form-claim').classList.remove('hidden');
+      applyUploadTypeRule();
+
+      toggleIconTypeColorLogic();
+
+      const formContainer = document.getElementById('form-claim-container');
+      if (formContainer) {
+        formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    /* ---------- Aturan jasa desain & reward upload ke Canva ---------- */
+    // Berlaku untuk proyek yang DIKLAIM mulai tanggal ini (setelah gajian tanggal 28 November 2026).
+    // Sebelumnya: dibantu upload → jasa dipotong Rp250/icon; mandiri tanpa reward.
+    // Mulai tanggal ini: jasa penuh (Lvl 2: 750/450, Lvl 3: 2500/1500) + reward Rp250/icon
+    // untuk yang meng-upload ke Canva (pembantu, atau desainer sendiri jika mandiri).
+    const FEE_NEW_RULE_FROM = new Date('2026-11-29T00:00:00+07:00').getTime();
+    // Level 2 wajib dibantu upload desainer lain (false = upload mandiri dibuka lagi).
+    const LEVEL2_MUST_BE_HELPED = true;
+    const UPLOAD_REWARD_PER_ICON = 250;
+
+    function isNewFeeRule(p) {
+      const t = new Date(p && p.created_at).getTime();
+      return isFinite(t) && t >= FEE_NEW_RULE_FROM;
+    }
+
+    /** Tarif jasa desain per icon { app, rej } untuk proyek p. */
+    function designFeeRates(level, p) {
+      let app = (Number(level) === 3) ? 2500 : 750;
+      let rej = (Number(level) === 3) ? 1500 : 450;
+      const helped = p.uploader_id && p.uploader_id !== p.designer_id;
+      if (helped && !isNewFeeRule(p)) { app -= 250; rej -= 250; } // aturan lama
+      return { app, rej };
+    }
+
+    /** Siapa yang mendapat reward upload proyek p (id desainer) atau null. */
+    function uploadRewardOwner(p) {
+      if (p.uploader_id) return p.uploader_id;
+      return isNewFeeRule(p) ? p.designer_id : null;
+    }
+
+    /** Nilai reward upload proyek p (icon diterima + ditolak × Rp250). */
+    function uploadRewardOf(p) {
+      const total = Number(p.jumlah_icon) || 0;
+      const rej = Number(p.rejected_count) || 0;
+      const rev = Number(p.in_review_count) || 0;
+      const app = Math.max(0, total - (rej + rev));
+      return (app + rej) * UPLOAD_REWARD_PER_ICON;
+    }
+
+    function level2MustBeHelped(level) {
+      return LEVEL2_MUST_BE_HELPED && Number(level) === 2; // berlaku segera (pengumuman); tarif ikut FEE_NEW_RULE_FROM
+    }
+
+    async function getMyDesignerLevel() {
+      if (!currentUser) return 2;
+      try {
+        const { data } = await supabaseClient.from('profiles').select('level').eq('id', currentUser.id).maybeSingle();
+        if (data && data.level) { userLevelsMap[currentUser.id] = data.level; return Number(data.level); }
+      } catch (e) {}
+      return Number(userLevelsMap[currentUser.id] || 2);
+    }
+
+    /** Form klaim: Level 2 wajib "Dibantu Desainer Lain"; label pembantu sesuai aturan yang berlaku. */
+    async function applyUploadTypeRule() {
+      const sel = document.getElementById('input-upload-type');
+      if (!sel || !currentUser) return;
+      const label = document.getElementById('uploader-select-label');
+      if (label) label.textContent = 'Pilih Desainer Pembantu';
+      const must = level2MustBeHelped(await getMyDesignerLevel());
+      const opt = sel.querySelector('option[value="sendiri"]');
+      if (opt) {
+        opt.disabled = must;
+        opt.textContent = must ? 'Upload Sendiri (Mandiri) — tidak tersedia untuk Level 2' : 'Upload Sendiri (Mandiri)';
+      }
+      if (must) sel.value = 'bantuan';
+      let note = document.getElementById('upload-type-rule-note');
+      if (!note) {
+        note = document.createElement('p');
+        note.id = 'upload-type-rule-note';
+        note.className = 'text-[10px] text-amber-700 font-semibold mt-1';
+        note.textContent = 'Desainer Level 2 wajib dibantu upload ke Canva oleh desainer lain.';
+        sel.insertAdjacentElement('afterend', note);
+      }
+      note.classList.toggle('hidden', !must);
+      toggleUploaderSelect();
+    }
+
+    /* ---------- Kartu "Tema Aktif" di Overview admin ---------- */
+    const TEMA_AKTIF_MENIPIS = 10;     // ≤ angka ini → peringatan "Menipis"
+    const KUOTA_HAMPIR_HABIS = 12;     // sisa kuota ≤ angka ini (± 1 paket) → dihitung "hampir habis"
+
+    function isThemeActive(t) {
+      return (Number(t.sisa_kuota) || 0) > 0 && t.status_stok !== 'Habis' && themeIsOpen(t);
+    }
+
+    function renderActiveThemesCard(themes) {
+      const total = themes.length;
+      const aktif = themes.filter(isThemeActive);
+      const n = aktif.length;
+      const hampir = aktif.filter(t => (Number(t.sisa_kuota) || 0) <= KUOTA_HAMPIR_HABIS).length;
+      const lvl = n === 0 ? 'habis' : (n <= TEMA_AKTIF_MENIPIS ? 'menipis' : 'aman');
+      const look = {
+        aman: { color: '#059669', bar: '#10b981', badgeBg: '#ecfdf5', badgeTx: '#047857', label: 'Aman', border: '#e2e8f0' },
+        menipis: { color: '#d97706', bar: '#f59e0b', badgeBg: '#fffbeb', badgeTx: '#b45309', label: 'Menipis – segera tambah tema', border: '#fcd34d' },
+        habis: { color: '#e11d48', bar: '#f43f5e', badgeBg: '#fff1f2', badgeTx: '#be123c', label: 'Habis – tambah tema baru', border: '#fda4af' }
+      }[lvl];
+      const card = document.getElementById('ov-aktif-card');
+      if (!card) return;
+      card.style.borderColor = look.border;
+      const val = document.getElementById('ov-aktif');
+      val.style.color = look.color;
+      val.innerHTML = `${n} <span class="text-[10px] text-slate-400 font-normal">/ ${total} tema</span>`;
+      const badge = document.getElementById('ov-aktif-badge');
+      badge.textContent = look.label;
+      badge.style.background = look.badgeBg;
+      badge.style.color = look.badgeTx;
+      const bar = document.getElementById('ov-aktif-bar');
+      bar.style.width = (total ? Math.round(n / total * 100) : 0) + '%';
+      bar.style.background = look.bar;
+      document.getElementById('ov-aktif-note').innerHTML = hampir
+        ? `<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b"></i> <b>${hampir}</b> tema aktif hampir habis (sisa ≤ ${KUOTA_HAMPIR_HABIS} icon). ${total - n} tema sudah habis.`
+        : `${total - n} tema sudah habis. Tidak ada tema aktif yang hampir habis.`;
+      const btn = document.getElementById('btn-ov-aktif-lihat');
+      if (btn && !btn.dataset.bound) {
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', () => {
+          switchTab('my-dashboard');
+          setTimeout(() => {
+            const tb = document.getElementById('admin-themes-body');
+            if (tb) tb.closest('table')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 150);
+        });
+      }
+    }
+
+    async function loadAdminOverviewData() {
+      try {
+        const startDate = document.getElementById('overview-start-date').value;
+        const endDate = document.getElementById('overview-end-date').value;
+
+        if (!startDate || !endDate) return;
+
+        const startISO = new Date(startDate + "T00:00:00").toISOString();
+        const endISO = new Date(endDate + "T23:59:59").toISOString();
+
+        const { data: projects } = await supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .gte('created_at', startISO)
+          .lte('created_at', endISO);
+
+        const { data: themes } = await supabaseClient.from('themes_stock').select('*');
+
+        let totalApproved = 0;
+        let totalRejected = 0;
+        let totalInReview = 0;
+        let totalPengeluaran = 0;
+        let designerStats = {};
+
+        if (projects) {
+          projects.forEach(p => {
+            const total = Number(p.jumlah_icon) || 0;
+            const rej = Number(p.rejected_count) || 0;
+            const rev = Number(p.in_review_count) || 0;
+            const app = Math.max(0, total - (rej + rev));
+
+            totalApproved += app;
+            totalRejected += rej;
+            totalInReview += rev;
+
+            if (p.status_admin === 'Approved') {
+              const desainerLevel = userLevelsMap[p.designer_id] || 2;
+              
+              const { app: tarifApp, rej: tarifRej } = designFeeRates(desainerLevel, p);
+
+              const salaryThisProj = (app * tarifApp) + (rej * tarifRej);
+              totalPengeluaran += salaryThisProj;
+
+              if (!designerStats[p.designer_id]) designerStats[p.designer_id] = 0;
+              designerStats[p.designer_id] += app;
+            }
+
+            if (p.status_admin === 'Approved' && uploadRewardOwner(p)) {
+              totalPengeluaran += uploadRewardOf(p);
+            }
+          });
+
+          Object.keys(designerStats).forEach(dId => {
+            const count = designerStats[dId];
+            if (count >= 100 && count <= 199) totalPengeluaran += 50000;
+            else if (count >= 200 && count <= 299) totalPengeluaran += 120000;
+            else if (count >= 300) totalPengeluaran += 200000;
+          });
+        }
+
+        let totalSisaStok = 0;
+        if (themes) {
+          themes.forEach(t => totalSisaStok += (Number(t.sisa_kuota) || 0));
+        }
+
+        const totalDesainerAktif = Object.keys(userProfilesMap).length;
+
+        document.getElementById('ov-approved').innerHTML = `${totalApproved} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        document.getElementById('ov-rejected').innerHTML = `${totalRejected} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        document.getElementById('ov-review').innerHTML = `${totalInReview} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        document.getElementById('ov-desainer').innerHTML = `${totalDesainerAktif} <span class="text-[10px] text-slate-400 font-normal">orang</span>`;
+        document.getElementById('ov-tema').innerHTML = `${themes ? themes.length : 0} <span class="text-[10px] text-slate-400 font-normal">tema</span>`;
+        document.getElementById('ov-sisa-tema').innerHTML = `${totalSisaStok} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        renderActiveThemesCard(themes || []);
+        document.getElementById('ov-total-pengeluaran').innerText = `Rp ${totalPengeluaran.toLocaleString('id-ID')}`;
+
+        renderOverviewDesignersTable();
+      } catch (err) {
+        console.error("Error loadAdminOverviewData:", err);
+      }
+    }
+
+    async function loadDesignerAnalyticsData() {
+      const selectedDesignerId = document.getElementById('analytics-select-designer').value;
+      const startDate = document.getElementById('analytics-start-date').value;
+      const endDate = document.getElementById('analytics-end-date').value;
+
+      if (!selectedDesignerId) {
+        await showModalAlert("Peringatan", "Silakan pilih desainer terlebih dahulu.", "warning");
+        return;
+      }
+		await loadDesignerVideoProgressAnalytics(selectedDesignerId);
+      const startISO = new Date(startDate + "T00:00:00").toISOString();
+      const endISO = new Date(endDate + "T23:59:59").toISOString();
+
+      const { data: projects, error } = await supabaseClient
+        .from('icon_projects')
+        .select('*')
+        .eq('designer_id', selectedDesignerId)
+        .gte('created_at', startISO)
+        .lte('created_at', endISO);
+
+      const tbody = document.getElementById('analytics-table-body');
+
+      if (error || !projects || projects.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">Tidak ada data pengerjaan untuk desainer ini pada rentang tanggal tersebut.</td></tr>`;
+        document.getElementById('an-total-tema').innerHTML = `0 <span class="text-[10px] text-slate-400 font-normal">tema</span>`;
+        document.getElementById('an-total-icon').innerHTML = `0 <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        document.getElementById('an-approved').innerText = `0`;
+        document.getElementById('an-rejected').innerText = `0`;
+        document.getElementById('an-review').innerText = `0`;
+        document.getElementById('an-total-pendapatan').innerText = `Rp 0`;
+        document.getElementById('an-breakdown-pendapatan').innerText = `*Gaji + R1 + R2`;
+
+        analyticsProjectsData = [];
+        updateCheckedSummaryCards();
+        renderKinerjaChart([], []);
+        return;
+      }
+
+      const uniqueThemes = new Set(projects.map(p => p.kategori));
+      let totalTema = uniqueThemes.size;
+
+      let totalIcon = 0;
+      let totalApp = 0;
+      let totalRej = 0;
+      let totalRev = 0;
+      let hasilDesainRp = 0;
+
+      const designerLevel = userLevelsMap[selectedDesignerId] || 2;
+      let weeklyDataMap = {};
+
+      analyticsProjectsData = projects.map(p => {
+        const total = Number(p.jumlah_icon) || 0;
+        const rej = Number(p.rejected_count) || 0;
+        const rev = Number(p.in_review_count) || 0;
+        const app = Math.max(0, total - (rej + rev));
+
+        totalIcon += total;
+        totalApp += app;
+        totalRej += rej;
+        totalRev += rev;
+
+        if (p.status_admin === 'Approved') {
+          const { app: tarifApp, rej: tarifRej } = designFeeRates(designerLevel, p);
+
+          hasilDesainRp += (app * tarifApp) + (rej * tarifRej);
+        }
+
+        const d = new Date(p.created_at);
+        const day = d.getDay();
+        const diffToMonday = d.getDate() - day + (day === 0 ? -6 : 1);
+        const mondayObj = new Date(d.setDate(diffToMonday));
+        
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const weekLabel = `${monthNames[mondayObj.getMonth()]} ${mondayObj.getDate()}`;
+
+        if (!weeklyDataMap[weekLabel]) {
+          weeklyDataMap[weekLabel] = { totalIcon: 0, approvedIcon: 0 };
+        }
+        weeklyDataMap[weekLabel].totalIcon += total;
+        weeklyDataMap[weekLabel].approvedIcon += app;
+
+        return {
+          ...p,
+          approved_calc: app,
+          in_review_count: rev,
+          rejected_count: rej
+        };
+      });
+
+      let reward1 = 0;
+      const { data: helpUploads } = await supabaseClient
+        .from('icon_projects')
+        .select('*')
+        .or(`uploader_id.eq.${selectedDesignerId},designer_id.eq.${selectedDesignerId}`)
+        .eq('status_admin', 'Approved')
+        .gte('created_at', startISO)
+        .lte('created_at', endISO);
+
+      if (helpUploads) {
+        helpUploads.forEach(h => {
+          if (uploadRewardOwner(h) === selectedDesignerId) reward1 += uploadRewardOf(h);
+        });
+      }
+
+      let reward2 = 0;
+      if (totalApp >= 100 && totalApp <= 199) reward2 = 50000;
+      else if (totalApp >= 200 && totalApp <= 299) reward2 = 120000;
+      else if (totalApp >= 300) reward2 = 200000;
+
+      const totalPendapatan = hasilDesainRp + reward1 + reward2;
+
+      document.getElementById('an-total-tema').innerHTML = `${totalTema} <span class="text-[10px] text-slate-400 font-normal">tema</span>`;
+      document.getElementById('an-total-icon').innerHTML = `${totalIcon} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+      document.getElementById('an-approved').innerText = totalApp;
+      document.getElementById('an-rejected').innerText = totalRej;
+      document.getElementById('an-review').innerText = totalRev;
+      document.getElementById('an-total-pendapatan').innerText = `Rp ${totalPendapatan.toLocaleString('id-ID')}`;
+      document.getElementById('an-breakdown-pendapatan').innerText = `*Gaji: Rp ${hasilDesainRp.toLocaleString('id-ID')} | R1: Rp ${reward1.toLocaleString('id-ID')} | R2: Rp ${reward2.toLocaleString('id-ID')}`;
+
+      renderAnalyticsTable();
+
+      const chartLabels = Object.keys(weeklyDataMap);
+      const chartTotalData = chartLabels.map(lbl => weeklyDataMap[lbl].totalIcon);
+      const chartApprovedData = chartLabels.map(lbl => weeklyDataMap[lbl].approvedIcon);
+
+      renderKinerjaChart(chartLabels, chartTotalData, chartApprovedData);
+    }
+
+async function loadDesignerVideoProgressAnalytics(designerId) {
+      const usageTxt = document.getElementById('an-video-usage-text');
+      const progressBar = document.getElementById('an-video-progress-bar');
+      const percentTxt = document.getElementById('an-video-percentage');
+      const statusLabel = document.getElementById('an-video-status-label');
+
+      if (!usageTxt || !progressBar || !percentTxt || !statusLabel) return;
+
+      // Reset tampilan ke state memuat setiap kali filter diterapkan
+      usageTxt.innerText = 'Memuat...';
+      progressBar.style.width = '0%';
+      percentTxt.innerText = '0%';
+      statusLabel.innerText = 'Memeriksa progress...';
+
+      try {
+        const cleanDesignerId = String(designerId || '').trim();
+        const [
+          { data: videos, error: videoErr },
+          { data: progress, error: progErr }
+        ] = await Promise.all([
+          supabaseClient.from('tutorial_videos').select('id'),
+          supabaseClient
+            .from('user_video_progress')
+            .select('video_id, is_completed')
+            .eq('user_id', cleanDesignerId)
+            .eq('is_completed', true)
+        ]);
+
+        if (videoErr) throw videoErr;
+        if (progErr) console.warn('Warning baca user_video_progress:', progErr.message);
+
+        const totalVideos = videos ? videos.length : 0;
+        const validVideoIds = new Set(videos ? videos.map(v => String(v.id)) : []);
+        const completedCount = progress
+          ? new Set(
+              progress
+                .filter(p => validVideoIds.has(String(p.video_id)))
+                .map(p => String(p.video_id))
+            ).size
+          : 0;
+
+        const percent = totalVideos > 0 ? Math.min(100, Math.round((completedCount / totalVideos) * 100)) : 0;
+
+        usageTxt.innerText = `${completedCount} / ${totalVideos} Video`;
+        progressBar.style.width = `${percent}%`;
+        percentTxt.innerText = `${percent}%`;
+
+        if (totalVideos === 0) {
+          statusLabel.innerText = 'Belum ada modul video';
+          progressBar.className = 'bg-slate-400 h-2 rounded-full transition-all duration-500';
+          percentTxt.className = 'font-bold text-slate-500';
+        } else if (completedCount >= totalVideos) {
+          statusLabel.innerText = 'Tuntas Semua Video';
+          progressBar.className = 'bg-emerald-500 h-2 rounded-full transition-all duration-500';
+          percentTxt.className = 'font-bold text-emerald-600';
+        } else {
+          statusLabel.innerText = `Sisa ${totalVideos - completedCount} video lagi`;
+          progressBar.className = 'bg-purple-600 h-2 rounded-full transition-all duration-500';
+          percentTxt.className = 'font-bold text-purple-600';
+        }
+      } catch (err) {
+        console.error('Gagal memuat progress video desainer:', err);
+        usageTxt.innerText = 'Error';
+        statusLabel.innerText = 'Gagal memuat data';
+      }
+    }
+
+    function renderAnalyticsTable() {
+      const tbody = document.getElementById('analytics-table-body');
+      if (!tbody) return;
+
+      if (!analyticsProjectsData || analyticsProjectsData.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">Tidak ada data pengerjaan.</td></tr>`;
+        updateCheckedSummaryCards();
+        return;
+      }
+
+      let sortedData = sortArrayData([...analyticsProjectsData], analyticsSortCol, analyticsSortDir);
+      updateSortHeaderIcons('sort-icon-an', analyticsSortCol, analyticsSortDir, ['created_at', 'kategori', 'jumlah_icon', 'approved_calc', 'rejected_count', 'in_review_count', 'status_admin']);
+
+      const checkAllHeader = document.getElementById('check-all-analytics');
+      if (checkAllHeader) checkAllHeader.checked = false;
+
+      tbody.innerHTML = sortedData.map(p => {
+        const dateStr = formatFullDateTime(p.created_at);
+        const total = Number(p.jumlah_icon) || 0;
+        const app = Number(p.approved_calc) || 0;
+        const rej = Number(p.rejected_count) || 0;
+        const rev = Number(p.in_review_count) || 0;
+
+        let statusBadge = `<span class="bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-bold">Pending</span>`;
+        if (p.status_admin === 'Approved') {
+          statusBadge = `<span class="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded font-bold">Approved</span>`;
+        } else if (p.status_admin === 'Rejected') {
+          statusBadge = `<span class="bg-rose-50 text-rose-600 px-2 py-0.5 rounded font-bold">Rejected</span>`;
+        }
+
+        const toolBadge = p.tool_desain ? `<div class="text-[9px] text-indigo-600 font-semibold mt-0.5"><i class="fa-solid fa-pen-ruler"></i> ${esc(p.tool_desain)}</div>` : '';
+
+        return `
+          <tr class="hover:bg-indigo-50/30 transition">
+            <td class="p-3 text-center">
+              <input type="checkbox" class="an-row-checkbox w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer" 
+                data-total="${total}" data-approved="${app}" data-rejected="${rej}" data-review="${rev}" onclick="updateCheckedSummaryCards()"/>
+            </td>
+            <td class="p-3 text-slate-500 font-medium">${dateStr}</td>
+            <td class="p-3 font-bold text-indigo-700">
+              ${esc(p.kategori)}
+              ${toolBadge}
+            </td>
+            <td class="p-3 text-center font-bold">${total}</td>
+            <td class="p-3 text-center font-bold text-emerald-600">${app}</td>
+            <td class="p-3 text-center font-bold text-rose-600">${rej}</td>
+            <td class="p-3 text-center font-bold text-amber-500">${rev}</td>
+            <td class="p-3 text-center">${statusBadge}</td>
+          </tr>
+        `;
+      }).join('');
+
+      updateCheckedSummaryCards();
+    }
+
+    function toggleSelectAllAnalytics(masterCheck) {
+      const checkboxes = document.querySelectorAll('.an-row-checkbox');
+      checkboxes.forEach(cb => cb.checked = masterCheck.checked);
+      updateCheckedSummaryCards();
+    }
+
+    function updateCheckedSummaryCards() {
+      const checkedBoxes = document.querySelectorAll('.an-row-checkbox:checked');
+      
+      let sumTotal = 0;
+      let sumApproved = 0;
+      let sumRejected = 0;
+      let sumReview = 0;
+
+      checkedBoxes.forEach(cb => {
+        sumTotal += parseInt(cb.getAttribute('data-total')) || 0;
+        sumApproved += parseInt(cb.getAttribute('data-approved')) || 0;
+        sumRejected += parseInt(cb.getAttribute('data-rejected')) || 0;
+        sumReview += parseInt(cb.getAttribute('data-review')) || 0;
+      });
+
+      document.getElementById('cnt-checked-rows').innerText = checkedBoxes.length;
+      document.getElementById('cnt-total-icon').innerText = sumTotal;
+      document.getElementById('cnt-approved').innerText = sumApproved;
+      document.getElementById('cnt-rejected').innerText = sumRejected;
+      document.getElementById('cnt-review').innerText = sumReview;
+    }
+
+    function renderKinerjaChart(labels, totalData, approvedData) {
+      const ctx = document.getElementById('chartKinerejaPekanan').getContext('2d');
+
+      if (kinerjaChartInstance) {
+        kinerjaChartInstance.destroy();
+      }
+
+      kinerjaChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              type: 'line',
+              label: 'Approved Icon',
+              data: approvedData,
+              borderColor: '#ff3b30',
+              borderWidth: 2,
+              pointBackgroundColor: '#ffffff',
+              pointBorderColor: '#ff3b30',
+              pointRadius: 4,
+              tension: 0.2,
+              yAxisID: 'y'
+            },
+            {
+              type: 'bar',
+              label: 'Total Icon Dibuat',
+              data: totalData,
+              backgroundColor: '#2563eb',
+              borderRadius: 4,
+              barPercentage: 0.5,
+              yAxisID: 'y'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top' }
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } }
+          }
+        }
+      });
+    }
+
+    async function renderOverviewDesignersTable() {
+      try {
+        const { data: profiles } = await supabaseClient.from('profiles').select('*');
+        const tbody = document.getElementById('overview-designers-body');
+        const loadMoreContainer = document.getElementById('overview-designers-load-more-container');
+
+        if (!profiles || profiles.length === 0) {
+          tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="5">Belum ada desainer terdaftar.</td></tr>`;
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        let formattedProfiles = profiles.map(u => ({
+          ...u,
+          level: u.level || 2,
+          last_seen: u.last_seen || null,
+          email: u.email || userEmailsMap[u.id] || `${u.full_name.toLowerCase().replace(/\s+/g, '')}@gmail.com`
+        }));
+
+        formattedProfiles = sortArrayData(formattedProfiles, overviewSortCol, overviewSortDir);
+        updateSortHeaderIcons('sort-icon-overview', overviewSortCol, overviewSortDir, ['full_name', 'email', 'level', 'role']);
+
+        const visibleProfiles = formattedProfiles.slice(0, overviewDesignersTableLimit);
+        if (loadMoreContainer) {
+          if (formattedProfiles.length > overviewDesignersTableLimit) {
+            loadMoreContainer.classList.remove('hidden');
+          } else {
+            loadMoreContainer.classList.add('hidden');
+          }
+        }
+
+        tbody.innerHTML = visibleProfiles.map(u => {
+          let roleBadge = `<span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-bold text-[10px]">Desainer</span>`;
+          if (u.role === 'admin') {
+            roleBadge = `<span class="bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-bold text-[10px]">Manager</span>`;
+          }
+
+          let levelBadge = u.level === 3 
+            ? `<span class="inline-block whitespace-nowrap bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Lvl 3</span>`
+            : `<span class="inline-block whitespace-nowrap bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Lvl 2</span>`;
+
+          const nowSecs = Math.floor(Date.now() / 1000);
+          const lastSeenSecs = u.last_seen ? Math.floor(new Date(u.last_seen).getTime() / 1000) : 0;
+          const isOnline = u.last_seen && (nowSecs - lastSeenSecs) < 120;
+
+          const onlineStatusBadge = isOnline 
+            ? `<span class="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online
+               </span>`
+            : `<span class="inline-flex items-center gap-1 text-[10px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> ${formatTimeAgo(u.last_seen)}
+               </span>`;
+
+          return `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="p-3 font-bold text-slate-800">
+                <div class="flex items-center gap-2">
+                  <span>${esc(u.full_name)}</span>
+                  ${onlineStatusBadge}
+                </div>
+              </td>
+              <td class="p-3 text-blue-600 text-[11px] font-semibold break-all">${esc(u.email)}</td>
+              <td class="p-3 text-center">${levelBadge}</td>
+              <td class="p-3 text-center">${roleBadge}</td>
+              <td class="p-3 text-center whitespace-nowrap">
+                <div class="flex items-center justify-center gap-1.5">
+                  ${u.role === 'admin' ? '' : `<button onclick="toggleBolehKlaim(${jsArg(u.id)}, ${u.boleh_klaim === false ? 'false' : 'true'})" class="${u.boleh_klaim === false ? 'bg-slate-200 hover:bg-slate-300 text-slate-500' : 'bg-blue-600 hover:bg-blue-700 text-white'} p-2 rounded text-[10px] font-bold shadow-sm flex items-center justify-center" title="${u.boleh_klaim === false ? 'Klaim tema nonaktif · klik untuk mengaktifkan' : 'Klaim tema aktif · klik untuk menonaktifkan'}">
+                    <i class="fa-solid ${u.boleh_klaim === false ? 'fa-user-slash' : 'fa-user-check'}"></i>
+                  </button>`}
+                  <button onclick="toggleCanHelpUpload(${jsArg(u.id)}, ${u.can_help_upload ? 'true' : 'false'})" class="${u.can_help_upload ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-500'} p-2 rounded text-[10px] font-bold shadow-sm flex items-center justify-center" title="${u.can_help_upload ? 'Boleh bantu upload (aktif) · klik untuk menonaktifkan' : 'Belum boleh bantu upload · klik untuk mengaktifkan'}">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                  </button>
+                  <button onclick="openEditUserModal(${jsArg(u.id)}, ${jsArg(u.full_name)}, ${jsArg(u.email)}, ${jsArg(u.role || 'designer')}, ${Number(u.level) || 2})" class="bg-amber-500 hover:bg-amber-600 text-white p-2 rounded text-[10px] font-bold shadow-sm flex items-center justify-center" title="Edit Profil">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button onclick="deleteUserProfile(${jsArg(u.id)}, ${jsArg(u.full_name)})" class="bg-rose-600 hover:bg-rose-700 text-white p-2 rounded text-[10px] font-bold shadow-sm flex items-center justify-center" title="Hapus">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error("Error renderOverviewDesignersTable:", err);
+      }
+    }
+
+    function openEditUserModal(id, fullName, email, role, level = 2) {
+      document.getElementById('edit-user-id').value = id;
+      document.getElementById('edit-fullname').value = fullName;
+      document.getElementById('edit-email').value = email;
+      document.getElementById('edit-role').value = role;
+      document.getElementById('edit-level').value = level;
+      document.getElementById('edit-password').value = '';
+
+      document.getElementById('modal-edit-user').classList.remove('hidden');
+      bukuIsiNipModal(id);
+    }
+
+    function openEditProjectModal(id, targetBelajar, toolDesain, jumlahIcon, uploaderId, designerId) {
+      document.getElementById('edit-proj-id').value = id;
+      document.getElementById('edit-proj-target').value = targetBelajar;
+      document.getElementById('edit-proj-tool').value = toolDesain || 'Figma';
+      document.getElementById('edit-proj-jumlah').value = jumlahIcon;
+
+      const selectUploader = document.getElementById('edit-proj-uploader-id');
+      if (selectUploader) {
+        let options = `<option value="">Upload Sendiri (Mandiri - Tidak Ada Pembantu)</option>`;
+        
+        Object.keys(userProfilesMap).forEach(dId => {
+          if (dId !== designerId) {
+            options += `<option value="${esc(dId)}">${esc(userProfilesMap[dId])}</option>`;
+          }
+        });
+
+        selectUploader.innerHTML = options;
+        selectUploader.value = uploaderId || '';
+      }
+
+      document.getElementById('modal-edit-project').classList.remove('hidden');
+    }
+
+    function closeEditProjectModal() {
+      const modal = document.getElementById('modal-edit-project');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('form-edit-project').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-proj-id').value;
+      const targetBelajar = document.getElementById('edit-proj-target').value.trim();
+      const toolDesain = document.getElementById('edit-proj-tool').value;
+      const jumlahIcon = parseInt(document.getElementById('edit-proj-jumlah').value) || 0;
+      const uploaderId = document.getElementById('edit-proj-uploader-id').value || null;
+
+      const isUploadSendiri = !uploaderId;
+
+      const btnSub = document.getElementById('btn-submit-edit-proj');
+      btnSub.disabled = true;
+      btnSub.innerText = "Menyimpan...";
+
+      try {
+        const { error } = await supabaseClient.from('icon_projects').update({
+          target_belajar: targetBelajar,
+          tool_desain: toolDesain,
+          jumlah_icon: jumlahIcon,
+          in_review_count: jumlahIcon,
+          uploader_id: uploaderId,
+          is_upload_sendiri: isUploadSendiri,
+          updated_at: new Date().toISOString()
+        }).eq('id', id);
+
+        if (error) throw error;
+
+        await showModalAlert("Berhasil", "Detail laporan dan info uploader berhasil diperbarui!", "success");
+        document.getElementById('modal-edit-project').classList.add('hidden');
+        
+        loadAdminProjects();
+        if (isAdminUser) loadAdminOverviewData();
+      } catch (err) {
+        await showModalAlert("Gagal Update", err.message, "error");
+      } finally {
+        btnSub.disabled = false;
+        btnSub.innerText = "Simpan Perubahan";
+      }
+    });
+
+    async function handleUpdateUserProfile(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-user-id').value;
+      const fullName = document.getElementById('edit-fullname').value.trim();
+      const role = document.getElementById('edit-role').value;
+      const level = parseInt(document.getElementById('edit-level').value) || 2;
+      const password = document.getElementById('edit-password').value;
+
+      const btnSub = document.getElementById('btn-submit-edit-user');
+      btnSub.disabled = true;
+      btnSub.innerText = "Menyimpan...";
+
+      try {
+        const { error: errProfile } = await supabaseClient.from('profiles').update({
+          full_name: fullName,
+          role: role,
+          level: level
+        }).eq('id', id);
+
+        if (errProfile) throw errProfile;
+
+        const errNip = await bukuSimpanNip(id);
+        if (errNip) await showModalAlert("NIP HSI Belum Tersimpan", "Profil tersimpan, tetapi NIP HSI gagal disimpan: " + errNip, "warning");
+
+        if (password) {
+          if (password.length < 6) {
+            await showModalAlert("Validasi Gagal", "Password minimal 6 karakter!", "warning");
+            btnSub.disabled = false;
+            btnSub.innerText = "Simpan Perubahan";
+            return;
+          }
+          await supabaseAdminNoSession.auth.admin.updateUserById(id, { password: password });
+        }
+
+        userLevelsMap[id] = level;
+
+        await showModalAlert("Disimpan", "Profil desainer berhasil diperbarui!", "success");
+        document.getElementById('modal-edit-user').classList.add('hidden');
+
+        await loadUsersList();
+        await renderOverviewDesignersTable();
+        await loadAdminProjects();
+        if (isAdminUser) loadAdminOverviewData();
+      } catch (err) {
+        await showModalAlert("Gagal Update", err.message, "error");
+      } finally {
+        btnSub.disabled = false;
+        btnSub.innerText = "Simpan Perubahan";
+      }
+    }
+
+    async function deleteUserProfile(id, name) {
+      const confirmed = await showModalConfirm(
+        "Konfirmasi Hapus", 
+        `Yakin ingin menghapus desainer "${name}"?`
+      );
+
+      if (confirmed) {
+        try {
+          await supabaseClient.from('icon_projects').delete().or(`designer_id.eq.${id},uploader_id.eq.${id}`);
+          
+          const { error: errProfile } = await supabaseClient.from('profiles').delete().eq('id', id);
+          if (errProfile) throw errProfile;
+
+          try {
+            await supabaseAdminNoSession.auth.admin.deleteUser(id);
+          } catch(e) {}
+
+          delete userProfilesMap[id];
+          delete userLevelsMap[id];
+          delete userEmailsMap[id];
+          delete userLastSeenMap[id];
+
+          await showModalAlert("Terhapus", `Desainer "${name}" dihapus!`, "success");
+          await loadUsersList();
+          await renderOverviewDesignersTable();
+          await loadAdminProjects();
+          if (isAdminUser) loadAdminOverviewData();
+        } catch(err) {
+          await showModalAlert("Gagal Hapus", err.message, "error");
+        }
+      }
+    }
+
+   async function loadAdminThemesTable(silent = false) {
+      const tbody = document.getElementById('admin-themes-body');
+      if (!tbody) return;
+
+      if (!silent && allAdminThemesData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-slate-400">Memuat stok tema...</td></tr>';
+      }
+
+      try {
+        const { data: themes, error } = await supabaseClient.from('themes_stock').select('*');
+        if (error) throw error;
+
+        if (!themes || themes.length === 0) {
+          allAdminThemesData = [];
+          tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">Belum ada stok tema.</td></tr>`;
+          document.getElementById('total-theme-count').innerText = "0 Tema";
+          const loadMoreContainer = document.getElementById('themes-load-more-container');
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        allAdminThemesData = themes;
+        renderAdminThemesTable();
+      } catch (err) {
+        console.error("Error loadAdminThemesTable:", err);
+        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 font-bold">Gagal memuat data: ${esc(err.message)}</td></tr>`;
+      }
+    }
+
+    function filterAdminThemesTable() {
+      themesTableLimit = 10;
+      themeSel.clear(); themeSelAnchor = null; // ganti tab / pencarian → pilihan dikosongkan
+
+      renderAdminThemesTable();
+    }
+
+    let themeStatusFilter = 'all';
+    try { const f = localStorage.getItem('kd-theme-status-filter'); if (f === 'active' || f === 'inactive' || f === 'scheduled') themeStatusFilter = f; } catch (e) {}
+    function setThemeStatusFilter(f) {
+      themeStatusFilter = (f === 'active' || f === 'inactive' || f === 'scheduled') ? f : 'all';
+      try { localStorage.setItem('kd-theme-status-filter', themeStatusFilter); } catch (e) {}
+      filterAdminThemesTable();
+    }
+    function updateThemeStatusFilterUI(counts) {
+      document.querySelectorAll('#theme-status-filter .tsf-btn').forEach(b => {
+        const on = b.dataset.f === themeStatusFilter;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.classList.toggle('bg-white', on);
+        b.classList.toggle('text-blue-700', on);
+        b.classList.toggle('shadow-sm', on);
+        b.classList.toggle('text-slate-500', !on);
+        b.classList.toggle('hover:text-slate-800', !on);
+      });
+      ['all', 'active', 'inactive', 'scheduled'].forEach(k => { const el = document.getElementById('tsf-n-' + k); if (el) el.textContent = counts[k] || 0; });
+      const title = document.getElementById('admin-themes-title');
+      if (title) title.textContent = themeStatusFilter === 'active' ? 'Daftar Tema Aktif' : themeStatusFilter === 'inactive' ? 'Daftar Tema Nonaktif' : themeStatusFilter === 'scheduled' ? 'Daftar Tema Terjadwal' : 'Daftar Stok Tema';
+    }
+
+    function renderAdminThemesTable() {
+      const tbody = document.getElementById('admin-themes-body');
+      const loadMoreContainer = document.getElementById('themes-load-more-container');
+      if (!tbody) return;
+
+      const searchInput = document.getElementById('input-search-admin-themes');
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      let filteredThemes = allAdminThemesData.filter(t => {
+        const kategori = (t.kategori || '').toLowerCase();
+        const judul = (t.judul || '').toLowerCase();
+        const keyword = (t.keyword || '').toLowerCase();
+        const tool = (t.tool_desain || '').toLowerCase();
+
+        return kategori.includes(query) || judul.includes(query) || keyword.includes(query) || tool.includes(query);
+      });
+
+      const nowTs = Date.now();
+      const nActiveThemes = filteredThemes.filter(t => themeIsOpen(t, nowTs)).length;
+      const nSchedThemes = filteredThemes.filter(t => themeHasSchedule(t, nowTs)).length;
+      updateThemeStatusFilterUI({ all: filteredThemes.length, active: nActiveThemes, inactive: filteredThemes.length - nActiveThemes, scheduled: nSchedThemes });
+      if (themeStatusFilter === 'scheduled') {
+        filteredThemes = filteredThemes.filter(t => themeHasSchedule(t, nowTs));
+      } else if (themeStatusFilter !== 'all') {
+        const wantActive = themeStatusFilter === 'active';
+        filteredThemes = filteredThemes.filter(t => themeIsOpen(t, nowTs) === wantActive);
+      }
+      themeSelFiltered = filteredThemes.map(t => t.kategori);
+      { const ada = new Set(allAdminThemesData.map(t => t.kategori)); [...themeSel].forEach(k => { if (!ada.has(k)) themeSel.delete(k); }); }
+      themeSelUpdateUI();
+
+      const totalCountEl = document.getElementById('total-theme-count');
+      if (totalCountEl) {
+        totalCountEl.innerText = `${filteredThemes.length} Tema`;
+      }
+
+      if (filteredThemes.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">${themeStatusFilter === 'scheduled' && !query ? 'Tidak ada tema terjadwal.' : themeStatusFilter === 'inactive' && !query ? 'Tidak ada tema nonaktif.' : themeStatusFilter === 'active' && !query ? 'Tidak ada tema aktif.' : 'Tema tidak ditemukan.'}</td></tr>`;
+        if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+        lastThemesTableHash = '';
+        return;
+      }
+
+      let sortedThemes = sortArrayData([...filteredThemes], themesSortCol, themesSortDir);
+      updateSortHeaderIcons('sort-icon-themes', themesSortCol, themesSortDir, ['kategori', 'sisa_kuota', 'judul', 'keyword']);
+
+     const visibleThemes = sortedThemes.slice(0, themesTableLimit);
+      themeSelVisible = sortedThemes.map(t => t.kategori);
+      if (loadMoreContainer) {
+        if (sortedThemes.length > themesTableLimit) {
+          loadMoreContainer.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+      }
+
+      const currentHash = JSON.stringify(visibleThemes) + '|' + visibleThemes.map(t => (themeSel.has(t.kategori) ? 1 : 0) + themeSchedKey(t, nowTs)).join(',');
+      if (currentHash === lastThemesTableHash) return;
+      lastThemesTableHash = currentHash;
+
+      tbody.innerHTML = visibleThemes.map(t => {
+        const targetAdminUrl = (t.sample_url && t.sample_url.trim() !== '') 
+  ? t.sample_url 
+  : generateFlaticonSearchUrl(t.kategori);
+
+const sampleBtn = `
+  <a href="${safeUrl(targetAdminUrl, 'https://www.flaticon.com')}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 px-2 py-1 rounded text-[10px] font-bold shadow-xs">
+    <i class="fa-solid fa-up-right-from-square"></i> Lihat
+  </a>
+`;
+
+        const toolTxt = t.tool_desain || 'Bebas (Wajib Rapi)';
+
+       const isActive = t.is_active !== false;
+        const toggleBtnHtml = `
+          <button type="button" onclick="toggleThemeActiveStatus(${jsArg(t.kategori)}, ${!isActive})" 
+            class="inline-flex items-center justify-center gap-1.5 min-w-[84px] px-2.5 py-1 rounded-full text-[10px] font-bold border transition cursor-pointer shadow-2xs ${isActive ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200'}"
+            title="Klik untuk ${isActive ? 'menonaktifkan' : 'mengaktifkan'} tema di halaman desainer">
+            <span class="w-2 h-2 rounded-full ${isActive ? 'bg-emerald-500' : 'bg-slate-400'}"></span>
+            ${isActive ? 'Aktif' : 'Nonaktif'}
+          </button>
+        `;
+
+        const isOpen = themeIsOpen(t, nowTs);
+        const isSel = themeSel.has(t.kategori);
+        return `
+          <tr class="hover:bg-slate-50 transition ${!isOpen ? 'opacity-60 bg-slate-50/70' : ''} ${isSel ? '!bg-blue-50 !opacity-100' : ''}">
+            <td class="p-2 w-8 text-center"><input type="checkbox" class="w-4 h-4 accent-blue-600 cursor-pointer align-middle" ${isSel ? 'checked' : ''} onclick="themeSelClick(event, ${jsArg(t.kategori)})" aria-label="Pilih tema ${esc(t.kategori)}" title="Pilih (Shift+klik untuk memilih satu rentang)"></td>
+            <td class="p-3 font-bold text-slate-800">
+              ${esc(t.kategori)}
+              <div class="text-[10px] font-semibold text-indigo-600 mt-0.5"><i class="fa-solid fa-pen-ruler"></i> Tool: ${esc(toolTxt)}</div>
+            </td>
+            <td class="p-3 text-center font-bold text-blue-600">${esc(t.sisa_kuota)}</td>
+            <td class="p-3 text-slate-700">${esc(t.judul || '-')}</td>
+            <td class="p-3 text-slate-500 text-[11px]" title="${esc(t.keyword || '')}"><div class="w-[120px] xl:w-[170px] line-clamp-2 break-words">${esc(t.keyword || '-')}</div></td>
+            <td class="p-3 text-center">${sampleBtn}</td>
+            <td class="p-3 text-center whitespace-nowrap">${toggleBtnHtml}${themeSchedChipHtml(t, nowTs)}</td>
+            <td class="p-3 text-center whitespace-nowrap">
+              <div class="flex items-center justify-center gap-1">
+                <button onclick="openThemeSchedule([${jsArg(t.kategori)}])" class="bg-indigo-500 hover:bg-indigo-600 text-white px-2 py-1.5 rounded text-[10px] font-bold shadow-sm" title="Jadwal nonaktif">
+                  <i class="fa-regular fa-clock"></i>
+                </button>
+                <button onclick="editTheme(${jsArg(t.kategori)}, ${Number(t.sisa_kuota) || 0}, ${jsArg(t.judul || '')}, ${jsArg(t.keyword || '')}, ${jsArg(t.sample_url || '')}, ${jsArg(t.tool_desain || 'Figma')})" class="bg-amber-500 hover:bg-amber-600 text-white px-2 py-1.5 rounded text-[10px] font-bold shadow-sm" title="Edit">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button onclick="deleteTheme(${jsArg(t.kategori)})" class="bg-rose-600 hover:bg-rose-700 text-white px-2 py-1.5 rounded text-[10px] font-bold shadow-sm" title="Hapus">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function handleSaveTheme(e) {
+      e.preventDefault();
+      const oldKategori = document.getElementById('theme-old-kategori').value;
+      const kategori = document.getElementById('theme-kategori').value.trim();
+      const kuota = parseInt(document.getElementById('theme-kuota').value);
+      const judul = document.getElementById('theme-judul').value.trim();
+      const keyword = document.getElementById('theme-keyword').value.trim();
+      const sampleUrl = document.getElementById('theme-sample-url').value.trim();
+      const toolDesain = document.getElementById('theme-tool-desain').value;
+
+      const btnSave = document.getElementById('btn-save-theme');
+      btnSave.disabled = true;
+
+      const statusStok = kuota > 0 ? 'Tersedia' : 'Habis';
+
+      if (oldKategori) {
+        const { error } = await supabaseClient.from('themes_stock').update({
+          kategori: kategori,
+          sisa_kuota: kuota,
+          judul: judul,
+          keyword: keyword,
+          sample_url: sampleUrl,
+          tool_desain: toolDesain,
+          status_stok: statusStok
+        }).eq('kategori', oldKategori);
+
+        if (error) await showModalAlert("Gagal Update", error.message, "error");
+        else await showModalAlert("Berhasil", "Tema diperbarui!", "success");
+      } else {
+        const { error } = await supabaseClient.from('themes_stock').insert([{
+          kategori: kategori,
+          sisa_kuota: kuota,
+          judul: judul,
+          keyword: keyword,
+          sample_url: sampleUrl,
+          tool_desain: toolDesain,
+		is_active: true,
+          status_stok: statusStok
+        }]);
+
+        if (error) await showModalAlert("Gagal Tambah", error.message, "error");
+        else await showModalAlert("Berhasil", "Tema baru ditambahkan!", "success");
+      }
+
+      btnSave.disabled = false;
+      resetThemeForm();
+      loadAdminThemesTable();
+      loadThemes();
+    }
+
+    function editTheme(kategori, kuota, judul, keyword, sampleUrl, toolDesain) {
+      document.getElementById('theme-old-kategori').value = kategori;
+      document.getElementById('theme-kategori').value = kategori;
+      document.getElementById('theme-kuota').value = kuota;
+      document.getElementById('theme-judul').value = judul;
+      document.getElementById('theme-keyword').value = keyword;
+      document.getElementById('theme-sample-url').value = sampleUrl || '';
+      document.getElementById('theme-tool-desain').value = toolDesain || 'Figma';
+
+      document.getElementById('form-theme-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Edit Tema: ${esc(kategori)}`;
+      document.getElementById('btn-cancel-theme').classList.remove('hidden');
+      // Pratinjau & hitungan keyword ikut diperbarui sesuai tema yang diedit
+      if (typeof handleKeywordLiveAnalysis === 'function') handleKeywordLiveAnalysis();
+      openThemeEditModal();
+    }
+
+    /* ---------- Modal Edit Tema: form yang sama dipindah ke jendela pop-up ---------- */
+    let themeEditHome = null;
+
+    function openThemeEditModal() {
+      const title = document.getElementById('form-theme-title');
+      const form = document.getElementById('form-manage-theme');
+      if (!title || !form) return;
+      let modal = document.getElementById('theme-edit-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'theme-edit-modal';
+        modal.className = 'fixed inset-0 bg-slate-900/50 z-50 hidden overflow-y-auto p-3 sm:p-6';
+        modal.innerHTML = `<div class="min-h-full flex items-start sm:items-center justify-center">
+            <div id="theme-edit-modal-box" role="dialog" aria-modal="true" class="relative bg-white w-full max-w-2xl rounded-xl border border-slate-200 shadow-xl p-4 sm:p-5 space-y-4">
+              <button type="button" id="theme-edit-modal-x" class="absolute top-3 right-3 w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center" title="Tutup (Esc)"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>`;
+        document.body.appendChild(modal);
+        modal.addEventListener('mousedown', (e) => {
+          if (e.target === modal || e.target === modal.firstElementChild) resetThemeForm();
+        });
+        modal.querySelector('#theme-edit-modal-x').addEventListener('click', resetThemeForm);
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape' || modal.classList.contains('hidden')) return;
+          const dlg = document.getElementById('modal-custom-dialog');
+          if (dlg && !dlg.classList.contains('hidden')) return; // pesan konfirmasi/peringatan sedang tampil
+          resetThemeForm();
+        });
+      }
+      if (!themeEditHome) {
+        const card = title.parentElement;
+        const holder = document.createElement('p');
+        holder.className = 'text-[11px] text-slate-500 font-semibold py-6 text-center';
+        holder.innerHTML = '<i class="fa-solid fa-pen-to-square mr-1"></i> Sedang mengedit tema di jendela Edit. Tutup jendela itu untuk menambah tema baru.';
+        card.appendChild(holder);
+        const box = modal.querySelector('#theme-edit-modal-box');
+        box.appendChild(title);
+        box.appendChild(form);
+        themeEditHome = { card, holder };
+        modal.dataset.prevOverflow = document.body.style.overflow || '';
+        document.body.style.overflow = 'hidden';
+      }
+      modal.classList.remove('hidden');
+      modal.scrollTop = 0;
+      const first = document.getElementById('theme-kategori');
+      if (first) setTimeout(() => first.focus({ preventScroll: true }), 30);
+    }
+
+    function closeThemeEditModal() {
+      const modal = document.getElementById('theme-edit-modal');
+      if (!themeEditHome) return;
+      const { card, holder } = themeEditHome;
+      card.insertBefore(document.getElementById('form-theme-title'), holder);
+      card.insertBefore(document.getElementById('form-manage-theme'), holder);
+      holder.remove();
+      themeEditHome = null;
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = modal.dataset.prevOverflow || '';
+      }
+    }
+
+    function resetThemeForm() {
+      document.getElementById('form-manage-theme').reset();
+      document.getElementById('theme-old-kategori').value = '';
+      document.getElementById('theme-sample-url').value = '';
+      document.getElementById('theme-tool-desain').value = 'Figma';
+      document.getElementById('form-theme-title').innerHTML = `<i class="fa-solid fa-plus-circle"></i> Tambah Tema Baru`;
+      document.getElementById('btn-cancel-theme').classList.add('hidden');
+      if (typeof handleKeywordLiveAnalysis === 'function') handleKeywordLiveAnalysis();
+      closeThemeEditModal();
+    }
+
+    async function deleteTheme(kategori) {
+      const confirmed = await showModalConfirm("Konfirmasi Hapus", `Yakin menghapus tema "${kategori}"?`);
+      if (confirmed) {
+        const { error } = await supabaseClient.from('themes_stock').delete().eq('kategori', kategori);
+        if (error) await showModalAlert("Gagal Hapus", error.message, "error");
+        else {
+          await showModalAlert("Terhapus", "Tema berhasil dihapus!", "success");
+          loadAdminThemesTable();
+          loadThemes();
+        }
+      }
+    }
+
+async function toggleThemeActiveStatus(kategori, newStatus) {
+      try {
+        const { error } = await supabaseClient
+          .from('themes_stock')
+          .update({ is_active: newStatus })
+          .eq('kategori', kategori);
+
+        if (error) throw error;
+
+        // Perbarui tampilan tabel admin & grid desainer secara langsung
+        await loadAdminThemesTable(true);
+        await loadThemes();
+      } catch (err) {
+        await showModalAlert("Gagal Mengubah Status", err.message, "error");
+      }
+    }
+
+    /* ==========================================================
+       Tema: pilih banyak (checkbox), aksi masal & jadwal nonaktif.
+       Jadwal disimpan di kolom themes_stock.jadwal_nonaktif (jsonb):
+         { tipe: 'sekali', mulai: ISO, selesai: ISO | null }
+         { tipe: 'mingguan', hari: [0..6] (0 = Minggu), jam_mulai: 'HH:MM', jam_selesai: 'HH:MM' | '24:00',
+           dari: 'YYYY-MM-DD' | null, sampai: 'YYYY-MM-DD' | null }
+       Semua waktu dibaca dalam WIB (UTC+7). Tema tanpa jadwal berperilaku seperti sebelumnya.
+       ========================================================== */
+    const JADWAL_WIB_MS = 7 * 3600e3;
+    const JADWAL_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const JADWAL_HARI_PENDEK = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+    const JADWAL_BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const JADWAL_SQL = 'alter table public.themes_stock add column if not exists jadwal_nonaktif jsonb;';
+    let themeSel = new Set();      // kategori yang dicentang
+    let themeSelFiltered = [];     // semua kategori yang cocok dengan tab + pencarian
+    let themeSelVisible = [];      // urutan tampil (untuk Shift+klik)
+    let themeSelAnchor = null;
+
+    function jadwalPad(n) { return String(n).padStart(2, '0'); }
+    function jadwalMin(hhmm) {
+      const m = /^(\d{1,2}):(\d{2})$/.exec(String(hhmm || ''));
+      if (!m || +m[1] > 24 || +m[2] > 59) return null;
+      return Math.min(1440, (+m[1]) * 60 + (+m[2]));
+    }
+    /** 00:00 WIB pada hari yang memuat ts. */
+    function jadwalDayStart(ts) { return Math.floor((ts + JADWAL_WIB_MS) / 864e5) * 864e5 - JADWAL_WIB_MS; }
+    function jadwalDateStr(ts) { const d = new Date(ts + JADWAL_WIB_MS); return d.getUTCFullYear() + '-' + jadwalPad(d.getUTCMonth() + 1) + '-' + jadwalPad(d.getUTCDate()); }
+    function jadwalTimeStr(ts) { const d = new Date(ts + JADWAL_WIB_MS); return jadwalPad(d.getUTCHours()) + ':' + jadwalPad(d.getUTCMinutes()); }
+    function jadwalTs(dateStr, timeStr) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr || ''));
+      const mi = jadwalMin(timeStr || '00:00');
+      if (!m || mi == null) return null;
+      return Date.UTC(+m[1], +m[2] - 1, +m[3]) + mi * 60e3 - JADWAL_WIB_MS;
+    }
+    /** "Jum, 25 Des 2026 08:00" (WIB). */
+    function jadwalFmt(ts, opt) {
+      const d = new Date(ts + JADWAL_WIB_MS);
+      const tgl = JADWAL_HARI_PENDEK[d.getUTCDay()] + ', ' + d.getUTCDate() + ' ' + JADWAL_BULAN[d.getUTCMonth()] + (opt && opt.noYear ? '' : ' ' + d.getUTCFullYear());
+      return opt && opt.dateOnly ? tgl : tgl + ' ' + jadwalTimeStr(ts);
+    }
+    function themeJadwal(t) {
+      let j = t && t.jadwal_nonaktif;
+      if (typeof j === 'string') { try { j = JSON.parse(j); } catch (e) { j = null; } }
+      if (!j || typeof j !== 'object') return null;
+      if (j.tipe === 'sekali' && !isNaN(Date.parse(j.mulai))) return j;
+      if (j.tipe === 'mingguan' && Array.isArray(j.hari) && j.hari.length && jadwalMin(j.jam_mulai) != null && jadwalMin(j.jam_selesai) != null) return j;
+      return null;
+    }
+    /** Jendela nonaktif mingguan yang dimulai pada hari day0 (00:00 WIB); null jika tidak ada. */
+    function jadwalWeeklyWin(j, day0) {
+      const wd = new Date(day0 + JADWAL_WIB_MS).getUTCDay();
+      if (!j.hari.map(Number).includes(wd)) return null;
+      const ds = jadwalDateStr(day0);
+      if (j.dari && ds < j.dari) return null;
+      if (j.sampai && ds > j.sampai) return null;
+      const s = day0 + jadwalMin(j.jam_mulai) * 60e3;
+      let e = day0 + jadwalMin(j.jam_selesai) * 60e3;
+      if (e <= s) e += 864e5; // melewati tengah malam → selesai hari berikutnya
+      return { start: s, end: e };
+    }
+    /** Jendela nonaktif yang sedang berjalan pada ts → { start, end | null }; null jika tidak sedang nonaktif. */
+    function jadwalNow(j, ts) {
+      if (!j) return null;
+      if (j.tipe === 'sekali') {
+        const s = Date.parse(j.mulai), e = j.selesai ? Date.parse(j.selesai) : null;
+        return ts >= s && (e == null || ts < e) ? { start: s, end: e } : null;
+      }
+      const d0 = jadwalDayStart(ts);
+      for (const day of [d0 - 864e5, d0]) {
+        const w = jadwalWeeklyWin(j, day);
+        if (w && ts >= w.start && ts < w.end) {
+          // gabungkan dengan jendela hari berikutnya yang bersambung (mis. Sabtu–Minggu sepanjang hari)
+          let end = w.end;
+          for (let k = 1; k <= 8; k++) {
+            const n = jadwalWeeklyWin(j, day + k * 864e5);
+            if (n && n.start <= end) end = Math.max(end, n.end); else break;
+          }
+          return { start: w.start, end };
+        }
+      }
+      return null;
+    }
+    /** Awal jendela nonaktif berikutnya setelah ts; null jika tidak ada lagi. */
+    function jadwalNext(j, ts) {
+      if (!j) return null;
+      if (j.tipe === 'sekali') { const s = Date.parse(j.mulai); return s > ts ? s : null; }
+      let d0 = jadwalDayStart(ts);
+      const dari = j.dari ? jadwalTs(j.dari, '00:00') : null;
+      if (dari != null && dari > d0) d0 = dari;
+      for (let k = 0; k <= 14; k++) {
+        const w = jadwalWeeklyWin(j, d0 + k * 864e5);
+        if (w && w.start > ts) return w.start;
+      }
+      return null;
+    }
+    /** Tema terbuka untuk desainer: aktif (tombol status) DAN tidak sedang dalam jadwal nonaktif. */
+    function themeIsOpen(t, ts) {
+      return !!t && t.is_active !== false && !jadwalNow(themeJadwal(t), ts == null ? Date.now() : ts);
+    }
+    /** Punya jadwal yang sedang berjalan atau akan datang. */
+    function themeHasSchedule(t, ts) {
+      const j = themeJadwal(t);
+      if (!j) return false;
+      if (ts == null) ts = Date.now();
+      return !!jadwalNow(j, ts) || jadwalNext(j, ts) != null;
+    }
+    function themeSchedKey(t, ts) {
+      const j = themeJadwal(t);
+      if (!j) return '';
+      const w = jadwalNow(j, ts);
+      return w ? 'n' + (w.end || 0) : 'x' + (jadwalNext(j, ts) || 0);
+    }
+    function jadwalRingkas(j) {
+      if (!j) return '';
+      if (j.tipe === 'sekali') {
+        return 'Nonaktif ' + jadwalFmt(Date.parse(j.mulai)) + (j.selesai ? ' – ' + jadwalFmt(Date.parse(j.selesai)) + ' WIB' : ' WIB sampai jadwal dibatalkan');
+      }
+      const hs = j.hari.map(Number);
+      const urut = [1, 2, 3, 4, 5, 6, 0].filter(d => hs.includes(d));
+      const hari = urut.length === 7 ? 'setiap hari' : 'setiap ' + urut.map(d => JADWAL_HARI[d]).join(', ');
+      const allDay = jadwalMin(j.jam_mulai) === 0 && jadwalMin(j.jam_selesai) === 1440;
+      const jam = allDay ? 'sepanjang hari' : j.jam_mulai + '–' + j.jam_selesai + ' WIB' + (jadwalMin(j.jam_selesai) <= jadwalMin(j.jam_mulai) ? ' (selesai hari berikutnya)' : '');
+      const fd = (s) => jadwalFmt(jadwalTs(s, '00:00'), { dateOnly: true });
+      const rentang = j.dari && j.sampai ? ' · berlaku ' + fd(j.dari) + ' – ' + fd(j.sampai) : j.sampai ? ' · sampai ' + fd(j.sampai) : j.dari ? ' · mulai ' + fd(j.dari) : '';
+      return 'Nonaktif ' + hari + ', ' + jam + rentang;
+    }
+    /** "17:30" bila hari ini, "Jum 11:00" dalam 6 hari ke depan, "27 Des 11:00" bila lebih jauh. */
+    function jadwalLabelWaktu(ts, now) {
+      const beda = Math.round((jadwalDayStart(ts) - jadwalDayStart(now)) / 864e5);
+      if (beda === 0) return jadwalTimeStr(ts);
+      const d = new Date(ts + JADWAL_WIB_MS);
+      if (beda > 0 && beda <= 6) return JADWAL_HARI_PENDEK[d.getUTCDay()] + ' ' + jadwalTimeStr(ts);
+      return d.getUTCDate() + ' ' + JADWAL_BULAN[d.getUTCMonth()] + ' ' + jadwalTimeStr(ts);
+    }
+    function themeSchedChipHtml(t, ts) {
+      const j = themeJadwal(t);
+      if (!j) return '';
+      const w = jadwalNow(j, ts);
+      const nx = w ? null : jadwalNext(j, ts);
+      if (!w && nx == null) return '';
+      const label = w ? (w.end ? 'Nonaktif s/d ' + jadwalLabelWaktu(w.end, ts) : 'Nonaktif terjadwal') : 'Terjadwal · ' + jadwalLabelWaktu(nx, ts);
+      const cls = w ? 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100' : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100';
+      return `<div class="mt-1"><button type="button" onclick="openThemeSchedule([${jsArg(t.kategori)}])" class="inline-flex items-start gap-1 px-2 py-0.5 rounded-xl text-[10px] leading-tight font-bold border whitespace-normal text-left max-w-[112px] ${cls}" title="${esc(jadwalRingkas(j))} · klik untuk mengubah"><i class="fa-regular fa-clock mt-px"></i><span>${esc(label)}</span></button></div>`;
+    }
+
+    /* ---------- pilihan (checkbox) ---------- */
+    function themeSelThemes() { return allAdminThemesData.filter(t => themeSel.has(t.kategori)); }
+    function themeSelRerender() { lastThemesTableHash = ''; renderAdminThemesTable(); }
+    function themeSelUpdateUI() {
+      const all = document.getElementById('theme-sel-all');
+      const nIn = themeSelFiltered.filter(k => themeSel.has(k)).length;
+      if (all) {
+        all.checked = themeSelFiltered.length > 0 && nIn === themeSelFiltered.length;
+        all.indeterminate = nIn > 0 && nIn < themeSelFiltered.length;
+      }
+      const bar = document.getElementById('theme-bulk-bar');
+      if (!bar) return;
+      const n = themeSel.size;
+      bar.classList.toggle('hidden', n === 0);
+      bar.classList.toggle('flex', n > 0);
+      const cnt = document.getElementById('theme-bulk-count');
+      if (cnt) cnt.textContent = n + ' tema dipilih' + (n > 1 && nIn === themeSelFiltered.length && n === nIn ? ' (semua di filter ini)' : '');
+      const uns = document.getElementById('theme-bulk-unsched');
+      if (uns) {
+        const ada = themeSelThemes().some(t => themeJadwal(t));
+        uns.classList.toggle('hidden', !ada);
+        uns.classList.toggle('inline-flex', ada);
+      }
+    }
+    function themeSelClick(ev, k) {
+      const on = !!(ev && ev.target && ev.target.checked);
+      const set = (key) => { if (on) themeSel.add(key); else themeSel.delete(key); };
+      const a = themeSelVisible.indexOf(themeSelAnchor), b = themeSelVisible.indexOf(k);
+      if (ev && ev.shiftKey && a >= 0 && b >= 0 && a !== b) {
+        for (let x = Math.min(a, b); x <= Math.max(a, b); x++) set(themeSelVisible[x]);
+      } else set(k);
+      themeSelAnchor = k;
+      themeSelRerender();
+    }
+    function themeSelAll(cb) {
+      if (cb.checked) themeSelFiltered.forEach(k => themeSel.add(k));
+      else themeSelFiltered.forEach(k => themeSel.delete(k));
+      themeSelAnchor = null;
+      themeSelRerender();
+    }
+    function themeSelClear() { themeSel.clear(); themeSelAnchor = null; themeSelRerender(); }
+
+    /* ---------- utilitas ---------- */
+    function themeToast(msg, tone) {
+      let el = document.getElementById('theme-toast');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'theme-toast';
+        el.setAttribute('role', 'status');
+        el.className = 'fixed left-1/2 -translate-x-1/2 bottom-6 z-[70] max-w-[92vw] px-4 py-2.5 rounded-xl shadow-lg text-[12px] font-bold text-white text-center transition-opacity duration-300';
+        document.body.appendChild(el);
+      }
+      el.style.background = tone === 'error' ? '#e11d48' : tone === 'warn' ? '#b45309' : '#0f172a';
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      el.style.opacity = '1';
+      clearTimeout(el._t);
+      el._t = setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.classList.add('hidden'), 320); }, msg.length > 70 ? 6000 : 3800);
+    }
+    /** Jendela dialog serbaguna. buttons: [{ text, value, cls, primary }]; before(value) → false = tetap terbuka. */
+    function themeDialog(o) {
+      return new Promise((resolve) => {
+        const tones = {
+          rose: 'bg-rose-50 text-rose-600 border-rose-200', indigo: 'bg-indigo-50 text-indigo-600 border-indigo-200',
+          amber: 'bg-amber-50 text-amber-600 border-amber-200'
+        };
+        const wrap = document.createElement('div');
+        wrap.className = 'fixed inset-0 bg-slate-900/50 z-[55] overflow-y-auto p-3 sm:p-6';
+        wrap.innerHTML = `<div class="min-h-full flex items-start sm:items-center justify-center">
+            <div role="dialog" aria-modal="true" class="bg-white w-full ${o.wide ? 'max-w-lg' : 'max-w-md'} rounded-xl border border-slate-200 shadow-xl p-4 sm:p-5 space-y-3">
+              <div class="flex items-center gap-2.5"><span class="w-9 h-9 shrink-0 rounded-full border flex items-center justify-center ${tones[o.tone] || tones.indigo}"><i class="fa-solid ${o.icon || 'fa-circle-info'}"></i></span><h3 class="text-sm font-bold text-slate-800">${esc(o.title)}</h3></div>
+              <div data-role="body" class="space-y-3">${o.html || ''}</div>
+              <div data-role="btns" class="flex flex-wrap justify-end gap-2 pt-1"></div>
+            </div></div>`;
+        const box = wrap.querySelector('[role=dialog]');
+        const btns = wrap.querySelector('[data-role=btns]');
+        const list = o.buttons || [{ text: 'Batal', value: false }, { text: o.okText || 'OK', value: true, primary: true, cls: o.okClass }];
+        let okBtn = null, done = false;
+        const close = (v) => {
+          if (done) return;
+          done = true;
+          document.removeEventListener('keydown', onKey, true);
+          wrap.remove();
+          resolve(v);
+        };
+        const onKey = (e) => {
+          if (e.key !== 'Escape') return;
+          const dlg = document.getElementById('modal-custom-dialog');
+          if (dlg && !dlg.classList.contains('hidden')) return;
+          e.stopPropagation();
+          close(false);
+        };
+        list.forEach(b => {
+          const el = document.createElement('button');
+          el.type = 'button';
+          el.textContent = b.text;
+          el.className = (b.primary
+            ? (b.cls || 'bg-indigo-600 hover:bg-indigo-700') + ' text-white'
+            : (b.cls || 'bg-slate-100 hover:bg-slate-200 text-slate-700')) + ' text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm disabled:opacity-40 disabled:cursor-not-allowed';
+          if (b.left) el.classList.add('mr-auto');
+          el.addEventListener('click', async () => {
+            if (o.before && (await o.before(b.value, box)) === false) return;
+            close(b.value);
+          });
+          if (b.primary) okBtn = el;
+          btns.appendChild(el);
+        });
+        wrap.addEventListener('mousedown', (e) => { if (e.target === wrap || e.target === wrap.firstElementChild) close(false); });
+        document.addEventListener('keydown', onKey, true);
+        document.body.appendChild(wrap);
+        if (o.setup) o.setup(box, okBtn, close);
+      });
+    }
+    function jadwalKolomHilang(err) {
+      const m = String(err && (err.message || err.details || '') || '');
+      return /jadwal_nonaktif/.test(m) || !!(err && (err.code === '42703' || err.code === 'PGRST204'));
+    }
+    async function jadwalTampilkanSql() {
+      await themeDialog({
+        title: 'Kolom jadwal belum ada di database', icon: 'fa-database', tone: 'amber',
+        html: `<p class="text-[12px] text-slate-600">Jalankan perintah ini <b>sekali</b> di Supabase → <b>SQL Editor</b>, lalu coba simpan lagi:</p>
+          <pre class="bg-slate-900 text-emerald-300 text-[11px] rounded-lg p-3 whitespace-pre-wrap break-all select-all">${esc(JADWAL_SQL)}</pre>`,
+        buttons: [{ text: 'Salin SQL', value: 'copy' }, { text: 'Tutup', value: false, primary: true }],
+        before(v) {
+          if (v !== 'copy') return true;
+          try { navigator.clipboard.writeText(JADWAL_SQL).then(() => themeToast('SQL disalin.')); } catch (e) {}
+          return false;
+        }
+      });
+    }
+    async function themeBulkUpdate(list, patch) {
+      const gagal = [];
+      let err = null;
+      for (let i = 0; i < list.length; i += 40) {
+        const part = list.slice(i, i + 40);
+        const { error } = await supabaseClient.from('themes_stock').update(patch).in('kategori', part);
+        if (error) { err = error; gagal.push(...part); }
+      }
+      return { gagal, err };
+    }
+    function themeBulkBusy(on) {
+      document.querySelectorAll('#theme-bulk-bar button').forEach(b => { b.disabled = on; b.classList.toggle('opacity-50', on); });
+    }
+    async function themeReloadAfterBulk(clearSel) {
+      if (clearSel) { themeSel.clear(); themeSelAnchor = null; }
+      lastThemesTableHash = '';
+      await loadAdminThemesTable(true);
+      if (typeof loadThemes === 'function') await loadThemes();
+    }
+
+    /* ---------- aksi masal ---------- */
+    async function themeBulkSetActive(on) {
+      const list = [...themeSel];
+      if (!list.length) return;
+      themeBulkBusy(true);
+      const { gagal, err } = await themeBulkUpdate(list, { is_active: on });
+      themeBulkBusy(false);
+      const ok = list.length - gagal.length;
+      await themeReloadAfterBulk(true);
+      const now = Date.now();
+      const masihJadwal = on ? allAdminThemesData.filter(t => list.includes(t.kategori) && !gagal.includes(t.kategori) && jadwalNow(themeJadwal(t), now)).length : 0;
+      if (gagal.length) {
+        await showModalAlert('Sebagian Gagal', `${ok} tema berhasil ${on ? 'diaktifkan' : 'dinonaktifkan'}, ${gagal.length} gagal:\n${gagal.join(', ')}${err ? '\n\n' + err.message : ''}`, 'error');
+      } else {
+        themeToast(`${ok} tema ${on ? 'diaktifkan' : 'dinonaktifkan'}` + (masihJadwal ? ` · ${masihJadwal} masih nonaktif karena jadwal` : ''), masihJadwal ? 'warn' : '');
+      }
+    }
+
+    async function themeBulkDelete() {
+      const items = themeSelThemes();
+      if (!items.length) return;
+      const n = items.length;
+      const berstok = items.filter(t => (Number(t.sisa_kuota) || 0) > 0);
+      const html = `
+        <p class="text-[12px] text-slate-600">${n} tema berikut akan <b class="text-rose-600">dihapus permanen</b> dan tidak bisa dikembalikan:</p>
+        <ul class="max-h-44 overflow-y-auto border border-slate-200 rounded-lg divide-y divide-slate-100 text-[12px]">${items.map(t => `<li class="px-3 py-1.5 flex justify-between gap-2"><span class="font-semibold text-slate-800">${esc(t.kategori)}</span><span class="shrink-0 ${(Number(t.sisa_kuota) || 0) > 0 ? 'text-rose-600 font-bold' : 'text-slate-400'}">stok ${esc(t.sisa_kuota)}</span></li>`).join('')}</ul>
+        <div class="${berstok.length ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-amber-50 border-amber-200 text-amber-700'} border rounded-lg px-3 py-2 text-[11px] font-semibold"><i class="fa-solid ${berstok.length ? 'fa-triangle-exclamation' : 'fa-lightbulb'} mr-1"></i>${berstok.length ? `${berstok.length} tema masih punya stok. ` : ''}Kalau hanya untuk sementara, gunakan <b>Nonaktifkan</b> atau <b>Jadwalkan</b>.</div>
+        <label class="block text-[11px] font-bold text-slate-600">Ketik <b class="text-rose-600">${n}</b> untuk konfirmasi
+          <input type="text" inputmode="numeric" data-role="konfirm" autocomplete="off" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-rose-500"></label>`;
+      const ok = await themeDialog({
+        title: `Hapus ${n} tema?`, icon: 'fa-trash', tone: 'rose', html,
+        okText: `Hapus ${n} tema`, okClass: 'bg-rose-600 hover:bg-rose-700',
+        setup(box, okBtn) {
+          const inp = box.querySelector('[data-role=konfirm]');
+          okBtn.disabled = true;
+          inp.addEventListener('input', () => { okBtn.disabled = inp.value.trim() !== String(n); });
+          inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !okBtn.disabled) okBtn.click(); });
+          setTimeout(() => inp.focus(), 30);
+        }
+      });
+      if (!ok) return;
+      themeBulkBusy(true);
+      const list = items.map(t => t.kategori);
+      const gagal = [];
+      let err = null;
+      for (let i = 0; i < list.length; i += 40) {
+        const part = list.slice(i, i + 40);
+        const { error } = await supabaseClient.from('themes_stock').delete().in('kategori', part);
+        if (error) { err = error; gagal.push(...part); }
+      }
+      themeBulkBusy(false);
+      await themeReloadAfterBulk(true);
+      if (gagal.length) await showModalAlert('Sebagian Gagal', `${n - gagal.length} tema terhapus, ${gagal.length} gagal:\n${gagal.join(', ')}${err ? '\n\n' + err.message : ''}`, 'error');
+      else themeToast(`${n} tema dihapus.`);
+    }
+
+    async function themeBulkClearSchedule(keys) {
+      const fromRow = Array.isArray(keys);
+      const items = (fromRow ? allAdminThemesData.filter(t => keys.includes(t.kategori)) : themeSelThemes()).filter(t => themeJadwal(t));
+      if (!items.length) { themeToast('Tema yang dipilih tidak punya jadwal.'); return; }
+      const ok = await showModalConfirm('Batalkan Jadwal', items.length === 1
+        ? `Hapus jadwal nonaktif tema "${items[0].kategori}"?\n\n${jadwalRingkas(themeJadwal(items[0]))}`
+        : `Hapus jadwal nonaktif dari ${items.length} tema?`);
+      if (!ok) return;
+      themeBulkBusy(true);
+      const { gagal, err } = await themeBulkUpdate(items.map(t => t.kategori), { jadwal_nonaktif: null });
+      themeBulkBusy(false);
+      if (err && jadwalKolomHilang(err)) { await jadwalTampilkanSql(); return; }
+      await themeReloadAfterBulk(!fromRow);
+      if (gagal.length) await showModalAlert('Sebagian Gagal', `${gagal.length} jadwal gagal dibatalkan:\n${gagal.join(', ')}${err ? '\n\n' + err.message : ''}`, 'error');
+      else themeToast(`Jadwal ${items.length} tema dibatalkan.`);
+    }
+
+    /* ---------- jendela Jadwalkan ---------- */
+    async function openThemeSchedule(keys) {
+      const fromRow = Array.isArray(keys);
+      const pilih = fromRow ? keys : [...themeSel];
+      const items = allAdminThemesData.filter(t => pilih.includes(t.kategori));
+      if (!items.length) return;
+      const n = items.length;
+      const withJ = items.filter(t => themeJadwal(t));
+      const sig = (t) => JSON.stringify(themeJadwal(t));
+      const awal = withJ.length === n && withJ.every(t => sig(t) === sig(withJ[0])) ? themeJadwal(withJ[0]) : null;
+      const now = Date.now();
+      const defS = Math.ceil((now + 60e3) / 3600e3) * 3600e3; // jam bulat berikutnya
+      const inp = 'border border-slate-300 rounded-lg px-2.5 py-1.5 text-[12px] font-semibold text-slate-800 outline-none focus:border-indigo-500 bg-white min-w-0 disabled:bg-slate-100 disabled:text-slate-400';
+      const chip = 'px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-[10px] font-bold text-slate-600 border border-slate-200';
+      const lbl = 'text-[11px] font-bold text-slate-600 mb-1 flex items-center justify-between gap-2';
+      const nama = n === 1 ? `Tema <b class="text-slate-800">${esc(items[0].kategori)}</b>` : `<b class="text-slate-800">${n} tema</b> dipilih`;
+      const html = `
+        <p class="text-[11px] text-slate-500">${nama} · waktu dalam <b>WIB</b>. Selama jadwal berjalan tema hilang dari halaman desainer, lalu otomatis muncul lagi.</p>
+        <div class="flex bg-slate-100 border border-slate-200 rounded-lg p-0.5">
+          <button type="button" data-mode="sekali" class="jd-tab flex-1 px-2 py-1.5 rounded-md text-[11px] font-bold transition">Sekali (rentang waktu)</button>
+          <button type="button" data-mode="mingguan" class="jd-tab flex-1 px-2 py-1.5 rounded-md text-[11px] font-bold transition">Rutin mingguan</button>
+        </div>
+        <div data-pane="sekali" class="space-y-3">
+          <div>
+            <div class="${lbl}">Nonaktif dari <span data-role="hari1" class="text-indigo-600"></span></div>
+            <div class="flex gap-2"><input type="date" data-f="d1" class="${inp} flex-1"><input type="time" step="60" data-f="t1" class="${inp} w-[110px]"></div>
+            <div class="flex flex-wrap gap-1.5 mt-1.5"><button type="button" data-q="now" class="${chip}">Mulai sekarang</button></div>
+          </div>
+          <div>
+            <div class="${lbl}">Sampai <span data-role="hari2" class="text-indigo-600"></span></div>
+            <div class="flex gap-2"><input type="date" data-f="d2" class="${inp} flex-1"><input type="time" step="60" data-f="t2" class="${inp} w-[110px]"></div>
+            <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+              <button type="button" data-q="1h" class="${chip}">+1 jam</button><button type="button" data-q="1d" class="${chip}">+1 hari</button><button type="button" data-q="1w" class="${chip}">+1 minggu</button>
+              <label class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 cursor-pointer"><input type="checkbox" data-f="noend" class="w-3.5 h-3.5 accent-indigo-600"> Tanpa batas akhir</label>
+            </div>
+          </div>
+        </div>
+        <div data-pane="mingguan" class="space-y-3 hidden">
+          <div>
+            <div class="${lbl}">Ulangi setiap</div>
+            <div class="grid grid-cols-7 gap-1">${[1, 2, 3, 4, 5, 6, 0].map(d => `<button type="button" data-day="${d}" aria-pressed="false" class="jd-day py-1.5 rounded-md text-[11px] font-bold border transition">${JADWAL_HARI_PENDEK[d]}</button>`).join('')}</div>
+            <div class="flex flex-wrap gap-1.5 mt-1.5"><button type="button" data-qd="kerja" class="${chip}">Sen–Jum</button><button type="button" data-qd="libur" class="${chip}">Sab–Min</button><button type="button" data-qd="semua" class="${chip}">Setiap hari</button></div>
+          </div>
+          <div>
+            <div class="${lbl}">Jam nonaktif <label class="inline-flex items-center gap-1.5 font-semibold cursor-pointer"><input type="checkbox" data-f="allday" class="w-3.5 h-3.5 accent-indigo-600"> Sepanjang hari</label></div>
+            <div class="flex items-center gap-2"><input type="time" step="60" data-f="w1" class="${inp} flex-1"><span class="text-slate-400 font-bold">–</span><input type="time" step="60" data-f="w2" class="${inp} flex-1"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="block"><span class="${lbl}">Berlaku mulai</span><input type="date" data-f="wd1" class="${inp} w-full"></label>
+            <label class="block"><span class="${lbl}">Berlaku sampai <span class="font-normal text-slate-400">(boleh kosong)</span></span><input type="date" data-f="wd2" class="${inp} w-full"></label>
+          </div>
+        </div>
+        <div data-role="preview" class="rounded-lg border px-3 py-2 text-[11px] font-semibold"></div>`;
+
+      let mode = awal ? awal.tipe : 'sekali';
+      const days = new Set(awal && awal.tipe === 'mingguan' ? awal.hari.map(Number) : []);
+      let f = {}, box = null;
+
+      const baca = () => {
+        if (mode === 'sekali') {
+          const s = jadwalTs(f.d1.value, f.t1.value);
+          if (s == null) return { err: 'Isi tanggal dan jam mulai.' };
+          let e = null;
+          if (!f.noend.checked) {
+            e = jadwalTs(f.d2.value, f.t2.value);
+            if (e == null) return { err: 'Isi tanggal dan jam selesai, atau centang "Tanpa batas akhir".' };
+            if (e <= s) return { err: 'Waktu selesai harus setelah waktu mulai.' };
+            if (e <= Date.now()) return { err: 'Waktu selesai sudah lewat.' };
+          }
+          return { j: { tipe: 'sekali', mulai: new Date(s).toISOString(), selesai: e == null ? null : new Date(e).toISOString() } };
+        }
+        const hari = [...days].sort((a, b) => a - b);
+        if (!hari.length) return { err: 'Pilih minimal satu hari.' };
+        let a = f.w1.value, b = f.w2.value;
+        if (f.allday.checked) { a = '00:00'; b = '24:00'; }
+        else {
+          if (jadwalMin(a) == null || jadwalMin(b) == null) return { err: 'Isi jam mulai dan jam selesai, atau centang "Sepanjang hari".' };
+          if (a === b) return { err: 'Jam mulai dan jam selesai tidak boleh sama.' };
+        }
+        const d1 = f.wd1.value || null, d2 = f.wd2.value || null;
+        if (d1 && d2 && d2 < d1) return { err: '"Berlaku sampai" harus sama dengan atau setelah "Berlaku mulai".' };
+        if (d2 && d2 < jadwalDateStr(Date.now())) return { err: '"Berlaku sampai" sudah lewat.' };
+        return { j: { tipe: 'mingguan', hari, jam_mulai: a, jam_selesai: b, dari: d1, sampai: d2 } };
+      };
+      const namaHari = (d) => { const ts = jadwalTs(d, '00:00'); return ts == null ? '' : JADWAL_HARI[new Date(ts + JADWAL_WIB_MS).getUTCDay()]; };
+      const segarkan = () => {
+        box.querySelectorAll('.jd-tab').forEach(b => {
+          const on = b.dataset.mode === mode;
+          b.classList.toggle('bg-white', on); b.classList.toggle('text-indigo-700', on); b.classList.toggle('shadow-sm', on);
+          b.classList.toggle('text-slate-500', !on);
+        });
+        box.querySelector('[data-pane=sekali]').classList.toggle('hidden', mode !== 'sekali');
+        box.querySelector('[data-pane=mingguan]').classList.toggle('hidden', mode !== 'mingguan');
+        box.querySelectorAll('.jd-day').forEach(b => {
+          const on = days.has(+b.dataset.day);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          b.classList.toggle('bg-indigo-600', on); b.classList.toggle('text-white', on); b.classList.toggle('border-indigo-600', on);
+          b.classList.toggle('bg-white', !on); b.classList.toggle('text-slate-600', !on); b.classList.toggle('border-slate-300', !on);
+        });
+        f.d2.disabled = f.t2.disabled = f.noend.checked;
+        f.w1.disabled = f.w2.disabled = f.allday.checked;
+        box.querySelector('[data-role=hari1]').textContent = namaHari(f.d1.value);
+        box.querySelector('[data-role=hari2]').textContent = f.noend.checked ? '' : namaHari(f.d2.value);
+        const pv = box.querySelector('[data-role=preview]');
+        const r = baca();
+        pv.className = 'rounded-lg border px-3 py-2 text-[11px] font-semibold ' + (r.err ? 'bg-amber-50 border-amber-200 text-amber-700' : 'bg-indigo-50 border-indigo-200 text-indigo-800');
+        if (r.err) { pv.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i>${esc(r.err)}`; return; }
+        const t0 = Date.now();
+        const w = jadwalNow(r.j, t0), nx = w ? null : jadwalNext(r.j, t0);
+        const ring = jadwalRingkas(r.j);
+        const kapan = w ? `Langsung berlaku sekarang${w.end ? ', aktif lagi ' + jadwalFmt(w.end) + ' WIB' : ''}.`
+          : nx != null ? `Mulai nonaktif berikutnya: ${jadwalFmt(nx)} WIB.` : 'Tidak ada waktu nonaktif yang akan datang pada jadwal ini.';
+        pv.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${n} tema akan ${esc(ring.charAt(0).toLowerCase() + ring.slice(1))}.<div class="font-normal mt-0.5">${esc(kapan)}</div>`;
+      };
+      const setSekali = (s, e) => {
+        f.d1.value = jadwalDateStr(s); f.t1.value = jadwalTimeStr(s);
+        if (e != null) { f.d2.value = jadwalDateStr(e); f.t2.value = jadwalTimeStr(e); }
+      };
+
+      const tombol = [];
+      if (withJ.length) tombol.push({ text: n === 1 ? 'Hapus jadwal' : `Hapus jadwal (${withJ.length})`, value: 'hapus', left: true, cls: 'bg-white hover:bg-rose-50 text-rose-600 border border-rose-200' });
+      tombol.push({ text: 'Batal', value: false }, { text: 'Simpan jadwal', value: 'ok', primary: true });
+
+      let jBaru = null;
+      const hasil = await themeDialog({
+        title: n === 1 ? 'Jadwal nonaktif tema' : `Jadwalkan ${n} tema`, icon: 'fa-clock', tone: 'indigo', wide: true, html, buttons: tombol,
+        setup(b) {
+          box = b;
+          box.querySelectorAll('[data-f]').forEach(el => { f[el.dataset.f] = el; });
+          // isi awal
+          if (awal && awal.tipe === 'sekali') {
+            setSekali(Date.parse(awal.mulai), awal.selesai ? Date.parse(awal.selesai) : null);
+            if (!awal.selesai) { f.noend.checked = true; const e = Date.parse(awal.mulai) + 864e5; f.d2.value = jadwalDateStr(e); f.t2.value = jadwalTimeStr(e); }
+          } else setSekali(defS, defS + 864e5);
+          if (awal && awal.tipe === 'mingguan') {
+            const allDay = jadwalMin(awal.jam_mulai) === 0 && jadwalMin(awal.jam_selesai) === 1440;
+            f.allday.checked = allDay;
+            f.w1.value = allDay ? '08:00' : awal.jam_mulai; f.w2.value = allDay ? '17:00' : awal.jam_selesai;
+            f.wd1.value = awal.dari || ''; f.wd2.value = awal.sampai || '';
+          } else { f.w1.value = '08:00'; f.w2.value = '17:00'; f.wd1.value = jadwalDateStr(now); }
+          box.addEventListener('input', segarkan);
+          box.addEventListener('change', segarkan);
+          box.addEventListener('click', (e) => {
+            const t = e.target.closest('button');
+            if (!t || !box.contains(t)) return;
+            if (t.dataset.mode) { mode = t.dataset.mode; }
+            else if (t.dataset.day != null) { const d = +t.dataset.day; if (days.has(d)) days.delete(d); else days.add(d); }
+            else if (t.dataset.qd) { days.clear(); ({ kerja: [1, 2, 3, 4, 5], libur: [6, 0], semua: [0, 1, 2, 3, 4, 5, 6] })[t.dataset.qd].forEach(d => days.add(d)); }
+            else if (t.dataset.q === 'now') {
+              const s = Math.floor(Date.now() / 60e3) * 60e3;
+              const lama = jadwalTs(f.d2.value, f.t2.value);
+              setSekali(s, lama != null && lama > s ? null : s + 864e5);
+            } else if (t.dataset.q) {
+              const s = jadwalTs(f.d1.value, f.t1.value);
+              if (s == null) return;
+              f.noend.checked = false;
+              setSekali(s, s + ({ '1h': 3600e3, '1d': 864e5, '1w': 7 * 864e5 })[t.dataset.q]);
+            } else return;
+            segarkan();
+          });
+          segarkan();
+        },
+        before(v) {
+          if (v !== 'ok') return true;
+          const r = baca();
+          if (r.err) {
+            const pv = box.querySelector('[data-role=preview]');
+            pv.classList.remove('animate-pulse'); void pv.offsetWidth; pv.classList.add('animate-pulse');
+            setTimeout(() => pv.classList.remove('animate-pulse'), 1200);
+            return false;
+          }
+          jBaru = r.j;
+          return true;
+        }
+      });
+
+      if (hasil === 'hapus') { await themeBulkClearSchedule(items.map(t => t.kategori)); if (!fromRow) { themeSel.clear(); themeSelRerender(); } return; }
+      if (hasil !== 'ok' || !jBaru) return;
+
+      let target = items;
+      const tNow = Date.now();
+      const lain = items.filter(t => themeHasSchedule(t, tNow) && sig(t) !== JSON.stringify(jBaru)); // jadwal yang sudah lewat ditimpa saja
+      if (n > 1 && lain.length) {
+        const pil = await themeDialog({
+          title: `${lain.length} tema sudah punya jadwal`, icon: 'fa-clock', tone: 'amber', wide: true,
+          html: `<p class="text-[12px] text-slate-600"><b>Timpa</b> = jadwal lama diganti jadwal baru. <b>Lewati</b> = tema ini dibiarkan, hanya ${n - lain.length} tema lain yang dijadwalkan.</p>
+            <ul class="max-h-44 overflow-y-auto border border-slate-200 rounded-lg divide-y divide-slate-100 text-[11px]">${lain.map(t => `<li class="px-3 py-1.5"><div class="font-bold text-slate-800">${esc(t.kategori)}</div><div class="text-slate-500">${esc(jadwalRingkas(themeJadwal(t)))}</div></li>`).join('')}</ul>`,
+          buttons: [{ text: 'Batal', value: false, left: true }, { text: 'Lewati', value: 'lewati' }, { text: 'Timpa', value: 'timpa', primary: true, cls: 'bg-amber-600 hover:bg-amber-700' }]
+        });
+        if (!pil) return;
+        if (pil === 'lewati') target = items.filter(t => !lain.includes(t));
+      }
+      if (!target.length) { themeToast('Tidak ada tema yang diubah.'); return; }
+      themeBulkBusy(true);
+      const { gagal, err } = await themeBulkUpdate(target.map(t => t.kategori), { jadwal_nonaktif: jBaru });
+      themeBulkBusy(false);
+      if (err && jadwalKolomHilang(err)) { await jadwalTampilkanSql(); return; }
+      await themeReloadAfterBulk(!fromRow);
+      const ok = target.length - gagal.length;
+      if (gagal.length) await showModalAlert('Sebagian Gagal', `${ok} tema dijadwalkan, ${gagal.length} gagal:\n${gagal.join(', ')}${err ? '\n\n' + err.message : ''}`, 'error');
+      else themeToast(`${ok} tema dijadwalkan · ${jadwalRingkas(jBaru)}`);
+    }
+
+    /* Saat jadwal mulai/berakhir, segarkan daftar tema (desainer & admin) tanpa perlu muat ulang halaman. */
+    let themeSchedSig = null, themeSchedTimer = null;
+    function themeSchedTick() {
+      try {
+        const now = Date.now();
+        const src = Object.values(themesStockMap || {}).concat(typeof isAdminUser !== 'undefined' && isAdminUser ? allAdminThemesData : []);
+        const withJ = src.filter(t => themeJadwal(t));
+        const sig = withJ.map(t => t.kategori + ':' + themeSchedKey(t, now)).join('|');
+        // batas jadwal terdekat (mulai/berakhir) → periksa tepat pada saat itu, bukan menunggu putaran 15 detik
+        let next = Infinity;
+        withJ.forEach(t => {
+          const j = themeJadwal(t), w = jadwalNow(j, now);
+          const b = w ? w.end : jadwalNext(j, now);
+          if (b != null && b > now) next = Math.min(next, b);
+        });
+        if (next - now < 16000 && !themeSchedTimer) themeSchedTimer = setTimeout(() => { themeSchedTimer = null; themeSchedTick(); }, next - now + 300);
+        if (themeSchedSig === null || sig === themeSchedSig) { themeSchedSig = sig; return; }
+        themeSchedSig = sig;
+        if (Object.keys(themesStockMap || {}).length && typeof loadThemes === 'function') loadThemes();
+        if (typeof isAdminUser !== 'undefined' && isAdminUser) {
+          renderAdminThemesTable();
+          if (typeof loadAdminOverviewData === 'function') loadAdminOverviewData();
+        }
+      } catch (e) {}
+    }
+    setInterval(themeSchedTick, 15000);
+
+
+    // Desainer yang diizinkan admin menjadi pembantu upload (toggle di Daftar Kelola Desainer)
+    let userCanHelpMap = {};
+
+    /** Cek langsung ke database apakah desainer boleh membantu upload. */
+    async function canHelpUpload(userId) {
+      if (!userId) return false;
+      try {
+        const { data } = await supabaseClient.from('profiles').select('can_help_upload').eq('id', userId).single();
+        return !!(data && data.can_help_upload);
+      } catch (err) { return false; }
+    }
+
+    /** Admin: aktif/nonaktifkan desainer sebagai pembantu upload. */
+    async function toggleCanHelpUpload(userId, current) {
+      const { data, error } = await supabaseClient.from('profiles')
+        .update({ can_help_upload: !current }).eq('id', userId).select('id, can_help_upload');
+      if (error || !data || !data.length) {
+        return await showModalAlert("Gagal Mengubah", error ? error.message : "Perubahan tidak tersimpan (cek izin akses).", "error");
+      }
+      await renderOverviewDesignersTable();
+      await loadUsersList();
+    }
+
+    async function loadUsersList() {
+      userCanHelpMap = {};
+      userProfilesMap = {};
+      userLevelsMap = {};
+      userEmailsMap = {};
+      userLastSeenMap = {};
+
+      try {
+        const { data: profiles } = await supabaseClient
+          .from('profiles')
+          .select('id, full_name, email, level, last_seen, can_help_upload')
+          .order('full_name', { ascending: true });
+
+        if (profiles && profiles.length > 0) {
+          profiles.forEach(u => { 
+            if (u.id && u.full_name) {
+              userProfilesMap[u.id] = u.full_name;
+              userLevelsMap[u.id] = u.level || 2; 
+              userCanHelpMap[u.id] = !!u.can_help_upload;
+              userLastSeenMap[u.id] = u.last_seen || null;
+              if (u.email) userEmailsMap[u.id] = u.email;
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Error loadUsersList:", err);
+      }
+
+      const usersList = Object.keys(userProfilesMap).map(id => ({
+        id: id,
+        full_name: userProfilesMap[id]
+      }));
+
+      const select = document.getElementById('input-uploader-id');
+      if (select) {
+        const helpers = usersList
+          .filter(u => u.id !== (currentUser ? currentUser.id : '') && userCanHelpMap[u.id]);
+        select.innerHTML = helpers.length
+          ? helpers.map(u => `<option value="${esc(u.id)}">${esc(u.full_name)}</option>`).join('')
+          : `<option value="">Belum ada desainer pembantu yang aktif</option>`;
+      }
+
+      const selectSlip = document.getElementById('select-slip-user');
+      if (selectSlip) {
+        selectSlip.innerHTML = usersList.length > 0 
+          ? usersList.map(u => `<option value="${esc(u.id)}">${esc(u.full_name)} (Level ${userLevelsMap[u.id] || 2})</option>`).join('')
+          : '<option value="">Belum ada desainer</option>';
+      }
+
+      const selectAnalytics = document.getElementById('analytics-select-designer');
+      if (selectAnalytics) {
+        selectAnalytics.innerHTML = usersList.length > 0
+          ? usersList.map(u => `<option value="${esc(u.id)}">${esc(u.full_name)}</option>`).join('')
+          : '<option value="">Belum ada desainer</option>';
+      }
+    }
+
+    async function handleExpiredProjectCleanup(project) {
+      if (!project || !project.id || processedExpiredProjects.has(project.id)) return;
+      processedExpiredProjects.add(project.id);
+
+      try {
+        const desainerName = userProfilesMap[project.designer_id] || 'Desainer';
+
+        const { data: deletedData, error: deleteErr } = await supabaseClient
+          .from('icon_projects')
+          .delete()
+          .eq('id', project.id)
+          .select();
+
+        if (deleteErr) throw deleteErr;
+
+        if (!deletedData || deletedData.length === 0) {
+          console.warn(`Proyek ${project.id} sudah dibersihkan oleh proses lain.`);
+          return;
+        }
+
+        const { data: theme } = await supabaseClient
+          .from('themes_stock')
+          .select('sisa_kuota')
+          .eq('kategori', project.kategori)
+          .single();
+
+        if (theme) {
+          const currentKuota = Number(theme.sisa_kuota) || 0;
+          const amountToRestore = Number(project.jumlah_icon) || 0;
+          const restoredKuota = currentKuota + amountToRestore;
+
+          await supabaseClient.from('themes_stock').update({
+            sisa_kuota: restoredKuota,
+            status_stok: restoredKuota > 0 ? 'Tersedia' : 'Habis'
+          }).eq('kategori', project.kategori);
+        }
+
+        if (isAdminUser) {
+          await showModalAlert(
+            "Klaim Expired (Admin Info) ⚠️", 
+            `Pengerjaan tema "${project.kategori}" (${project.jumlah_icon} Icon) oleh desainer ${desainerName} telah EXPIRED.\n\nSistem telah menghapus klaim tersebut dan mengembalikan stok kuota secara otomatis.`, 
+            "warning"
+          );
+        } else if (currentUser && currentUser.id === project.designer_id) {
+          await showModalAlert(
+            "Waktu Habis (EXPIRED) ⚠️", 
+            `Waktu pengerjaan untuk tema "${project.kategori}" telah habis.\n\nKlaim Anda telah dibatalkan otomatis dan stok kuota sebanyak ${project.jumlah_icon} icon telah dikembalikan!`, 
+            "warning"
+          );
+        }
+
+        loadUserDashboardData();
+        loadThemes();
+        if (isAdminUser) {
+          loadAdminOverviewData();
+          loadAdminThemesTable();
+          loadAdminProjects();
+        }
+      } catch (err) {
+        console.error("Gagal menghapus klaim expired:", err.message);
+      } finally {
+        setTimeout(() => { processedExpiredProjects.delete(project.id); }, 5000);
+      }
+    }
+
+    async function checkExpiredClaims(activeProjects) {
+      if (!activeProjects || activeProjects.length === 0) return [];
+
+      const now = new Date();
+      let remainingProjects = [];
+
+      for (let p of activeProjects) {
+        let isExpired = false;
+        
+        if (p.deadline_drive) {
+          const deadlineDate = new Date(p.deadline_drive);
+          if (now > deadlineDate) isExpired = true;
+        } else {
+          const createdDate = new Date(p.created_at);
+          const endOfDay = new Date(createdDate.getFullYear(), createdDate.getMonth(), createdDate.getDate(), 23, 59, 59, 999);
+          if (now > endOfDay) isExpired = true;
+        }
+
+        if (isExpired && !p.canva_submitted_at && p.status_admin !== 'Approved') {
+          await handleExpiredProjectCleanup(p);
+        } else {
+          remainingProjects.push(p);
+        }
+      }
+      return remainingProjects;
+    }
+
+    async function loadUserDashboardData(silent = false) {
+      if (!currentUser) return;
+
+      try {
+        let myLevel = 2;
+        const { data: userProfile } = await supabaseClient
+          .from('profiles')
+          .select('level')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+
+        if (userProfile && userProfile.level) {
+          myLevel = userProfile.level;
+          userLevelsMap[currentUser.id] = myLevel;
+        } else {
+          myLevel = userLevelsMap[currentUser.id] || 2;
+        }
+
+        const levelBadgeEl = document.getElementById('stat-user-level-badge');
+        if (levelBadgeEl) levelBadgeEl.innerText = `Lvl ${myLevel}`;
+
+        const startDate = document.getElementById('user-start-date').value;
+        const endDate = document.getElementById('user-end-date').value;
+
+        let query = supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .or(`designer_id.eq.${currentUser.id},uploader_id.eq.${currentUser.id}`);
+
+        if (startDate && endDate) {
+          const startISO = new Date(startDate + "T00:00:00").toISOString();
+          const endISO = new Date(endDate + "T23:59:59").toISOString();
+          query = query.gte('created_at', startISO).lte('created_at', endISO);
+        }
+
+        let { data: projects } = await query;
+
+        const tbody = document.getElementById('user-projects-body');
+        if (!projects || projects.length === 0) {
+          tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">Belum ada aktivitas pengerjaan.</td></tr>`;
+          document.getElementById('stat-approved').innerHTML = `0 <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+          document.getElementById('stat-reward1').innerText = `Rp 0`;
+          document.getElementById('stat-reward2-tier').innerText = `Rp 0`;
+          document.getElementById('stat-total-salary').innerText = `Rp 0`;
+          document.getElementById('user-load-more-container').classList.add('hidden');
+          renderDesignerStatusBanner(null);
+          return;
+        }
+
+        let uncompletedList = projects.filter(p => p.designer_id === currentUser.id && p.status_admin !== 'Approved');
+        let validProjects = await checkExpiredClaims(uncompletedList);
+
+        if (uncompletedList.length !== validProjects.length) {
+          let reFetch = await supabaseClient
+            .from('icon_projects')
+            .select('*')
+            .or(`designer_id.eq.${currentUser.id},uploader_id.eq.${currentUser.id}`);
+          projects = reFetch.data || [];
+        }
+
+        if (projects.length === 0) {
+          tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="8">Belum ada aktivitas pengerjaan.</td></tr>`;
+          renderDesignerStatusBanner(null);
+          return;
+        }
+
+       let activeUserProject = projects.find(p => p.designer_id === currentUser.id && p.status_admin !== 'Approved');
+        renderDesignerStatusBanner(activeUserProject);
+
+        const now = new Date();
+        let totalApprovedCount = 0;
+        let hasilDesainRp = 0;
+
+        let formattedProjects = projects.map(p => {
+          const total = Number(p.jumlah_icon) || 0;
+          let inReview = (p.in_review_count !== undefined && p.in_review_count !== null) ? Number(p.in_review_count) : total;
+          let rejected = Number(p.rejected_count) || 0;
+
+          if (p.canva_submitted_at && inReview > 0) {
+            const submittedAt = new Date(p.canva_submitted_at);
+            const diffHours = (now - submittedAt) / (1000 * 60 * 60);
+            if (diffHours >= 24) {
+              rejected += inReview;
+              inReview = 0;
+              supabaseClient.from('icon_projects').update({
+                in_review_count: 0,
+                rejected_count: rejected
+              }).eq('id', p.id);
+            }
+          }
+
+          const approved = Math.max(0, total - (rejected + inReview));
+
+          if (p.status_admin === 'Approved' && p.designer_id === currentUser.id) {
+            totalApprovedCount += approved;
+            const { app: tarifApp, rej: tarifRej } = designFeeRates(myLevel, p);
+
+            hasilDesainRp += (approved * tarifApp) + (rejected * tarifRej);
+          }
+
+          return { ...p, approved_calc: approved };
+        });
+
+        formattedProjects = sortArrayData(formattedProjects, userSortCol, userSortDir);
+        updateSortHeaderIcons('sort-icon-user', userSortCol, userSortDir, ['created_at', 'kategori', 'jumlah_icon', 'in_review_count', 'rejected_count', 'approved_calc', 'status_admin']);
+
+        const visibleProjects = formattedProjects.slice(0, userTableLimit);
+        const loadMoreContainer = document.getElementById('user-load-more-container');
+        if (formattedProjects.length > userTableLimit) {
+          loadMoreContainer.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+
+        const userHash = JSON.stringify(visibleProjects.map(p => ({
+          id: p.id, status: p.status_admin, rev: p.in_review_count, rej: p.rejected_count,
+          app: p.approved_calc, cat: p.catatan_admin, canva: p.canva_uploaded_info, sub: p.canva_submitted_at, rdl: !!p.revision_download_enabled
+        })));
+        const shouldRenderTable = (userHash !== lastUserTableHash);
+        lastUserTableHash = userHash;
+
+        if (shouldRenderTable) {
+          tbody.innerHTML = visibleProjects.map(p => {
+          const dateStr = formatFullDateTime(p.created_at);
+          const total = Number(p.jumlah_icon) || 0;
+          let inReview = (p.in_review_count !== undefined && p.in_review_count !== null) ? Number(p.in_review_count) : total;
+          let rejected = Number(p.rejected_count) || 0;
+          const approved = p.approved_calc;
+
+          let statusAdminBadge = `<span class="bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-bold">Pending Review</span>`;
+          if (p.status_admin === 'Approved') {
+            statusAdminBadge = p.canva_uploaded_info
+              ? `<span class="bg-emerald-600 text-white px-2 py-0.5 rounded font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Approved · Sudah di Canva</span>`
+              : `<span class="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded font-bold"><i class="fa-solid fa-circle-check"></i> Approved</span>`;
+          } else if (p.status_admin === 'Rejected') {
+            statusAdminBadge = `<span class="bg-rose-50 text-rose-600 px-2 py-0.5 rounded font-bold"><i class="fa-solid fa-circle-xmark"></i> Rejected</span>`;
+          }
+
+          const msgBox = p.catatan_admin ? `<div class="mt-1 p-2 bg-rose-50 border border-rose-200 rounded text-[10px] text-rose-700 font-semibold break-words"><i class="fa-solid fa-comment-dots"></i> <b>Catatan:</b> ${esc(p.catatan_admin)}</div>` : '';
+
+          let rowBlinkClass = "";
+          if (p.status_admin === 'Approved' && !p.canva_submitted_at) {
+            rowBlinkClass = "animate-blink-designer";
+          }
+
+          let actionBtn = `
+            <button onclick="openDesignerDrive({ id: ${jsArg(p.id)}, folderUrl: ${jsArg(p.drive_folder_url || '')}, status: ${jsArg(p.status_admin)}, count: ${Number(p.jumlah_icon) || 0}, kategori: ${jsArg(p.kategori || '')}, style: ${jsArg(p.style || p.style_desain || p.style_icon || '')}, designerId: ${jsArg(p.designer_id || '')} })" class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] px-2.5 py-1.5 rounded font-bold shadow-sm flex items-center justify-center gap-1 mx-auto">
+              <i class="fa-solid fa-folder-open"></i> Drive
+            </button>
+          `;
+
+          if (p.status_admin === 'Approved') {
+            const tData = themesStockMap[p.kategori] || {};
+            const judulText = tData.judul || '-';
+            const keywordText = shuffleKeywordsForProject(tData.keyword || '-', p.id);
+
+            actionBtn = `
+              <div class="space-y-2">
+                <div class="p-2 bg-slate-50 border border-slate-200 rounded-lg text-left text-[10px] space-y-1 max-w-xs mx-auto">
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="text-slate-500 font-semibold truncate">Judul: <b class="text-slate-800">${esc(judulText)}</b></span>
+                    <button onclick="copyToClipboard(${jsArg(judulText)})" class="text-blue-600 hover:text-blue-800 font-bold px-1.5 py-0.5 bg-white border border-slate-200 rounded shadow-xs" title="Copy Judul">
+                      <i class="fa-regular fa-copy"></i>
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="text-slate-500 font-semibold truncate">Keyword: <b class="text-slate-800">${esc(keywordText)}</b></span>
+                    <button onclick="copyToClipboard(${jsArg(keywordText)})" class="text-blue-600 hover:text-blue-800 font-bold px-1.5 py-0.5 bg-white border border-slate-200 rounded shadow-xs" title="Copy Keyword">
+                      <i class="fa-regular fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
+
+               ${(() => {
+                  // Sudah tercatat di server → hapus cadangan; belum tercatat tapi ada cadangan di perangkat → tetap tampil + simpan ulang
+                  if (p.canva_uploaded_info) { canvaPendingClear(p.id); return canvaBannerHtml(p.id, p.canva_uploaded_info, false) + canvaReopenHtml(p); }
+                  const pend = canvaPendingGet(p.id);
+                  if (pend) {
+                    if (!canvaAutoTried.has(String(p.id))) { canvaAutoTried.add(String(p.id)); setTimeout(() => saveCanvaUploadInfo(p.id), 800); }
+                    return canvaBannerHtml(p.id, pend.info, true) + canvaReopenHtml(p);
+                  }
+                  return '';
+                })() || (!p.revision_download_enabled ? `<div class="grid grid-cols-1 gap-1.5 mx-auto w-full">
+                       <button onclick="uploadCanvaExtOnly(this, ${jsArg(p.id)})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] px-3 py-1.5 rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 w-full">
+                         <i class="fa-solid fa-arrow-up-right-from-square"></i> Upload Canva
+                       </button>
+                     </div>` : '') || (() => {
+                      const unlocked = isRevisionDownloaded(p.id);
+                      const title = jsArg(p.kategori || 'File revisi');
+                      return `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mx-auto w-full">
+                       <button onclick="openRevisionDownload(${jsArg(p.id)}, ${title})" class="bg-white hover:bg-blue-50 text-blue-700 border border-blue-600 text-[10px] px-3 py-1.5 rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 w-full" title="Download SVG terbaru dari folder Drive proyek">
+                         <i class="fa-solid fa-file-arrow-down"></i> Download File Revisi
+                       </button>
+                       <button data-rev-lock="${esc(p.id)}" onclick="openRevisionDownload(${jsArg(p.id)}, ${title}, true)" class="${unlocked ? 'hidden ' : ''}bg-slate-200 hover:bg-slate-300 text-slate-500 border border-slate-300 text-[10px] px-3 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 w-full" title="Download file revisi dulu untuk membuka Upload Canva">
+                         <i class="fa-solid fa-lock"></i> Download file revisi dulu
+                       </button>
+                       <button data-rev-canva="${esc(p.id)}" onclick="uploadCanvaGuarded(this, ${jsArg(p.id)}, ${title})" class="${unlocked ? '' : 'hidden '}bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] px-3 py-1.5 rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 w-full disabled:opacity-70">
+                         <i class="fa-solid fa-arrow-up-right-from-square"></i> Upload Canva
+                       </button>
+                     </div>`;
+                    })()
+                }
+              </div>
+            `;
+          }
+
+          const toolBadge = p.tool_desain ? `<div class="text-[10px] text-indigo-600 font-semibold mt-0.5"><i class="fa-solid fa-pen-ruler"></i> ${esc(p.tool_desain)}</div>` : '';
+
+          let ownershipTag = '';
+          if (p.uploader_id && p.uploader_id !== p.designer_id) {
+            if (p.uploader_id === currentUser.id) {
+              const ownerName = userProfilesMap[p.designer_id] || 'Desainer Lain';
+              ownershipTag = `<div class="text-[10px] text-amber-700 font-bold mt-0.5 bg-amber-100/80 px-1.5 py-0.5 rounded border border-amber-200 inline-block"><i class="fa-solid fa-hand-holding-hand"></i> Milik: ${esc(ownerName)} (Dibantu Upload)</div>`;
+            } else if (p.designer_id === currentUser.id) {
+              const uploaderName = userProfilesMap[p.uploader_id] || 'Desainer Lain';
+              ownershipTag = `<div class="text-[10px] text-indigo-700 font-bold mt-0.5 bg-indigo-100/80 px-1.5 py-0.5 rounded border border-indigo-200 inline-block"><i class="fa-solid fa-cloud-arrow-up"></i> Dibantu Upload: ${esc(uploaderName)}${(isNewFeeRule(p) || Number(myLevel) === 2) ? '' : ' (-Rp 250/icon)'}</div>`;
+            }
+          }
+
+          return `
+            <tr id="user-row-${esc(p.id)}" class="transition ${rowBlinkClass}">
+              <td class="p-3 text-slate-500 font-medium whitespace-nowrap">${dateStr}</td>
+              <td class="p-3 font-bold text-blue-600">
+                ${esc(p.kategori)}
+                ${toolBadge}
+                ${ownershipTag}
+                ${msgBox}
+                ${studioTombolBaris(p, userProfilesMap[p.designer_id] || '')}
+              </td>
+              <td class="p-3 text-center font-bold">${total}</td>
+              <td class="p-3 text-center font-bold text-amber-600">${inReview}</td>
+              <td class="p-3 text-center font-bold text-rose-600">${rejected}</td>
+              <td class="p-3 text-center font-bold text-emerald-600">${approved}</td>
+              <td class="p-3 text-center">${statusAdminBadge}</td>
+              <td class="p-3 text-center">${actionBtn}</td>
+            </tr>
+          `;
+        }).join('');
+        }
+
+        let reward1 = 0;
+        let helpQuery = supabaseClient
+          .from('icon_projects')
+          .select('*')
+          .or(`uploader_id.eq.${currentUser.id},designer_id.eq.${currentUser.id}`)
+          .eq('status_admin', 'Approved');
+
+        if (startDate && endDate) {
+          const startISO = new Date(startDate + "T00:00:00").toISOString();
+          const endISO = new Date(endDate + "T23:59:59").toISOString();
+          helpQuery = helpQuery.gte('created_at', startISO).lte('created_at', endISO);
+        }
+
+        const { data: helpUploads } = await helpQuery;
+
+        if (helpUploads) {
+          helpUploads.forEach(h => {
+            if (uploadRewardOwner(h) === currentUser.id) reward1 += uploadRewardOf(h);
+          });
+        }
+
+        let reward2 = 0;
+        if (totalApprovedCount >= 100 && totalApprovedCount <= 199) reward2 = 50000;
+        else if (totalApprovedCount >= 200 && totalApprovedCount <= 299) reward2 = 120000;
+        else if (totalApprovedCount >= 300) reward2 = 200000;
+
+        const totalSalary = hasilDesainRp + reward1 + reward2;
+
+        document.getElementById('stat-approved').innerHTML = `${totalApprovedCount} <span class="text-[10px] text-slate-400 font-normal">icon</span>`;
+        document.getElementById('stat-reward1').innerText = `Rp ${reward1.toLocaleString('id-ID')}`;
+        document.getElementById('stat-reward2-tier').innerText = `Rp ${reward2.toLocaleString('id-ID')}`;
+        document.getElementById('stat-total-salary').innerText = `Rp ${totalSalary.toLocaleString('id-ID')}`;
+      } catch (err) {
+        console.error("Error loadUserDashboardData:", err);
+      }
+    }
+
+  function renderDesignerStatusBanner(activeProject) {
+  const bannerContainer = document.getElementById('designer-status-banner');
+  if (countdownInterval) clearInterval(countdownInterval);
+
+  // Jika tidak ada proyek aktif atau statusnya sudah Approved / Revised, sembunyikan banner
+  if (!activeProject || activeProject.status_admin === 'Approved' || activeProject.status_admin === 'Revised') {
+    bannerContainer.classList.add('hidden');
+    bannerContainer.innerHTML = '';
+    return;
+  }
+
+  bannerContainer.classList.remove('hidden');
+
+  // Variabel penentu status
+  const isRejected = activeProject.status_admin === 'Rejected';
+  const isPending = activeProject.status_admin === 'Pending' || activeProject.status_admin === 'Pending Review';
+  const isUploaded = activeProject.canva_submitted_at || activeProject.status_admin === 'Uploaded';
+
+ // HANYA tampilkan Banner Hijau (Kirim Laporan) jika SUDAH upload DAN BUKAN Rejected / Pending / Revised
+  if (isUploaded && !isRejected && !isPending) {
+    const isSubmitted = activeProject.status_admin === 'Submitted';
+    const targetBelajarVal = activeProject.target_belajar || activeProject.target || '';
+    const projectStyle = activeProject.style || activeProject.style_desain || activeProject.style_icon || '';
+
+    // Kalkulasi durasi minimal pengerjaan: {x} icon * 5 menit sejak waktu awal klaim
+    const claimStartTime = new Date(activeProject.created_at).getTime();
+    const minDurationMs = (Number(activeProject.jumlah_icon) || 1) * 5 * 60 * 1000;
+    const unlockTime = claimStartTime + minDurationMs;
+    const isLockedByTime = !isSubmitted && (Date.now() < unlockTime);
+
+    const btnHtml = isSubmitted
+      ? `<button id="btn-trigger-telegram" disabled="disabled"
+                class="bg-emerald-900/40 text-emerald-100 border border-emerald-400/30 font-extrabold text-xs px-4 py-2 rounded-lg whitespace-nowrap flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center cursor-not-allowed opacity-90 z-20">
+          <i class="fa-solid fa-check-double"></i> Laporan Terkirim
+        </button>`
+      : `<button id="btn-trigger-telegram" 
+                ${isLockedByTime ? 'disabled="disabled"' : ''}
+                data-project-id="${activeProject.id}" 
+                data-kategori="${activeProject.kategori.replace(/"/g, '&quot;')}" 
+                data-jumlah="${activeProject.jumlah_icon}" 
+                data-drive="${esc(activeProject.drive_folder_url || '')}" 
+                data-target="${targetBelajarVal.replace(/"/g, '&quot;')}" 
+                data-style="${projectStyle.replace(/"/g, '&quot;')}" 
+                class="${isLockedByTime 
+                  ? 'bg-emerald-950/50 text-emerald-200 border border-emerald-400/30 cursor-not-allowed opacity-90 font-mono' 
+                  : 'bg-white text-emerald-800 hover:bg-emerald-50 cursor-pointer'} font-extrabold text-xs px-4 py-2 rounded-lg transition shadow-sm whitespace-nowrap flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center z-20">
+          ${isLockedByTime 
+            ? '<i class="fa-solid fa-hourglass-half animate-pulse"></i> <span id="btn-report-countdown">00:00:00</span>' 
+            : '<i class="fa-solid fa-paper-plane"></i> Kirim Laporan'}
+        </button>`;
+
+    bannerContainer.innerHTML = `
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-3.5 sm:p-4.5 rounded-xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 border border-emerald-500">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-lg text-white font-black shrink-0 shadow-inner">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div>
+            <h4 class="text-xs sm:text-sm font-extrabold text-white">
+              Selamat! Desain Tema "${esc(activeProject.kategori)}" Berhasil Diupload! 🎉
+            </h4>
+            <p class="text-[11px] text-emerald-100 mt-0.5" id="txt-banner-report-desc">
+              ${isSubmitted 
+                ? 'Laporan telah dikirim ke Admin. Mohon tunggu proses peninjauan.' 
+                : (isLockedByTime 
+                    ? `Menunggu durasi minimal pengerjaan (${activeProject.jumlah_icon} icon × 5 menit) sebelum laporan dapat dikirim.` 
+                    : 'Silakan klik <b>Kirim Laporan</b> jika sudah yakin desain Anda bebas revisi.')}
+            </p>
+          </div>
+        </div>
+        ${btnHtml}
+      </div>
+    `;
+
+    if (!isSubmitted) {
+      const bindSendReportEvent = (btnEl) => {
+        btnEl.onclick = function() {
+          sendTelegramReport(
+            this.getAttribute('data-project-id'),
+            this.getAttribute('data-kategori'),
+            this.getAttribute('data-jumlah'),
+            this.getAttribute('data-drive'),
+            this.getAttribute('data-target'),
+            this.getAttribute('data-style')
+          );
+        };
+      };
+
+      setTimeout(() => {
+        const btnTelegram = document.getElementById('btn-trigger-telegram');
+        if (!btnTelegram) return;
+
+        if (isLockedByTime) {
+          const updateReportCountdown = () => {
+            const diff = unlockTime - Date.now();
+            if (diff <= 0) {
+              clearInterval(countdownInterval);
+              btnTelegram.disabled = false;
+              btnTelegram.className = 'bg-white text-emerald-800 hover:bg-emerald-50 cursor-pointer font-extrabold text-xs px-4 py-2 rounded-lg transition shadow-sm whitespace-nowrap flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center z-20';
+              btnTelegram.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Laporan';
+
+              const descEl = document.getElementById('txt-banner-report-desc');
+              if (descEl) descEl.innerHTML = 'Silakan klik <b>Kirim Laporan</b> jika sudah yakin desain Anda bebas revisi.';
+
+              bindSendReportEvent(btnTelegram);
+              return;
+            }
+
+            const hrs = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+            const mins = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+            const secs = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+            const cdSpan = document.getElementById('btn-report-countdown');
+            if (cdSpan) cdSpan.innerText = `${hrs}:${mins}:${secs}`;
+          };
+
+          updateReportCountdown();
+          countdownInterval = setInterval(updateReportCountdown, 1000);
+        } else {
+          bindSendReportEvent(btnTelegram);
+        }
+      }, 100);
+    }
+
+    return;
+  }
+
+  // Tampilkan Banner Kuning (Deadline Upload) untuk proyek aktif berikutnya (misal: Search Bar (glyph))
+  let targetDeadline = activeProject.deadline_drive ? new Date(activeProject.deadline_drive) : new Date();
+  if (!activeProject.deadline_drive) {
+    targetDeadline.setHours(23, 59, 59, 999);
+  }
+
+  bannerContainer.innerHTML = `
+    <div class="bg-amber-50 border border-amber-300 p-3.5 sm:p-4 rounded-xl shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base font-black shrink-0 shadow-xs">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h4 class="text-xs font-extrabold text-slate-800">Deadline Upload: <span class="text-blue-700 font-black">${esc(activeProject.kategori)}</span></h4>
+            <span class="text-[10px] bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded-full">${activeProject.jumlah_icon} Icon</span>
+          </div>
+          <p class="text-[11px] text-slate-600 mt-0.5">
+            Segera upload file ke Drive sebelum waktu habis. Jika selesai, klik <b>Saya Sudah Upload</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-between sm:justify-end">
+        <div class="bg-white border border-amber-300 px-2.5 py-1 rounded-xl shadow-xs text-center mr-1">
+          <span class="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Sisa Waktu</span>
+          <span class="text-xs sm:text-sm font-black text-rose-600 font-mono tracking-wider" id="txt-countdown-timer">00:00:00</span>
+        </div>
+        <button onclick="openDesignerDrive({ id: ${jsArg(activeProject.id)}, folderUrl: ${jsArg(activeProject.drive_folder_url || '')}, status: ${jsArg(activeProject.status_admin)}, count: ${Number(activeProject.jumlah_icon) || 0}, kategori: ${jsArg(activeProject.kategori || '')}, style: ${jsArg(activeProject.style || activeProject.style_desain || activeProject.style_icon || '')}, designerId: ${jsArg(activeProject.designer_id || '')} })" class="btn-tokopedia-blue text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Drive
+        </button>
+        <button onclick="confirmDriveUpload(${jsArg(activeProject.id)}, ${Number(activeProject.jumlah_icon) || 0}, ${jsArg(activeProject.created_at)})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1">
+          <i class="fa-solid fa-check-circle"></i> Sudah Upload
+        </button>
+      </div>
+    </div>
+  `;
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = targetDeadline - now;
+
+    if (diff <= 0) {
+      clearInterval(countdownInterval);
+      const timerEl = document.getElementById('txt-countdown-timer');
+      if (timerEl) timerEl.innerText = "EXPIRED";
+      
+      handleExpiredProjectCleanup(activeProject);
+      return;
+    }
+
+    const hrs = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+    const mins = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+    const secs = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+    const timerEl = document.getElementById('txt-countdown-timer');
+    if (timerEl) timerEl.innerText = `${hrs}:${mins}:${secs}`;
+  }
+
+  updateTimer();
+  countdownInterval = setInterval(updateTimer, 1000);
+}
+
+ async function confirmDriveUpload(projectId, jumlahIcon, checkTimestamp) {
+  // 1. Tampilkan Konfirmasi Awal
+  const confirm = await showModalConfirm(
+    "Konfirmasi Upload",
+    `Apakah Anda yakin sudah selesai mengunggah file ke Google Drive?`
+  );
+
+  if (!confirm) return;
+
+  // 2. Tampilkan Modal Loading Pengecekan dengan Progress Bar & Animasi
+  const dialog = document.getElementById('modal-custom-dialog');
+  const iconBg = document.getElementById('dialog-icon-bg');
+  const icon = document.getElementById('dialog-icon');
+  const titleEl = document.getElementById('dialog-title');
+  const msgEl = document.getElementById('dialog-message');
+  const promptBox = document.getElementById('dialog-prompt-container');
+  const btnCancel = document.getElementById('dialog-btn-cancel');
+  const btnOk = document.getElementById('dialog-btn-ok');
+
+  promptBox.classList.add('hidden');
+  btnCancel.classList.add('hidden');
+  btnOk.classList.add('hidden'); // Sembunyikan tombol saat loading
+
+  iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-blue-50 text-blue-600 border border-blue-200 animate-spin";
+  icon.className = "fa-solid fa-spinner";
+  titleEl.innerText = "Memeriksa Google Drive...";
+
+  // Render HTML Progress Bar
+  msgEl.innerHTML = `
+    <div class="space-y-3 py-2">
+      <p class="text-xs text-slate-600 font-semibold">Mohon tunggu, sistem sedang memeriksa keberadaan & tanggal pembaruan file di Drive...</p>
+      
+      <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200 shadow-inner">
+        <div id="drive-check-progress-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out" style="width: 5%"></div>
+      </div>
+      
+      <div class="flex justify-between items-center text-[10px] font-bold text-slate-400">
+        <span id="drive-check-time-text">Estimasi: 3 detik</span>
+        <span id="drive-check-percent-text" class="text-blue-600 font-extrabold">5%</span>
+      </div>
+    </div>
+  `;
+
+  dialog.classList.remove('hidden');
+
+  // Animasi Progress Bar
+  let currentProgress = 5;
+  let secondsElapsed = 0;
+  
+  const progressInterval = setInterval(() => {
+    secondsElapsed += 0.2;
+    if (currentProgress < 90) {
+      currentProgress += Math.floor(Math.random() * 8) + 4;
+      if (currentProgress > 90) currentProgress = 90;
+    }
+
+    const progressBar = document.getElementById('drive-check-progress-bar');
+    const percentTxt = document.getElementById('drive-check-percent-text');
+    const timeTxt = document.getElementById('drive-check-time-text');
+
+    if (progressBar) progressBar.style.width = `${currentProgress}%`;
+    if (percentTxt) percentTxt.innerText = `${currentProgress}%`;
+    if (timeTxt) timeTxt.innerText = `Memeriksa: ${secondsElapsed.toFixed(1)}d`;
+  }, 200);
+
+  try {
+    // 3. Ambil data proyek dari Supabase untuk patokan waktu revisi
+    const { data: project } = await supabaseClient
+      .from('icon_projects')
+      .select('*')
+      .eq('id', projectId)
+      .single();
+
+    if (!project || !project.drive_folder_url) {
+      clearInterval(progressInterval);
+      dialog.classList.add('hidden');
+      await showModalAlert("Error", "URL Folder Drive tidak ditemukan pada proyek ini.", "error");
+      return;
+    }
+
+  // Patokan waktu revisi: jika status Rejected, gunakan waktu admin melakukan Reject (updated_at)
+    const isRevision = (project.status_admin === 'Rejected' || project.status_admin === 'Revised');
+    const revisionReferenceTime = isRevision
+      ? (project.updated_at || project.canva_submitted_at || checkTimestamp)
+      : (project.canva_submitted_at || project.updated_at || checkTimestamp);
+
+    // Request Pengecekan ke Google Apps Script (deteksi perubahan waktu minimal 1, beberapa, atau semua file)
+    const checkResponse = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'check_revision',
+        drive_folder_url: project.drive_folder_url,
+        status_admin: project.status_admin || '',
+        rejected_at: revisionReferenceTime,
+        last_submitted_at: project.canva_submitted_at || checkTimestamp,
+        target_jumlah_icon: jumlahIcon,
+        check_mode: 'any_file_timestamp_changed'
+      })
+    });
+
+    const checkResult = await checkResponse.json();
+    clearInterval(progressInterval);
+
+    // Set Progress Bar ke 100%
+    const progressBar = document.getElementById('drive-check-progress-bar');
+    const percentTxt = document.getElementById('drive-check-percent-text');
+    if (progressBar) progressBar.style.width = `100%`;
+    if (percentTxt) percentTxt.innerText = `100%`;
+
+    await new Promise(r => setTimeout(r, 300));
+    dialog.classList.add('hidden');
+
+    // --- EVALUASI RESPON AKURAT ---
+
+    // 1. Folder Drive Kosong
+    if (checkResult.status === 'empty') {
+      await showModalAlert(
+        "Folder Drive Kosong! ⚠️",
+        "Pengecekan selesai. Folder Google Drive Anda masih kosong! Silakan unggah file terlebih dahulu.",
+        "warning"
+      );
+      return;
+    }
+
+    // 2. Terdeteksi File Duplikat (Nama / Ukuran Persis Sama) -> BERLAKU SEMUA KONDISI
+    if (checkResult.status === 'duplicate_file') {
+      await showModalAlert(
+        "Terdeteksi File Duplikat! ⚠️",
+        checkResult.message || "Terdapat file dengan nama atau ukuran (bytes) yang persis sama di dalam folder Drive Anda. Silakan periksa dan perbaiki file tersebut!",
+        "warning"
+      );
+      return;
+    }
+
+    // 3. Jumlah File Kurang dari Target Icon Diklaim -> BERLAKU SEMUA KONDISI
+    if (checkResult.status === 'incomplete') {
+      await showModalAlert(
+        "Jumlah File Belum Lengkap! ⚠️",
+        `Jumlah file di Drive saat ini baru ${checkResult.totalFiles} file, sedangkan target klaim adalah ${checkResult.targetIcon} icon. Harap lengkapi file terlebih dahulu!`,
+        "warning"
+      );
+      return;
+    }
+
+    // 4. Khusus Status Rejected: Belum Ada File yang Diperbarui
+    if (checkResult.status === 'no_new_file') {
+      await showModalAlert(
+        "File Belum Diperbarui! ⚠️",
+        "Sistem tidak mendeteksi adanya file baru yang diunggah/diperbarui setelah revisi diberikan. Pastikan Anda telah mengunggah file revisi terbaru!",
+        "warning"
+      );
+      return;
+    }
+
+    // 5. Error Server
+    if (checkResult.status !== 'success') {
+      await showModalAlert(
+        "Pengecekan Gagal ⚠️",
+        checkResult.message || "Terjadi kesalahan saat memeriksa Google Drive.",
+        "error"
+      );
+      return;
+    }
+
+    // 6. JIKA SEMUA VALIDASI LOLOS (File Terbukti Ada & Terbaru)
+    // 7. Studio Icon (jika admin mewajibkan): semua SVG di Drive harus dibuat / disimpan dari Studio
+    if (await studioCekWajib(projectId)) return;
+
+   const nowIso = new Date().toISOString();
+    const updatedStatus = 'Uploaded';
+
+    const updatePayload = {
+      canva_submitted_at: nowIso,
+      status_admin: updatedStatus,
+      updated_at: nowIso
+    };
+
+    // Jika ini adalah upload hasil revisi, kembalikan hitungan ke antrean In Review
+    if (isRevision || Number(project.rejected_count) > 0) {
+      updatePayload.in_review_count = Number(jumlahIcon) || Number(project.jumlah_icon) || 0;
+      updatePayload.rejected_count = 0;
+    }
+
+    const { data: updatedRows, error: updateErr } = await supabaseClient
+      .from('icon_projects')
+      .update(updatePayload)
+      .eq('id', projectId)
+      .select();
+
+    if (updateErr) throw updateErr;
+    if (!updatedRows || updatedRows.length === 0) {
+      throw new Error("Status gagal diperbarui ke 'Uploaded' di database. Periksa izin RLS atau constraint kolom status_admin di Supabase.");
+    }
+    const namaDesainer = (typeof userProfilesMap !== 'undefined' && userProfilesMap[currentUser.id]) || currentUser.email || 'Desainer';
+    const waktuVerifikasi = formatNotifUploadTime(nowIso);
+    const aksiUploadText = isRevision ? 'merevisi' : 'mengupload';
+
+    // Mencatat history untuk Desainer bersangkutan & Admin
+    await logUserActivity(
+      'UPLOAD_DRIVE',
+      `${namaDesainer} berhasil ${aksiUploadText} ${jumlahIcon} ${project.kategori} (${waktuVerifikasi})`
+    );
+
+    // Tampilkan Popup Sukses & Banner Hijau Langsung Aktif
+   const infoRevisiTxt = isRevision && checkResult.newerFiles
+      ? `Terdeteksi ${checkResult.newerFiles} dari ${checkResult.totalFiles} file telah diperbarui/diupload ulang.`
+      : `File di Drive terdeteksi lengkap (${checkResult.totalFiles} file) dan terbaru.`;
+
+    await showModalAlert(
+      "Berhasil Verifikasi! 🎉",
+      `${infoRevisiTxt} Silakan klik tombol 'Kirim Laporan' yang muncul di atas.`,
+      "success"
+    );
+
+    if (typeof loadUserDashboardData === 'function') {
+      await loadUserDashboardData();
+    }
+
+  } catch (err) {
+    clearInterval(progressInterval);
+    dialog.classList.add('hidden');
+    console.error("Error confirmDriveUpload:", err);
+    await showModalAlert("Terjadi Kesalahan", err.message, "error");
+  }
+}
+    async function openDriveAndReReview(projectId, driveUrl, currentStatus) {
+  const nowIso = new Date().toISOString();
+
+  // Hanya update jam buka Drive, JANGAN timpa updated_at agar patokan waktu revisi tidak bergeser
+  await supabaseClient.from('icon_projects').update({
+    drive_opened_at: nowIso
+  }).eq('id', projectId);
+
+  window.open(driveUrl, '_blank');
+}
+
+    /** Tombol "Drive" desainer: catat jam buka Drive lalu buka penata ikon mode desainer. */
+    function openDesignerDrive(project) {
+      if (!window.KekalArranger) {
+        return openDriveAndReReview(project.id, project.folderUrl || 'https://drive.google.com', project.status);
+      }
+      const meta = (currentUser && currentUser.user_metadata) || {};
+      const designerName = userProfilesMap[project.designerId]
+        || (currentUser && (userProfilesMap[currentUser.id] || meta.full_name || String(currentUser.email || '').split('@')[0]))
+        || '';
+
+      // Sama seperti sebelumnya: catat jam buka Drive tanpa mengubah updated_at
+      supabaseClient.from('icon_projects').update({ drive_opened_at: new Date().toISOString() })
+        .eq('id', project.id).then(() => {}, () => {});
+
+      KekalArranger.open({
+        mode: 'designer',
+        id: project.id,
+        folderUrl: project.folderUrl,
+        count: project.count,
+        title: project.kategori,
+        style: project.style,
+        designer: designerName
+      });
+    }
+
+    async function loadAdminProjects(silent = false) {
+      const tbody = document.getElementById('admin-table-body');
+      const loadMoreContainer = document.getElementById('admin-load-more-container');
+      if (!tbody) return;
+
+      if (!silent && allAdminProjectsData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-slate-400">Memuat data laporan desainer...</td></tr>';
+      }
+
+      try {
+        if (!isUsersLoaded || Object.keys(userProfilesMap).length === 0) {
+          await loadUsersList();
+          isUsersLoaded = true;
+        }
+
+        const { data: projects, error } = await supabaseClient
+          .from('icon_projects')
+          .select('*');
+
+        if (error) throw error;
+
+        if (!projects || projects.length === 0) {
+          allAdminProjectsData = [];
+          tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="9">Belum ada laporan pengerjaan desainer.</td></tr>`;
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        allAdminProjectsData = projects.map(p => {
+          const desainerName = userProfilesMap[p.designer_id] || 'Desainer';
+          const totalNilai = p.jumlah_icon || 0;
+          const inReviewVal = (p.in_review_count !== undefined && p.in_review_count !== null) ? Number(p.in_review_count) : totalNilai;
+          const rejectedVal = Number(p.rejected_count) || 0;
+          const approvedVal = Math.max(0, totalNilai - (rejectedVal + inReviewVal));
+
+          return {
+            ...p,
+            designer_name: desainerName,
+            in_review_count: inReviewVal,
+            approved_calc: approvedVal
+          };
+        });
+
+        renderAdminProjectsTable();
+      } catch (err) {
+        console.error("Error loadAdminProjects:", err);
+        tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-rose-500 font-bold">Gagal memuat data: ${esc(err.message)}</td></tr>`;
+      }
+    }
+
+    function filterAdminProjectsTable() {
+      adminTableLimit = 10;
+      renderAdminProjectsTable();
+    }
+
+    function renderAdminProjectsTable() {
+      const tbody = document.getElementById('admin-table-body');
+      const loadMoreContainer = document.getElementById('admin-load-more-container');
+      if (!tbody) return;
+
+      const searchInput = document.getElementById('input-search-admin-projects');
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      let filteredProjects = allAdminProjectsData.filter(p => {
+        const desainer = (p.designer_name || '').toLowerCase();
+        const kategori = (p.kategori || '').toLowerCase();
+        const statusAdmin = (p.status_admin || '').toLowerCase();
+        const tool = (p.tool_desain || '').toLowerCase();
+
+        return desainer.includes(query) || kategori.includes(query) || statusAdmin.includes(query) || tool.includes(query);
+      });
+
+      if (filteredProjects.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="9">Laporan tidak ditemukan.</td></tr>`;
+        if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+        return;
+      }
+
+      let formattedAdminProjects = sortArrayData([...filteredProjects], adminSortCol, adminSortDir);
+      updateSortHeaderIcons('sort-icon-admin', adminSortCol, adminSortDir, ['created_at', 'designer_name', 'kategori', 'jumlah_icon', 'in_review_count', 'rejected_count', 'approved_calc', 'status_admin']);
+
+     const visibleProjects = formattedAdminProjects.slice(0, adminTableLimit);
+      if (loadMoreContainer) {
+        if (formattedAdminProjects.length > adminTableLimit) {
+          loadMoreContainer.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+      }
+
+      // Jangan timpa tabel jika admin sedang mengetik di salah satu input angka
+      if (isEditingAdminTable || adminTabelSedangDiketik()) {
+        return;
+      }
+
+      // Lewati render DOM ulang jika isi data baris tidak mengalami perubahan
+      const adminHash = JSON.stringify(visibleProjects.map(p => ({
+        id: p.id, status: p.status_admin, rev: p.in_review_count, rej: p.rejected_count,
+        app: p.approved_calc, jml: p.jumlah_icon, dl: p.deadline_drive, tgt: p.target_belajar, tool: p.tool_desain, upl: p.uploader_id,
+        adb: p.adobe_uploaded_info, apAt: p.approved_at, rdl: !!p.revision_download_enabled, cv: !!p.canva_uploaded_info,
+        on: !!(userLastSeenMap[p.designer_id] && (Date.now() - new Date(userLastSeenMap[p.designer_id]).getTime()) < 120000)
+      })));
+      if (adminHash === lastAdminTableHash) return;
+      lastAdminTableHash = adminHash;
+
+      tbody.innerHTML = visibleProjects.map(p => {
+        const dateStr = formatFullDateTime(p.created_at);
+        const desainerName = p.designer_name;
+        const totalNilai = p.jumlah_icon || 0;
+        const inReviewVal = Number(p.in_review_count);
+        const rejectedVal = Number(p.rejected_count) || 0;
+        const approvedVal = p.approved_calc;
+
+        const statusNormalized = (p.status_admin || 'Pending').trim().toLowerCase();
+        let statusBadge = `<span class="bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-bold">Pending</span>`;
+        if (statusNormalized === 'approved') {
+          statusBadge = p.canva_uploaded_info
+            ? `<span class="bg-emerald-600 text-white px-2 py-0.5 rounded font-bold whitespace-nowrap" title="${esc(p.canva_uploaded_info)}">Approved · Sudah di Canva</span>`
+            : `<span class="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded font-bold">Approved</span>`;
+        } else if (['uploaded', 'submitted', 'revised'].includes(statusNormalized)) {
+          statusBadge = `<span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold">Uploaded</span>`;
+        } else if (statusNormalized === 'rejected') {
+          statusBadge = `<span class="bg-rose-50 text-rose-600 px-2 py-0.5 rounded font-bold">Rejected</span>`;
+        }
+
+        const targetBelajarTxt = p.target_belajar ? `<div class="text-[10px] text-slate-500 font-normal italic mt-0.5"><i class="fa-solid fa-graduation-cap text-blue-500"></i> ${esc(p.target_belajar)}</div>` : '';
+        const toolDesainTxt = p.tool_desain ? `<div class="text-[10px] text-indigo-600 font-bold mt-0.5"><i class="fa-solid fa-pen-ruler"></i> ${esc(p.tool_desain)}</div>` : '';
+
+        let adminRowBlink = "";
+        if (statusNormalized === 'pending') {
+          adminRowBlink = "animate-blink-admin";
+        } else if (['uploaded', 'submitted', 'revised'].includes(statusNormalized)) {
+          adminRowBlink = "animate-blink-uploaded";
+        }
+
+        let uploaderInfoAdmin = '';
+        if (p.uploader_id && p.uploader_id !== p.designer_id) {
+          const uploaderName = userProfilesMap[p.uploader_id] || 'Desainer Lain';
+          uploaderInfoAdmin = `<div class="text-[10px] text-indigo-600 font-bold mt-0.5"><i class="fa-solid fa-cloud-arrow-up"></i> Upload: ${esc(uploaderName)}</div>`;
+        }
+       const nowSecs = Math.floor(Date.now() / 1000);
+        const lastSeenVal = userLastSeenMap[p.designer_id];
+        const lastSeenSecs = lastSeenVal ? Math.floor(new Date(lastSeenVal).getTime() / 1000) : 0;
+        const isDesignerOnline = lastSeenVal && (nowSecs - lastSeenSecs) < 120;
+
+        const statusDotHtml = isDesignerOnline
+          ? `<span class="relative flex h-2.5 w-2.5 shrink-0" title="Online (Sedang membuka web)"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span>`
+          : `<span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" title="Offline"></span>`;
+
+        return `
+          <tr class="transition ${adminRowBlink}">
+            <td class="p-3 text-slate-500 font-medium">${dateStr}</td>
+            <td class="p-3 font-bold text-slate-800">
+              <div class="flex items-center gap-1.5">
+                <span>${esc(desainerName)}</span>
+                ${statusDotHtml}
+              </div>
+              ${uploaderInfoAdmin}
+              ${targetBelajarTxt}
+            </td>
+            <td class="p-3 font-semibold text-blue-600">
+              ${esc(p.kategori)}
+              ${toolDesainTxt}
+              ${p.adobe_uploaded_info
+                ? `<div class="mt-1 inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded" title="${esc(p.adobe_uploaded_info)}"><i class="fa-solid fa-circle-check"></i> Sudah di Adobe</div>`
+                : `<div class="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded"><i class="fa-regular fa-circle"></i> Belum di Adobe</div>`}
+            </td>
+            <td class="p-3 text-center font-bold" id="total-${p.id}">${totalNilai}</td>
+            
+            <td class="p-3 text-center">
+              <input type="number" id="rev-${p.id}" value="${inReviewVal}" min="0" max="${totalNilai}" onfocus="isEditingAdminTable=true" onblur="isEditingAdminTable=false" oninput="handleRealtimeAdminInput('${p.id}')" class="w-12 border border-amber-300 rounded text-center py-1 font-bold text-amber-600 outline-none"/>
+            </td>
+            <td class="p-3 text-center">
+              <input type="number" id="rej-${p.id}" value="${rejectedVal}" min="0" max="${totalNilai}" onfocus="isEditingAdminTable=true" onblur="isEditingAdminTable=false" oninput="handleRealtimeAdminInput('${p.id}')" class="w-12 border border-rose-300 rounded text-center py-1 font-bold text-rose-600 outline-none"/>
+            </td>
+            <td class="p-3 text-center">
+              <input type="number" id="app-${p.id}" value="${approvedVal}" readonly class="w-12 bg-slate-100 border border-slate-300 rounded text-center py-1 font-bold text-emerald-700 outline-none cursor-not-allowed"/>
+            </td>
+
+            <td class="p-3 text-center">${statusBadge}${reportGateHtml(p)}</td>
+            <td class="p-3 text-center whitespace-nowrap">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="openEditProjectModal(${jsArg(p.id)}, ${jsArg(p.target_belajar || '')}, ${jsArg(p.tool_desain || 'Figma')}, ${Number(p.jumlah_icon) || 0}, ${jsArg(p.uploader_id || '')}, ${jsArg(p.designer_id)})" class="bg-amber-500 text-white p-2 rounded text-[10px] font-bold hover:bg-amber-600 shadow-sm flex items-center justify-center" title="Edit Detail Laporan">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                ${p.status_admin === 'Approved'
+                  ? `<button onclick="updateProjectStatus('${p.id}', 'Approved')" class="bg-slate-400 text-white p-2 rounded text-[10px] font-bold hover:bg-slate-500 shadow-sm flex items-center justify-center" title="${esc(p.approved_at ? 'Sudah di-approve pada ' + formatFullDateTime(p.approved_at) : 'Sudah di-approve')} · klik untuk koreksi angka saja">
+                  <i class="fa-solid fa-check"></i>
+                </button>`
+                  : `<button onclick="updateProjectStatus('${p.id}', 'Approved')" class="bg-emerald-600 text-white p-2 rounded text-[10px] font-bold hover:bg-emerald-700 shadow-sm flex items-center justify-center" title="Approve">
+                  <i class="fa-solid fa-check"></i>
+                </button>`}
+                <button onclick="handleRejectWithNote('${p.id}')" class="bg-rose-600 text-white p-2 rounded text-[10px] font-bold hover:bg-rose-700 shadow-sm flex items-center justify-center" title="Reject">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <button onclick="KekalArranger.open({ id: ${jsArg(p.id)}, folderUrl: ${jsArg(p.drive_folder_url || '')}, count: ${Number(p.jumlah_icon) || 0}, title: ${jsArg(p.kategori || '')}, designer: ${jsArg(desainerName || '')}, judul: ${jsArg((themesStockMap[p.kategori] || {}).judul || '')}, keyword: ${jsArg((themesStockMap[p.kategori] || {}).keyword || '')}, adobeInfo: ${jsArg(p.adobe_uploaded_info || '')}, onAdobeUpload: recordAdobeUpload })" class="bg-violet-600 text-white p-2 rounded text-[10px] font-bold hover:bg-violet-700 shadow-sm flex items-center justify-center" title="Penata Ikon">
+                  <i class="fa-solid fa-table-cells"></i>
+                </button>
+                <button onclick="studioBukaProyek(${jsArg(p.id)}, ${jsArg(p.kategori || '')}, ${Number(p.jumlah_icon) || 0}, ${jsArg(desainerName || '')})" class="bg-fuchsia-600 text-white p-2 rounded text-[10px] font-bold hover:bg-fuchsia-700 shadow-sm flex items-center justify-center" title="Studio Icon">
+                  <i class="fa-solid fa-pen-nib"></i>
+                </button>
+                <button onclick="toggleRevisionDownload(${jsArg(p.id)}, ${p.revision_download_enabled ? 'true' : 'false'})" class="${p.revision_download_enabled ? 'bg-sky-600 hover:bg-sky-700 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-500'} p-2 rounded text-[10px] font-bold shadow-sm flex items-center justify-center" title="${p.revision_download_enabled ? 'Download file revisi diizinkan · klik untuk menutup' : 'Download file revisi tertutup · klik untuk mengizinkan'}">
+                  <i class="fa-solid fa-file-arrow-down"></i>
+                </button>
+                <a href="${safeUrl(p.drive_folder_url, 'https://drive.google.com')}" target="_blank" rel="noopener" class="bg-blue-600 text-white p-2 rounded text-[10px] font-bold hover:bg-blue-700 shadow-sm flex items-center justify-center" title="Buka Drive">
+                  <i class="fa-solid fa-folder-open"></i>
+                </a>
+                <button onclick="deleteProjectRecord(${jsArg(p.id)}, ${jsArg(p.kategori)})" class="bg-slate-700 text-white p-2 rounded text-[10px] font-bold hover:bg-rose-800 shadow-sm flex items-center justify-center" title="Hapus">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    /** Admin: izinkan / tutup tombol Download File Revisi untuk desainer pada laporan ini. */
+    async function toggleRevisionDownload(id, current) {
+      const { data, error } = await supabaseClient.from('icon_projects')
+        .update({ revision_download_enabled: !current }).eq('id', id).select('id, revision_download_enabled');
+      if (error || !data || !data.length) {
+        return await showModalAlert("Gagal Mengubah", error ? error.message : "Perubahan tidak tersimpan (cek izin akses).", "error");
+      }
+      const row = allAdminProjectsData.find(x => String(x.id) === String(id));
+      if (row) row.revision_download_enabled = !current;
+      renderAdminProjectsTable();
+    }
+
+    async function deleteProjectRecord(id, kategori) {
+      const { data: projectData, error: fetchErr } = await supabaseClient
+        .from('icon_projects')
+        .select('jumlah_icon, kategori')
+        .eq('id', id)
+        .single();
+
+      if (fetchErr || !projectData) {
+        await showModalAlert("Gagal", "Data laporan tidak ditemukan.", "error");
+        return;
+      }
+
+      const jumlahDiklaim = Number(projectData.jumlah_icon) || 0;
+      const namaKategori = projectData.kategori || kategori;
+
+      const confirmed = await showModalConfirm(
+        "Hapus Laporan", 
+        `Yakin ingin menghapus laporan tema "${namaKategori}" ini?\n\nStok sebanyak ${jumlahDiklaim} icon akan dikembalikan secara otomatis ke tema terkait.`
+      );
+
+      if (confirmed) {
+        try {
+          const { error: deleteErr } = await supabaseClient
+            .from('icon_projects')
+            .delete()
+            .eq('id', id);
+
+          if (deleteErr) throw deleteErr;
+
+          const { data: themeData } = await supabaseClient
+            .from('themes_stock')
+            .select('sisa_kuota')
+            .eq('kategori', namaKategori)
+            .single();
+
+          if (themeData) {
+            const stokSekarang = Number(themeData.sisa_kuota) || 0;
+            const stokBaru = stokSekarang + jumlahDiklaim;
+
+            await supabaseClient.from('themes_stock').update({
+              sisa_kuota: stokBaru,
+              status_stok: stokBaru > 0 ? 'Tersedia' : 'Habis'
+            }).eq('kategori', namaKategori);
+          }
+
+          await showModalAlert(
+            "Terhapus & Stok Dikembalikan", 
+            `Laporan berhasil dihapus dan stok tema "${namaKategori}" telah ditambah kembali sebesar +${jumlahDiklaim} icon!`, 
+            "success"
+          );
+
+          loadAdminProjects();
+          if (isAdminUser) loadAdminOverviewData();
+          loadThemes();
+          loadAdminThemesTable();
+        } catch (err) {
+          await showModalAlert("Gagal Hapus", err.message, "error");
+        }
+      }
+    }
+
+    function handleRealtimeAdminInput(id) {
+      const totalNilai = parseInt(document.getElementById(`total-${id}`).innerText) || 0;
+      let revVal = parseInt(document.getElementById(`rev-${id}`).value) || 0;
+      let rejVal = parseInt(document.getElementById(`rej-${id}`).value) || 0;
+
+      if (revVal < 0) revVal = 0;
+      if (rejVal < 0) rejVal = 0;
+
+      if (revVal > totalNilai) {
+        revVal = totalNilai;
+        document.getElementById(`rev-${id}`).value = revVal;
+      }
+
+      if (revVal + rejVal > totalNilai) {
+        rejVal = totalNilai - revVal;
+        document.getElementById(`rej-${id}`).value = rejVal;
+      }
+
+      const approvedVal = Math.max(0, totalNilai - (rejVal + revVal));
+      document.getElementById(`app-${id}`).value = approvedVal;
+
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        supabaseClient.from('icon_projects').update({
+          in_review_count: revVal,
+          rejected_count: rejVal,
+          approved_count: approvedVal
+        }).eq('id', id).then(() => {
+          if (isAdminUser) loadAdminOverviewData();
+          if (!document.getElementById('modal-slip-gaji').classList.contains('hidden')) {
+            calculateSalaryForSelectedUser();
+          }
+        });
+      }, 500);
+    }
+
+   async function handleRejectWithNote(id) {
+      const note = await showModalPrompt("Penolakan & Catatan", "Masukkan catatan/alasan perbaikan untuk desainer:");
+      if (note === null) return;
+
+      const appInput = document.getElementById(`app-${id}`);
+      const rejInput = document.getElementById(`rej-${id}`);
+      const revInput = document.getElementById(`rev-${id}`);
+
+      const approvedCount = appInput ? parseInt(appInput.value) || 0 : 0;
+      const rejectedCount = rejInput ? parseInt(rejInput.value) || 0 : 0;
+      const inReviewCount = revInput ? parseInt(revInput.value) || 0 : 0;
+      const nowIso = new Date().toISOString();
+
+      // Ambil detail proyek agar nama tema, jumlah icon, dan ID desainer akurat
+      const proj = allAdminProjectsData.find(x => String(x.id) === String(id)) || {};
+      const namaTema = proj.kategori || 'Icon';
+      const jumlahIcon = proj.jumlah_icon || 0;
+      const designerId = proj.designer_id || null;
+      const namaDesainer = userProfilesMap[designerId] || 'Desainer';
+      const waktuStamp = formatNotifUploadTime(nowIso);
+
+      const { error } = await supabaseClient.from('icon_projects').update({
+        status_admin: 'Rejected',
+        catatan_admin: note,
+        approved_count: approvedCount,
+        rejected_count: rejectedCount,
+        in_review_count: inReviewCount,
+        updated_at: nowIso
+      }).eq('id', id);
+
+      if (!error) {
+        const logDetail = `Tema "${namaTema}" sebanyak ${jumlahIcon} icon milik ${namaDesainer} membutuhkan perbaikan (Rejected). Catatan: "${note || '-'}" (${waktuStamp})`;
+        
+        // 1. Catat riwayat aktivitas untuk Admin
+        await logUserActivity('MODERASI', logDetail);
+        
+        // 2. Catat riwayat aktivitas khusus untuk Desainer bersangkutan (jika tabel mendukung target_user_id / user_id)
+        if (designerId) {
+          await supabaseClient.from('activity_logs').insert([{
+            user_id: designerId,
+            user_name: namaDesainer,
+            user_role: 'designer',
+            action_type: 'MODERASI',
+            description: `Tema "${namaTema}" sebanyak ${jumlahIcon} icon membutuhkan perbaikan. Catatan Admin: "${note || '-'}" (${waktuStamp})`,
+            created_at: nowIso
+          }]).then(() => {}).catch(() => {});
+        }
+
+        await showModalAlert("Status Ditolak", "Catatan perbaikan & notifikasi dikirim ke desainer!", "success");
+        loadAdminProjects();
+        if (isAdminUser) loadAdminOverviewData();
+      } else {
+        await showModalAlert("Gagal Update", error.message, "error");
+      }
+    }
+
+    async function updateProjectStatus(id, newStatus) {
+      const appInput = document.getElementById(`app-${id}`);
+      const rejInput = document.getElementById(`rej-${id}`);
+      const revInput = document.getElementById(`rev-${id}`);
+
+      const approvedCount = appInput ? parseInt(appInput.value) || 0 : 0;
+      const rejectedCount = rejInput ? parseInt(rejInput.value) || 0 : 0;
+      const inReviewCount = revInput ? parseInt(revInput.value) || 0 : 0;
+      const nowIso = new Date().toISOString();
+
+      // Ambil detail proyek
+      const proj = allAdminProjectsData.find(x => String(x.id) === String(id)) || {};
+      const namaTema = proj.kategori || 'Icon';
+      const jumlahIcon = proj.jumlah_icon || 0;
+      const designerId = proj.designer_id || null;
+      const namaDesainer = userProfilesMap[designerId] || 'Desainer';
+      const waktuStamp = formatNotifUploadTime(nowIso);
+
+      // Sudah pernah di-approve: jangan dianggap Approve baru (tanpa notifikasi ulang, approved_at tetap)
+      if (newStatus === 'Approved' && proj.status_admin === 'Approved') {
+        return reapproveCountsOnly(id, proj, approvedCount, rejectedCount, inReviewCount);
+      }
+
+      // Desainer belum mengirim laporan (masih dalam jeda / belum lapor): minta konfirmasi dulu
+      if (newStatus === 'Approved' && reportGate(proj)) {
+        const lanjut = await confirmApproveBeforeReport(proj, namaDesainer);
+        if (!lanjut) return;
+      }
+
+      const { error } = await supabaseClient.from('icon_projects').update({
+        status_admin: newStatus,
+        catatan_admin: '',
+        approved_count: approvedCount,
+        rejected_count: rejectedCount,
+        in_review_count: inReviewCount,
+        updated_at: nowIso
+      }).eq('id', id);
+
+      if (!error && newStatus === 'Approved') {
+        // Waktu Approve untuk jeda klaim ulang (kolom approved_at; diabaikan jika belum dibuat)
+        try {
+          const { error: apErr } = await supabaseClient.from('icon_projects').update({ approved_at: nowIso }).eq('id', id);
+          if (apErr) console.warn('approved_at belum tersedia:', apErr.message);
+        } catch (e) {}
+      }
+
+      if (!error) {
+        const logDetail = `Tema "${namaTema}" sebanyak ${jumlahIcon} icon milik ${namaDesainer} telah disetujui (${newStatus}) — Approve: ${approvedCount}, Reject: ${rejectedCount} (${waktuStamp})`;
+
+        // 1. Catat riwayat aktivitas untuk Admin
+        await logUserActivity('MODERASI', logDetail);
+
+        // 2. Catat riwayat aktivitas khusus untuk Desainer bersangkutan
+        if (designerId) {
+          await supabaseClient.from('activity_logs').insert([{
+            user_id: designerId,
+            user_name: namaDesainer,
+            user_role: 'designer',
+            action_type: 'MODERASI',
+            description: `Tema "${namaTema}" sebanyak ${jumlahIcon} icon telah disetujui (Approved). Segera upload ke Canva! (${waktuStamp})`,
+            created_at: nowIso
+          }]).then(() => {}).catch(() => {});
+        }
+
+        await showModalAlert("Berhasil Approve", "Status laporan disetujui & notifikasi dikirim ke desainer!", "success");
+        loadAdminProjects();
+        if (isAdminUser) loadAdminOverviewData();
+        await loadThemes(); 
+        if (!document.getElementById('modal-slip-gaji').classList.contains('hidden')) {
+          calculateSalaryForSelectedUser();
+        }
+      } else {
+        await showModalAlert("Gagal Update", error.message, "error");
+      }
+    }
+
+    /* ===== Timer desainer yang sedang berjalan (sama persis dengan halaman desainer) =====
+     * Pending  → batas upload ke Drive (deadline_drive; bila kosong: hari ini 23:59:59)
+     * Uploaded → jeda kirim laporan: jam klaim + {jumlah icon} × 5 menit */
+    /** null bila laporan sudah dikirim / tidak relevan; selain itu { kind, unlock, totalMs }. */
+    function reportGate(p) {
+      const st = String((p && p.status_admin) || 'Pending').trim().toLowerCase();
+      if (st === 'pending') {
+        const dl = p.deadline_drive ? new Date(p.deadline_drive) : new Date();
+        if (!p.deadline_drive) dl.setHours(23, 59, 59, 999);
+        const t = dl.getTime();
+        return Number.isFinite(t) ? { kind: 'upload', unlock: t, totalMs: 0 } : null;
+      }
+      if (st !== 'uploaded') return null;
+      const start = new Date(p.created_at).getTime();
+      if (!Number.isFinite(start)) return null;
+      const totalMs = (Number(p.jumlah_icon) || 1) * 5 * 60 * 1000;
+      return { kind: 'report', unlock: start + totalMs, totalMs };
+    }
+    function fmtHms(ms) {
+      const t = Math.max(0, Math.floor(ms / 1000));
+      const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), d = t % 60;
+      return [h, m, d].map(v => String(v).padStart(2, '0')).join(':');
+    }
+    function reportGateLabel(unlock, kind) {
+      const sisa = unlock - Date.now();
+      if (kind === 'upload') {
+        return sisa > 0
+          ? { cls: 'text-amber-600', html: `<i class="fa-solid fa-hourglass-half"></i> Upload ${fmtHms(sisa)}`, title: 'Sisa batas upload ke Drive (sama dengan timer di halaman desainer)' }
+          : { cls: 'text-rose-600', html: `<i class="fa-solid fa-triangle-exclamation"></i> Lewat batas upload`, title: 'Batas upload ke Drive sudah lewat' };
+      }
+      return sisa > 0
+        ? { cls: 'text-amber-600', html: `<i class="fa-solid fa-hourglass-half"></i> Lapor ${fmtHms(sisa)}`, title: 'Sisa waktu sampai desainer boleh mengirim laporan (sama dengan timer tombol Kirim Laporan)' }
+        : { cls: 'text-rose-600', html: `<i class="fa-solid fa-triangle-exclamation"></i> Belum lapor`, title: 'Waktu pengerjaan selesai, tetapi desainer belum mengirim laporan' };
+    }
+    function reportGateHtml(p) {
+      const g = reportGate(p);
+      if (!g) return '';
+      const l = reportGateLabel(g.unlock, g.kind);
+      return `<div class="kd-rep-gate mt-1 text-[10px] font-bold font-mono whitespace-nowrap ${l.cls}" data-unlock="${g.unlock}" data-kind="${g.kind}" title="${l.title}">${l.html}</div>`;
+    }
+    // Hitung mundur di tabel berjalan tanpa merender ulang tabel
+    setInterval(() => {
+      document.querySelectorAll('.kd-rep-gate[data-unlock]').forEach(el => {
+        const l = reportGateLabel(Number(el.dataset.unlock), el.dataset.kind);
+        if (el.innerHTML !== l.html) el.innerHTML = l.html;
+        el.className = `kd-rep-gate mt-1 text-[10px] font-bold font-mono whitespace-nowrap ${l.cls}`;
+        el.title = l.title;
+      });
+    }, 1000);
+
+    /** Konfirmasi Approve saat desainer belum mengirim laporan. Batal = pilihan aman. */
+    function confirmApproveBeforeReport(proj, namaDesainer) {
+      return new Promise((resolve) => {
+        const g = reportGate(proj);
+        const dialog = document.getElementById('modal-custom-dialog');
+        const iconBg = document.getElementById('dialog-icon-bg');
+        const icon = document.getElementById('dialog-icon');
+        const titleEl = document.getElementById('dialog-title');
+        const msgEl = document.getElementById('dialog-message');
+        const promptBox = document.getElementById('dialog-prompt-container');
+        const btnCancel = document.getElementById('dialog-btn-cancel');
+        const btnOk = document.getElementById('dialog-btn-ok');
+        const jml = Number(proj.jumlah_icon) || 1;
+        const nama = namaDesainer || 'Desainer';
+        const tema = proj.kategori || 'tema ini';
+
+        const paint = () => {
+          const sisa = g.unlock - Date.now();
+          if (g.kind === 'upload') {
+            titleEl.innerText = 'Desainer belum upload ke Drive';
+            msgEl.innerText = sisa > 0
+              ? `${nama} belum upload "${tema}" ke Drive dan belum mengirim laporan.\n\nBatas upload: sisa ${fmtHms(sisa)}\n\nApakah Anda yakin ingin menyetujuinya sekarang?`
+              : `${nama} belum upload "${tema}" ke Drive dan batas upload sudah lewat.\n\nApakah Anda yakin ingin menyetujuinya?`;
+            iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-rose-50 text-rose-600 border border-rose-200";
+            icon.className = "fa-solid fa-cloud-arrow-up";
+          } else if (sisa > 0) {
+            titleEl.innerText = 'Desainer masih dalam waktu pengerjaan';
+            msgEl.innerText = `${nama} masih diberi waktu ${jml} icon × 5 menit = ${fmtHms(g.totalMs)} untuk "${tema}" dan belum mengirim laporan.\n\nSisa waktu: ${fmtHms(sisa)}\n\nApakah Anda yakin ingin menyetujuinya sekarang?`;
+            iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-amber-50 text-amber-600 border border-amber-200";
+            icon.className = "fa-solid fa-hourglass-half";
+          } else {
+            titleEl.innerText = 'Desainer belum mengirim laporan';
+            msgEl.innerText = `Waktu pengerjaan ${nama} untuk "${tema}" sudah selesai, tetapi laporan belum dikirim.\n\nApakah Anda yakin ingin menyetujuinya?`;
+            iconBg.className = "w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-rose-50 text-rose-600 border border-rose-200";
+            icon.className = "fa-solid fa-triangle-exclamation";
+          }
+        };
+
+        promptBox.classList.add('hidden');
+        btnCancel.classList.remove('hidden');
+        btnOk.innerText = "Tetap Setujui";
+        btnOk.className = "bg-white hover:bg-amber-50 text-amber-700 border border-amber-300 text-xs font-bold px-4 py-2 rounded-lg transition";
+        const cancelCls = btnCancel.className;
+        btnCancel.className = "btn-tokopedia-blue text-xs font-bold px-5 py-2 rounded-lg transition shadow-sm";
+        paint();
+        const timer = setInterval(paint, 1000);
+        dialog.classList.remove('hidden');
+        setTimeout(() => { try { btnCancel.focus(); } catch (e) {} }, 30);
+
+        const done = (val) => {
+          clearInterval(timer);
+          dialog.classList.add('hidden');
+          btnCancel.className = cancelCls;
+          resolve(val);
+        };
+        btnOk.onclick = () => done(true);
+        btnCancel.onclick = () => done(false);
+      });
+    }
+
+    /** Tombol ✓ pada proyek yang sudah Approved: hanya simpan koreksi angka. */
+    async function reapproveCountsOnly(id, proj, app, rej, rev) {
+      const kapan = proj.approved_at ? formatFullDateTime(proj.approved_at) : '';
+      const sudah = kapan ? `Tema ini sudah di-approve pada ${kapan}.` : 'Tema ini sudah di-approve.';
+      const sama = Number(proj.approved_count) === app && Number(proj.rejected_count) === rej && Number(proj.in_review_count) === rev;
+      if (sama) {
+        await showModalAlert("Sudah Di-approve", `${sudah}\n\nTidak ada perubahan angka yang perlu disimpan.`, "info");
+        return;
+      }
+      const ok = await showModalConfirm(
+        "Sudah Di-approve",
+        `${sudah}\n\nSimpan perubahan angka saja?\nApprove: ${app} · Reject: ${rej} · In Review: ${rev}\n\nDesainer tidak akan menerima notifikasi ulang.`
+      );
+      if (!ok) return;
+      const { error } = await supabaseClient.from('icon_projects').update({
+        approved_count: app,
+        rejected_count: rej,
+        in_review_count: rev
+      }).eq('id', id);
+      if (error) {
+        await showModalAlert("Gagal Update", error.message, "error");
+        return;
+      }
+      const namaDesainer = userProfilesMap[proj.designer_id] || 'Desainer';
+      await logUserActivity('MODERASI', `Koreksi angka tema "${proj.kategori || 'Icon'}" milik ${namaDesainer} (sudah Approved) — Approve: ${app}, Reject: ${rej}, In Review: ${rev}`);
+      await showModalAlert("Tersimpan", "Perubahan angka disimpan. Status & waktu Approve tidak berubah.", "success");
+      loadAdminProjects();
+      if (isAdminUser) loadAdminOverviewData();
+      if (!document.getElementById('modal-slip-gaji').classList.contains('hidden')) {
+        calculateSalaryForSelectedUser();
+      }
+    }
+
+    async function calculateSalaryForSelectedUser() {
+      const userId = document.getElementById('select-slip-user').value;
+      const startDate = document.getElementById('slip-start-date').value;
+      const endDate = document.getElementById('slip-end-date').value;
+
+      if (startDate && endDate) {
+        const startFormatted = new Date(startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        const endFormatted = new Date(endDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('slip-periode').innerText = `Periode: ${startFormatted} - ${endFormatted}`;
+      } else {
+        document.getElementById('slip-periode').innerText = `Periode: -`;
+      }
+
+      if (!userId || !startDate || !endDate) {
+        document.getElementById('slip-nama').innerText = '-';
+        document.getElementById('slip-level-badge').innerText = 'Level 2';
+        document.getElementById('slip-level-badge').className = 'font-bold px-2 py-0.5 rounded text-[10px] bg-slate-100 text-slate-700';
+        document.getElementById('slip-tarif-label').innerText = 'Rp 750 / Rp 450';
+        document.getElementById('slip-total-desain').innerText = '0';
+        document.getElementById('slip-ditolak').innerText = '0';
+        document.getElementById('slip-diterima').innerText = '0';
+        document.getElementById('slip-hasil-desain').innerText = '0';
+        document.getElementById('slip-reward-1').innerText = '0';
+        document.getElementById('slip-reward-2').innerText = '0';
+        document.getElementById('slip-total-pendapatan').innerText = '0';
+        return;
+      }
+
+      const desainerLevel = userLevelsMap[userId] || 2;
+      document.getElementById('slip-nama').innerText = userProfilesMap[userId] || 'Desainer';
+      
+      const levelBadge = document.getElementById('slip-level-badge');
+      const tarifLabel = document.getElementById('slip-tarif-label');
+
+      if (desainerLevel === 3) {
+        levelBadge.innerText = 'Level 3 (Rp 2.500 / Rp 1.500)';
+        levelBadge.className = 'font-bold px-2 py-0.5 rounded text-[10px] bg-indigo-50 text-indigo-700 border border-indigo-200';
+        tarifLabel.innerText = 'Rp 2.500 / Rp 1.500';
+      } else {
+        levelBadge.innerText = 'Level 2 (Rp 750 / Rp 450)';
+        levelBadge.className = 'font-bold px-2 py-0.5 rounded text-[10px] bg-slate-100 text-slate-700 border border-slate-200';
+        tarifLabel.innerText = 'Rp 750 / Rp 450';
+      }
+
+      const startISO = new Date(startDate + "T00:00:00").toISOString();
+      const endISO = new Date(endDate + "T23:59:59").toISOString();
+
+      const { data: projects } = await supabaseClient
+        .from('icon_projects')
+        .select('*')
+        .eq('designer_id', userId)
+        .gte('created_at', startISO)
+        .lte('created_at', endISO);
+
+      let totalDesain = 0;
+      let totalDitolak = 0;
+      let totalDiterima = 0;
+      let hasilDesainRp = 0;
+
+      if (projects) {
+        projects.forEach(p => {
+          const total = Number(p.jumlah_icon) || 0;
+          totalDesain += total;
+
+          if (p.status_admin === 'Approved') {
+            const rej = Number(p.rejected_count) || 0;
+            const rev = Number(p.in_review_count) || 0;
+            const app = Math.max(0, total - (rej + rev));
+
+            totalDitolak += rej;
+            totalDiterima += app;
+
+            const { app: tarifApp, rej: tarifRej } = designFeeRates(desainerLevel, p);
+
+            hasilDesainRp += (app * tarifApp) + (rej * tarifRej);
+          }
+        });
+      }
+
+      let reward1 = 0;
+      const { data: helpUploads } = await supabaseClient
+        .from('icon_projects')
+        .select('*')
+        .or(`uploader_id.eq.${userId},designer_id.eq.${userId}`)
+        .eq('status_admin', 'Approved')
+        .gte('created_at', startISO)
+        .lte('created_at', endISO);
+
+      if (helpUploads) {
+        helpUploads.forEach(h => {
+          if (uploadRewardOwner(h) === userId) reward1 += uploadRewardOf(h);
+        });
+      }
+
+      let reward2 = 0;
+      if (totalDiterima >= 100 && totalDiterima <= 199) reward2 = 50000;
+      else if (totalDiterima >= 200 && totalDiterima <= 299) reward2 = 120000;
+      else if (totalDiterima >= 300) reward2 = 200000;
+
+      const totalPendapatan = hasilDesainRp + reward1 + reward2;
+
+      document.getElementById('slip-total-desain').innerText = totalDesain;
+      document.getElementById('slip-ditolak').innerText = totalDitolak;
+      document.getElementById('slip-diterima').innerText = totalDiterima;
+
+      document.getElementById('slip-hasil-desain').innerText = hasilDesainRp.toLocaleString('id-ID');
+      document.getElementById('slip-reward-1').innerText = reward1.toLocaleString('id-ID');
+      document.getElementById('slip-reward-2').innerText = reward2.toLocaleString('id-ID');
+      document.getElementById('slip-total-pendapatan').innerText = totalPendapatan.toLocaleString('id-ID');
+    }
+
+    function toggleUploaderSelect() {
+      const type = document.getElementById('input-upload-type').value;
+      document.getElementById('uploader-select-box').classList.toggle('hidden', type !== 'bantuan');
+    }
+
+    // Kunci tombol klaim sejak tekanan pertama agar klik/tap beruntun tidak membuat klaim ganda.
+    let claimSubmitBusy = false;
+    let claimSubmitReachedMain = false;
+    async function handleClaimSubmit(e) {
+      e.preventDefault();
+      if (claimSubmitBusy) return;
+      claimSubmitBusy = true;
+      claimSubmitReachedMain = false;
+      const lockBtn = document.getElementById('btn-submit-claim');
+      const lockWasDisabled = lockBtn ? lockBtn.disabled : false;
+      if (lockBtn) lockBtn.disabled = true;
+      try {
+        await handleClaimSubmitMain(e);
+      } finally {
+        // Ditolak sebelum proses klaim dimulai (validasi/jeda/sesi/level): kembalikan tombol seperti semula.
+        if (!claimSubmitReachedMain && lockBtn) lockBtn.disabled = lockWasDisabled;
+        claimSubmitBusy = false;
+      }
+    }
+
+    async function handleClaimSubmitMain(e) {
+      if (!selectedThemeData) return await showModalAlert("Peringatan", "Pilih tema terlebih dahulu!", "warning");
+
+      if (!isVideoRequirementMet && currentVideoList.length > 0) {
+        await showModalAlert(
+          "Syarat Menonton Belum Terpenuhi!", 
+          "Setiap desainer wajib menonton 1 video tutorial dari awal sampai akhir tanpa skip ketika list video masih tersedia sebelum mengambil tema.", 
+          "warning"
+        );
+        switchTab('video-tutorials');
+        return;
+      }
+
+      // Wajib baca buku KEKAL / verifikasi NIP Santri HSI (jika diaktifkan admin)
+      if (!(await bukuCekSebelumKlaim())) return;
+
+      const targetBelajar = document.getElementById('input-target-belajar').value.trim();
+      if (!targetBelajar) {
+        return await showModalAlert("Validasi Form", "Harap isi Target Belajar Anda!", "warning");
+      }
+
+      const toolDesain = document.getElementById('input-tool-desain').value;
+      const jenisIcon = document.getElementById('input-jenis-icon').value;
+      const checkConfirm = document.getElementById('check-confirm-claim');
+      const checkQuality = document.getElementById('check-confirm-quality');
+
+      if ((checkConfirm && !checkConfirm.checked) || (checkQuality && !checkQuality.checked)) {
+        return await showModalAlert("Validasi Form", "Anda wajib menyetujui tenggat pengerjaan dan janji kualitas desain!", "warning");
+      }
+
+      const cooldownSubmit = await getClaimCooldowns();
+      if (cooldownSubmit[selectedThemeData.kategori]) {
+        return await showClaimCooldownAlert(selectedThemeData.kategori, cooldownSubmit[selectedThemeData.kategori]);
+      }
+
+      // Pastikan sesi login di browser masih akun yang sama (RLS: designer_id harus = auth.uid()).
+      // Jika di tab lain login dengan akun berbeda / sesi kedaluwarsa, klaim akan ditolak Supabase.
+      const { data: sessUser } = await supabaseClient.auth.getUser();
+      const sessId = sessUser && sessUser.user ? sessUser.user.id : null;
+      if (!sessId || sessId !== currentUser.id) {
+        await showModalAlert(
+          "Sesi Login Berubah",
+          !sessId
+            ? "Sesi login Anda sudah berakhir. Halaman akan dimuat ulang, silakan login kembali lalu klaim tema lagi."
+            : "Browser ini sekarang login dengan akun lain (kemungkinan dari tab lain). Halaman akan dimuat ulang agar akun yang aktif sesuai, lalu silakan klaim tema lagi.",
+          "warning"
+        );
+        location.reload();
+        return;
+      }
+
+      // Level 2 wajib dibantu upload oleh desainer lain
+      if (document.getElementById('input-upload-type').value === 'sendiri' && level2MustBeHelped(await getMyDesignerLevel())) {
+        await applyUploadTypeRule();
+        return await showModalAlert(
+          "Wajib Dibantu Upload",
+          "Desainer Level 2 wajib dibantu upload ke Canva oleh desainer lain. Pilih \"Dibantu Desainer Lain\" lalu pilih desainer pembantunya.",
+          "warning"
+        );
+      }
+
+      // Desainer pembantu wajib yang sudah diaktifkan admin
+      if (document.getElementById('input-upload-type').value === 'bantuan') {
+        const helperSel = document.getElementById('input-uploader-id');
+        const helperId = helperSel ? helperSel.value : '';
+        if (!helperId || !(await canHelpUpload(helperId))) {
+          return await showModalAlert(
+            "Desainer Pembantu Tidak Tersedia",
+            "Desainer yang dipilih belum diaktifkan admin sebagai pembantu upload. Pilih desainer pembantu lain atau hubungi admin.",
+            "warning"
+          );
+        }
+      }
+
+      // Jatah klaim bulanan & status aktif klaim desainer (dicek sebelum folder Drive dibuat)
+      if (!(await jatahCekSebelumKlaim(parseInt(document.getElementById('input-jumlah').value) || 0))) return;
+
+      const btnSubmit = document.getElementById('btn-submit-claim');
+      claimSubmitReachedMain = true;
+      btnSubmit.disabled = true;
+      btnSubmit.innerText = "Memproses Klaim...";
+
+      try {
+        const jumlah = parseInt(document.getElementById('input-jumlah').value);
+        if (jumlah > selectedThemeData.sisa_kuota) {
+          await showModalAlert("Kuota Tidak Cukup", "Jumlah klaim melebihi sisa kuota!", "warning");
+          btnSubmit.disabled = false;
+          btnSubmit.innerText = "Konfirmasi & Buka Drive";
+          return;
+        }
+
+        const uploadType = document.getElementById('input-upload-type').value;
+        const uploaderSelect = document.getElementById('input-uploader-id');
+        const uploaderId = (uploadType === 'bantuan' && uploaderSelect) ? uploaderSelect.value : null;
+
+        let driveFolderUrl = "https://drive.google.com";
+   try {
+  const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ 
+      action: "create_folder",
+      desainer_name: currentUser.email, 
+      kategori: selectedThemeData.kategori, 
+      jumlah_icon: jumlah,
+      target_belajar: targetBelajar,
+      tool_desain: toolDesain,
+      jenis_icon: jenisIcon,
+      colors_palette: currentGeneratedColors
+    })
+  });
+  const resData = await response.json();
+  if (resData && resData.folder_url) driveFolderUrl = resData.folder_url;
+} catch (e) {
+  console.error("Gagal membuat folder via Apps Script:", e);
+}
+
+        const deadline = new Date();
+        deadline.setHours(23, 59, 59, 999);
+        const nowIso = new Date().toISOString();
+
+      const payload = {
+  designer_id: currentUser.id,
+  kategori: selectedThemeData.kategori,
+  judul: document.getElementById('txt-judul')?.innerText || selectedThemeData.judul,
+  keyword: document.getElementById('txt-keyword')?.innerText || selectedThemeData.keyword,
+  jumlah_icon: jumlah,
+  in_review_count: jumlah,
+  rejected_count: 0,
+  approved_count: 0,
+  is_upload_sendiri: (uploadType === 'sendiri'),
+  uploader_id: uploaderId,
+  target_belajar: targetBelajar,
+  tool_desain: toolDesain,
+  jenis_icon: jenisIcon,
+  color_palette: currentGeneratedColors.length > 0 ? currentGeneratedColors.join(', ') : null,
+  drive_folder_url: driveFolderUrl,
+  deadline_drive: deadline.toISOString(),
+  drive_opened_at: nowIso,
+  updated_at: nowIso
+};
+
+const { data: newProj, error: insertErr } = await supabaseClient
+  .from('icon_projects')
+  .insert([payload])
+  .select()
+  .single();
+
+        if (insertErr) throw insertErr;
+
+        if (uploadType === 'bantuan' && uploaderId && uploaderId !== currentUser.id) {
+          const senderName = userProfilesMap[currentUser.id] || currentUser.email || 'Seorang Desainer';
+          await supabaseClient.from('notifications').insert([{
+            user_id: uploaderId,
+            project_id: newProj.id,
+            title: '🤝 Request Bantu Upload Canva',
+            message: `${senderName} meminta bantuan Anda untuk meng-upload tema: "${selectedThemeData.kategori}" (${jumlah} Icon).`,
+            type: 'upload_request',
+            is_read: false,
+            created_at: new Date().toISOString()
+          }]);
+        }
+
+        const newSisa = selectedThemeData.sisa_kuota - jumlah;
+        await supabaseClient.from('themes_stock')
+          .update({ sisa_kuota: newSisa, status_stok: newSisa === 0 ? 'Habis' : 'Tersedia' })
+          .eq('kategori', selectedThemeData.kategori);
+
+        window.open(driveFolderUrl, '_blank');
+        await logUserActivity('KLAIM', `Mengklaim tema "${selectedThemeData.kategori}" sebanyak ${jumlah} icon (Tool: ${toolDesain}).`);
+        await showModalAlert("Klaim Sukses", "Tema diklaim! Portal Drive telah dibuka.", "success");
+
+        document.getElementById('form-claim').reset();
+        document.getElementById('form-claim').classList.add('hidden');
+        document.getElementById('selected-theme-info').innerHTML = `<p class="text-slate-500">Silakan pilih salah satu tema di sebelah kiri terlebih dahulu.</p>`;
+        selectedThemeData = null;
+        resetPaletteUIBoxes();
+
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = "Konfirmasi & Buka Drive";
+
+        const totalVideos = currentVideoList.length;
+        const completedCount = currentVideoList.filter(v => userCompletedVideoIds.has(v.id)).length;
+
+        if (totalVideos > 0 && completedCount < totalVideos) {
+          isVideoRequirementMet = false;
+        } else {
+          isVideoRequirementMet = true;
+        }
+
+        updateVideoRequirementUI();
+        switchTab('my-dashboard');
+        loadUserDashboardData();
+
+      } catch (err) {
+        await showModalAlert("Gagal Klaim", err.message, "error");
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = "Konfirmasi & Buka Drive";
+      }
+    }
+
+    async function copyToClipboard(text) {
+      if (!text || text === '-') return;
+      navigator.clipboard.writeText(text);
+      await showModalAlert("Tersalin", `Teks berhasil disalin:\n"${text}"`, "success");
+    }
+
+    function copyText(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      copyToClipboard(text);
+    }
+
+    function switchTab(tabName) {
+      if (isAdminUser) {
+        document.getElementById('view-claim-designer').classList.add('hidden');
+        document.getElementById('view-my-dashboard').classList.add('hidden');
+
+        document.getElementById('view-claim-admin').classList.toggle('hidden', tabName !== 'claim');
+        document.getElementById('view-admin-themes').classList.toggle('hidden', tabName !== 'my-dashboard');
+        document.getElementById('view-designer-analytics').classList.toggle('hidden', tabName !== 'designer-analytics');
+
+        if (tabName === 'designer-analytics') { loadDesignerAnalyticsData(); }
+      } else {
+        document.getElementById('view-claim-admin').classList.add('hidden');
+        document.getElementById('view-admin-themes').classList.add('hidden');
+        document.getElementById('view-designer-analytics').classList.add('hidden');
+
+        document.getElementById('view-claim-designer').classList.toggle('hidden', tabName !== 'claim');
+        document.getElementById('view-my-dashboard').classList.toggle('hidden', tabName !== 'my-dashboard');
+      }
+
+      document.getElementById('view-video-tutorials').classList.toggle('hidden', tabName !== 'video-tutorials');
+      document.getElementById('view-activity-history').classList.toggle('hidden', tabName !== 'activity-history');
+      if (tabName !== 'activity-history' && activityRetentionInterval) {
+        clearInterval(activityRetentionInterval);
+        activityRetentionInterval = null;
+      }
+      document.getElementById('view-admin').classList.toggle('hidden', tabName !== 'admin');
+
+      const btnClaim = document.getElementById('btn-tab-claim');
+      const btnVideos = document.getElementById('btn-tab-video-tutorials');
+      const btnDashboard = document.getElementById('btn-tab-dashboard');
+      const btnAnalytics = document.getElementById('btn-tab-designer-analytics');
+      const btnActivity = document.getElementById('btn-tab-activity-history');
+      const btnAdmin = document.getElementById('btn-tab-admin');
+
+      btnClaim.className = "hover:bg-slate-50 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 font-bold shrink-0";
+      btnVideos.className = "hover:bg-purple-50 text-purple-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+      btnDashboard.className = "hover:bg-slate-50 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 font-bold shrink-0";
+      btnAnalytics.className = "hover:bg-indigo-50 text-indigo-600 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0" + (isAdminUser ? "" : " hidden");
+      btnActivity.className = "hover:bg-teal-50 text-teal-700 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+      btnAdmin.className = "hover:bg-amber-50 text-amber-600 px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 ml-auto font-bold shrink-0" + (isAdminUser ? "" : " hidden");
+
+      if (tabName === 'claim') {
+        btnClaim.className = "bg-blue-50 text-blue-600 border border-blue-200 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+      } else if (tabName === 'video-tutorials') {
+        btnVideos.className = "bg-purple-100 text-purple-900 border border-purple-300 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+        if (currentVideoList.length === 0) loadVideoTutorialsSection();
+      } else if (tabName === 'my-dashboard') {
+        btnDashboard.className = "bg-blue-50 text-blue-600 border border-blue-200 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+      } else if (tabName === 'designer-analytics' && isAdminUser) {
+        btnAnalytics.className = "bg-indigo-50 text-indigo-600 border border-indigo-200 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+      } else if (tabName === 'activity-history') {
+        btnActivity.className = "bg-teal-50 text-teal-700 border border-teal-300 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0";
+        loadActivityHistory(true);
+        startActivityRetentionTimer();
+      } else if (tabName === 'admin' && isAdminUser) {
+        btnAdmin.className = "bg-amber-50 text-amber-600 border border-amber-300 shadow-xs px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 ml-auto font-bold shrink-0";
+      }
+      slipOnSwitchTab(tabName);
+      fokusOnSwitchTab(tabName);
+      trOnSwitchTab(tabName);
+      studioOnSwitchTab(tabName);
+      jatahOnSwitchTab(tabName);
+      bukuOnSwitchTab(tabName);
+    }
+// Helper otomatis membuat URL pencarian Flaticon sesuai logika kondisi jenis/style tema
+function generateFlaticonSearchUrl(kategori) {
+  if (!kategori) return 'https://www.flaticon.com';
+
+  // 1. Bersihkan ZWSP / karakter tersembunyi
+  let str = kategori.replace(/[\u200B-\u200D\uFEFF]/g, '');
+
+  // 2. Deteksi jenis style dari teks di dalam kurung (case-insensitive)
+  let colorParam = 'color';
+  let shapeParam = 'fill';
+
+  if (/\(line\)/i.test(str)) {
+    colorParam = 'black';
+    shapeParam = 'outline';
+  } else if (/\(glyph\)/i.test(str)) {
+    colorParam = 'black';
+    shapeParam = 'fill';
+  } else if (/\(flat\)/i.test(str)) {
+    colorParam = 'color';
+    shapeParam = 'fill';
+  }
+
+  // 3. Bersihkan nama kata kunci (menghapus tanda kurung dan isinya, lalu encode URL)
+  let cleanWord = str.replace(/\s*\([^)]*\)/gi, '').trim();
+  let encodedWord = encodeURIComponent(cleanWord.toLowerCase());
+
+  // 4. Return URL lengkap sesuai parameter Flaticon
+  return `https://www.flaticon.com/search?word=${encodedWord}&color=${colorParam}&shape=${shapeParam}`;
+}
+
+function handleKeywordLiveAnalysis() {
+  const textarea = document.getElementById('theme-keyword');
+  const badge = document.getElementById('keyword-counter-badge');
+  const previewBox = document.getElementById('keyword-highlight-preview');
+  const wordsContainer = document.getElementById('keyword-highlight-words');
+
+  if (!textarea || !badge) return;
+
+  const rawText = textarea.value;
+  if (!rawText.trim()) {
+    badge.innerText = '0 Kata';
+    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
+    if (previewBox) previewBox.classList.add('hidden');
+    return;
+  }
+
+  // 1. Split keyword berdasarkan koma & bersihkan spasi berlebih
+  const rawArray = rawText.split(',').map(item => item.trim()).filter(item => item.length > 0);
+  const totalCount = rawArray.length;
+
+  // 2. Hitung frekuensi kata (Case-insensitive & pembersihan ZWSP)
+  const countMap = {};
+  rawArray.forEach(w => {
+    const cleanWord = w.toLowerCase().replace(/[\u200B-\u200D\uFEFF]/g, '');
+    countMap[cleanWord] = (countMap[cleanWord] || 0) + 1;
+  });
+
+  // 3. Cek apakah ada kata yang duplikat
+  let hasDuplicate = false;
+  Object.values(countMap).forEach(cnt => {
+    if (cnt > 1) hasDuplicate = true;
+  });
+
+  // 4. Update Badge Jumlah Kata & Warning
+  if (hasDuplicate) {
+    badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> ${totalCount} Kata (Ada Duplikat!)`;
+    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 border border-rose-300 animate-pulse';
+  } else {
+    badge.innerText = `${totalCount} Kata`;
+    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+  }
+
+  // 5. Render Preview Kata (Tanpa koma & dengan tombol hapus "x")
+  if (previewBox && wordsContainer) {
+    previewBox.classList.remove('hidden');
+
+    wordsContainer.innerHTML = rawArray.map((w, index) => {
+      const cleanWord = w.toLowerCase().replace(/[\u200B-\u200D\uFEFF]/g, '');
+      const isDup = countMap[cleanWord] > 1;
+
+      if (isDup) {
+        return `
+          <span onclick="removeKeywordByIndex(${index})" 
+                class="inline-flex items-center gap-1.5 bg-rose-500 hover:bg-rose-600 text-white font-bold px-2 py-1 rounded-md text-[11px] shadow-xs cursor-pointer transition group" 
+                title="Klik untuk menghapus kata duplikat ini">
+            ${esc(w)}
+            <i class="fa-solid fa-xmark text-[10px] opacity-80 group-hover:opacity-100"></i>
+          </span>`;
+      } else {
+        return `
+          <span onclick="removeKeywordByIndex(${index})" 
+                class="inline-flex items-center gap-1.5 bg-white hover:bg-rose-50 hover:text-rose-600 hover:border-rose-300 text-slate-700 font-medium px-2 py-1 rounded-md text-[11px] border border-slate-200 shadow-2xs cursor-pointer transition group" 
+                title="Klik untuk menghapus kata ini">
+            ${esc(w)}
+            <i class="fa-solid fa-xmark text-[10px] text-slate-400 group-hover:text-rose-600"></i>
+          </span>`;
+      }
+    }).join('');
+  }
+}
+
+// Fungsi Baru: Menghapus Kata Berdasarkan Indeks Posisi
+function removeKeywordByIndex(indexToRemove) {
+  const textarea = document.getElementById('theme-keyword');
+  if (!textarea) return;
+
+  // Split daftar kata berdasarkan koma
+  let rawArray = textarea.value.split(',').map(item => item.trim()).filter(item => item.length > 0);
+
+  // Hapus item pada indeks yang diklik
+  if (indexToRemove >= 0 && indexToRemove < rawArray.length) {
+    rawArray.splice(indexToRemove, 1);
+  }
+
+  // Gabungkan kembali dengan koma dan spasi
+  textarea.value = rawArray.join(', ');
+
+  // Jalankan ulang analisis live
+  handleKeywordLiveAnalysis();
+}
+
+async function checkSupabaseUsage() {
+  try {
+    // Panggil RPC SQL yang dibuat sebelumnya
+    const { data: sizeInMB, error } = await supabaseClient.rpc('get_db_size_mb');
+    
+    if (error) throw error;
+
+    const limitMB = 500; // Limit Free Plan Supabase (500 MB)
+    const usedMB = parseFloat(sizeInMB).toFixed(2);
+    const percent = Math.min(100, ((usedMB / limitMB) * 100)).toFixed(1);
+
+    const progressBar = document.getElementById('db-progress-bar');
+    const usageText = document.getElementById('db-usage-text');
+    const percentText = document.getElementById('db-percentage');
+
+    if (usageText) usageText.innerText = `${usedMB} MB / ${limitMB} MB`;
+    if (percentText) percentText.innerText = `${percent}%`;
+
+    if (progressBar) {
+      progressBar.style.width = `${percent}%`;
+
+      // Perubahan Warna Indikator Sesuai Penggunaan
+      if (percent > 85) {
+        progressBar.className = 'bg-rose-500 h-2 rounded-full transition-all duration-500';
+        percentText.className = 'font-bold text-rose-600 animate-pulse';
+      } else if (percent > 65) {
+        progressBar.className = 'bg-amber-500 h-2 rounded-full transition-all duration-500';
+        percentText.className = 'font-bold text-amber-600';
+      } else {
+        progressBar.className = 'bg-emerald-500 h-2 rounded-full transition-all duration-500';
+        percentText.className = 'font-bold text-emerald-600';
+      }
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data kuota Supabase:', err);
+  }
+}
+
+// Jalankan fungsi saat halaman admin dimuat
+// checkSupabaseUsage() kini hanya dipanggil saat admin login (lihat showMainPanel)
+
+// Helper untuk mengacak urutan elemen array (Fisher-Yates Shuffle)
+/**
+ * Urutan keyword acak per proyek (Upload Canva): tiap klaim punya urutan sendiri,
+ * tetapi tetap sama setiap kali tabel dimuat ulang (benih = id proyek).
+ */
+function shuffleKeywordsForProject(keywordStr, projectId) {
+  if (!keywordStr || keywordStr === '-') return keywordStr;
+  const arr = keywordStr.split(',').map(k => k.trim()).filter(k => k !== '');
+  if (arr.length < 2) return arr.join(', ') || keywordStr;
+  let h = 2166136261;
+  const seedStr = String(projectId);
+  for (let i = 0; i < seedStr.length; i++) { h ^= seedStr.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const rand = () => {
+    h = (h + 0x6D2B79F5) | 0;
+    let t = Math.imul(h ^ (h >>> 15), 1 | h);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.join(', ');
+}
+
+function shuffleArray(array) {
+  let arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Fungsi untuk mengirim metadata ke Extension & membuka Canva Element Creator
+// =====================================================================
+// DOWNLOAD FILE REVISI — ambil SVG terbaru langsung dari folder Drive proyek
+// (lewat Apps Script "designer_list_svg": hanya pemilik / pembantu upload / admin),
+// lalu unduh semua sebagai .zip atau per file. Zip dibuat di browser (tanpa kompresi).
+// Upload Canva baru aktif setelah file revisi diunduh (zip, atau semua file satu per
+// satu) di perangkat ini; status disimpan per akun + proyek + sidik isi folder Drive.
+// =====================================================================
+const revisionDownload = { files: [], title: '', request: 0, memory: {} };
+
+const REV_CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+
+function revCrc32(bytes) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = REV_CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+
+/** files: [{ name, text }] → Blob .zip (metode "store", nama file UTF-8). */
+function revMakeZip(files) {
+  const enc = new TextEncoder();
+  const now = new Date();
+  const dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | (Math.floor(now.getSeconds() / 2));
+  const dosDate = ((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+  const locals = [];
+  const centrals = [];
+  let offset = 0;
+  files.forEach((f) => {
+    const name = enc.encode(f.name);
+    const data = enc.encode(f.text);
+    const crc = revCrc32(data);
+    const local = new DataView(new ArrayBuffer(30));
+    local.setUint32(0, 0x04034b50, true);
+    local.setUint16(4, 20, true);
+    local.setUint16(6, 0x0800, true); // nama file UTF-8
+    local.setUint16(8, 0, true);      // tanpa kompresi
+    local.setUint16(10, dosTime, true);
+    local.setUint16(12, dosDate, true);
+    local.setUint32(14, crc, true);
+    local.setUint32(18, data.length, true);
+    local.setUint32(22, data.length, true);
+    local.setUint16(26, name.length, true);
+    local.setUint16(28, 0, true);
+    locals.push(local, name, data);
+    const central = new DataView(new ArrayBuffer(46));
+    central.setUint32(0, 0x02014b50, true);
+    central.setUint16(4, 20, true);
+    central.setUint16(6, 20, true);
+    central.setUint16(8, 0x0800, true);
+    central.setUint16(10, 0, true);
+    central.setUint16(12, dosTime, true);
+    central.setUint16(14, dosDate, true);
+    central.setUint32(16, crc, true);
+    central.setUint32(20, data.length, true);
+    central.setUint32(24, data.length, true);
+    central.setUint16(28, name.length, true);
+    central.setUint32(42, offset, true);
+    centrals.push(central, name);
+    offset += 30 + name.length + data.length;
+  });
+  const centralSize = centrals.reduce((s, part) => s + part.byteLength, 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true);
+  end.setUint16(8, files.length, true);
+  end.setUint16(10, files.length, true);
+  end.setUint32(12, centralSize, true);
+  end.setUint32(16, offset, true);
+  return new Blob([...locals, ...centrals, end], { type: 'application/zip' });
+}
+
+function revSaveBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
+}
+
+const revSafeName = (s) => String(s || '').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim() || 'file-revisi';
+
+/* ---------- status "sudah download" (per akun, proyek, isi folder) ---------- */
+
+function revSig(files) {
+  const text = files.map((f) => f.name + '\u0000' + f.content).join('\u0001');
+  let h1 = 5381, h2 = 52711;
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    h1 = ((h1 * 33) ^ c) >>> 0;
+    h2 = ((h2 * 31) + c) >>> 0;
+  }
+  return `${files.length}-${h1.toString(36)}-${h2.toString(36)}`;
+}
+
+const revKey = (pid) => `rev_dl_${(typeof currentUser !== 'undefined' && currentUser && currentUser.id) || 'guest'}_${pid}`;
+
+function revState(pid) {
+  try { return JSON.parse(localStorage.getItem(revKey(pid)) || 'null'); } catch (e) { return null; }
+}
+
+function revSave(pid, st) {
+  try { localStorage.setItem(revKey(pid), JSON.stringify(st)); } catch (e) { /* mode privat: tetap jalan di sesi ini */ }
+  revisionDownload.memory[pid] = st;
+}
+
+const revGet = (pid) => revState(pid) || revisionDownload.memory[pid] || null;
+// Extension "KEKAL Canva Creator Helper" (v2.3+) terpasang → file diambil langsung dari Drive, tidak perlu download dulu
+const canvaHelperVersion = () => document.documentElement.getAttribute('data-kekal-canva-helper') || '';
+const isRevisionDownloaded = (pid) => !!canvaHelperVersion() || !!(revGet(pid) && revGet(pid).complete);
+
+/** Tukar tombol terkunci ↔ Upload Canva di baris proyek tanpa muat ulang tabel. */
+function revSetLocked(pid, locked) {
+  if (locked && canvaHelperVersion()) locked = false;
+  document.querySelectorAll('[data-rev-lock]').forEach((b) => { if (b.dataset.revLock === String(pid)) b.classList.toggle('hidden', !locked); });
+  document.querySelectorAll('[data-rev-canva]').forEach((b) => { if (b.dataset.revCanva === String(pid)) b.classList.toggle('hidden', locked); });
+}
+
+/** Catat file yang diunduh; zip = semua file. */
+function revMarkDownloaded(names) {
+  const pid = revisionDownload.projectId;
+  const files = revisionDownload.files;
+  const sig = revSig(files);
+  const prev = revGet(pid);
+  const done = new Set(prev && prev.sig === sig ? prev.done || [] : []);
+  names.forEach((n) => done.add(n));
+  const complete = files.every((f) => done.has(f.name));
+  revSave(pid, { sig, done: [...done], complete, at: Date.now() });
+  if (complete) revSetLocked(pid, false);
+  revRenderList();
+}
+
+async function revFetchFiles(projectId) {
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+  const token = sessionData && sessionData.session && sessionData.session.access_token;
+  if (!token) throw new Error('Sesi login tidak ditemukan. Silakan login ulang.');
+  let data;
+  try {
+    const res = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'designer_list_svg', project_id: projectId, access_token: token })
+    });
+    data = await res.json();
+  } catch (err) {
+    throw new Error('Gagal terhubung ke Google Drive. Periksa koneksi internet lalu coba lagi.');
+  }
+  if (!data || data.status === 'forbidden' || data.status === 'error') throw new Error((data && data.message) || 'Gagal membaca folder Drive.');
+  if (!Array.isArray(data.files)) throw new Error('Apps Script belum diperbarui: aksi mode desainer belum di-deploy.');
+  return data.files.filter((f) => f && f.name && typeof f.content === 'string');
+}
+
+/* ---------- jendela download ---------- */
+
+function revModal() {
+  let modal = document.getElementById('modal-download-revisi');
+  if (modal) return modal;
+  modal = document.createElement('div');
+  modal.id = 'modal-download-revisi';
+  modal.className = 'fixed inset-0 z-[9998] hidden flex items-center justify-center bg-slate-900/70 backdrop-blur-sm p-3 sm:p-4';
+  modal.innerHTML = `
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[88vh]" role="dialog" aria-modal="true" aria-labelledby="dlrev-title">
+      <div class="flex items-start gap-3 p-4 sm:p-5 border-b border-slate-100">
+        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-file-arrow-down"></i></div>
+        <div class="min-w-0 flex-1">
+          <h3 id="dlrev-title" class="text-sm sm:text-base font-extrabold text-slate-800 leading-tight">Download File Revisi</h3>
+          <p id="dlrev-sub" class="text-[11px] text-slate-500 truncate"></p>
+        </div>
+        <button type="button" data-dlrev="close" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center shrink-0" title="Tutup" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="dlrev-body" class="p-4 sm:p-5 overflow-y-auto space-y-3"></div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) return closeRevisionDownload();
+    const b = e.target.closest('[data-dlrev]');
+    if (!b) return;
+    const act = b.dataset.dlrev;
+    if (act === 'close') closeRevisionDownload();
+    else if (act === 'zip') {
+      const files = revisionDownload.files;
+      if (!files.length) return;
+      revSaveBlob(revMakeZip(files.map((f) => ({ name: f.name, text: f.content }))), `${revSafeName(revisionDownload.title)}.zip`);
+      revMarkDownloaded(files.map((f) => f.name));
+    } else if (act === 'one') {
+      const f = revisionDownload.files[Number(b.dataset.index)];
+      if (!f) return;
+      revSaveBlob(new Blob([f.content], { type: 'image/svg+xml' }), f.name);
+      revMarkDownloaded([f.name]);
+    } else if (act === 'retry') {
+      openRevisionDownload(revisionDownload.projectId, revisionDownload.title, revisionDownload.fromLock);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeRevisionDownload();
+  });
+  return modal;
+}
+
+function closeRevisionDownload() {
+  const modal = document.getElementById('modal-download-revisi');
+  if (modal) modal.classList.add('hidden');
+  revisionDownload.request++;
+}
+
+/** Isi jendela: status kunci, tombol zip, daftar file dengan tanda ✓ yang sudah diunduh. */
+function revRenderList() {
+  const body = document.getElementById('dlrev-body');
+  const files = revisionDownload.files;
+  if (!body || !files.length) return;
+  const st = revGet(revisionDownload.projectId);
+  const sig = revSig(files);
+  const done = new Set(st && st.sig === sig ? st.done || [] : []);
+  const complete = files.every((f) => done.has(f.name));
+  const count = files.filter((f) => done.has(f.name)).length;
+  body.innerHTML = `
+    ${revisionDownload.fromLock && !complete ? `<div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-blue-800 font-semibold leading-snug"><i class="fa-solid fa-lock mr-1"></i>Download file revisi terbaru dulu. Setelah semua file terunduh, tombol <b>Upload Canva</b> aktif.</div>` : ''}
+    ${complete
+      ? `<div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-800 font-bold leading-snug"><i class="fa-solid fa-circle-check mr-1"></i>Semua file sudah diunduh di perangkat ini. Tombol Upload Canva sudah aktif.</div>`
+      : `<div class="flex items-center gap-2 text-xs">
+          <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200 font-bold px-2 py-1 rounded-lg"><i class="fa-solid fa-file-image"></i> ${files.length} file SVG</span>
+          <span class="text-slate-500">versi terbaru di Drive${count ? ` · <b class="text-blue-700">${count}/${files.length} file terunduh</b>` : ''}</span>
+        </div>`}
+    <button type="button" data-dlrev="zip" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2">
+      <i class="fa-solid fa-file-zipper"></i> Download semua (.zip)
+    </button>
+    <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-800 leading-snug">
+      <i class="fa-solid fa-triangle-exclamation mr-1"></i>Upload file dari download ini ke Canva, <b>bukan file lama</b> di perangkat Anda. Canva tidak menerima .zip — ekstrak dulu, atau download per file di bawah.
+    </div>
+    <ul class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
+      ${files.map((f, i) => {
+        const ok = done.has(f.name);
+        return `
+        <li class="flex items-center gap-2 px-3 py-2 text-xs ${ok ? 'bg-emerald-50/50' : ''}">
+          <i class="${ok ? 'fa-solid fa-circle-check text-emerald-600' : 'fa-regular fa-file-image text-slate-400'} shrink-0"></i>
+          <span class="min-w-0 flex-1 truncate font-semibold text-slate-700" title="${esc(f.name)}">${esc(f.name)}</span>
+          <button type="button" data-dlrev="one" data-index="${i}" class="shrink-0 ${ok ? 'text-emerald-700 border-emerald-200' : 'text-blue-600 border-slate-200 hover:border-blue-400'} hover:text-blue-800 bg-white border rounded-lg px-2 py-1 font-bold" title="Download ${esc(f.name)}" aria-label="Download ${esc(f.name)}">
+            <i class="fa-solid fa-download"></i>
+          </button>
+        </li>`;
+      }).join('')}
+    </ul>`;
+}
+
+async function openRevisionDownload(projectId, title, fromLock) {
+  const modal = revModal();
+  const body = document.getElementById('dlrev-body');
+  const request = ++revisionDownload.request;
+  revisionDownload.projectId = projectId;
+  revisionDownload.title = title || 'File revisi';
+  revisionDownload.fromLock = !!fromLock;
+  revisionDownload.files = [];
+  document.getElementById('dlrev-sub').textContent = revisionDownload.title;
+  body.innerHTML = `<div class="flex items-center gap-2 text-xs text-slate-500 py-6 justify-center"><i class="fa-solid fa-spinner animate-spin"></i> Memuat file terbaru dari Google Drive...</div>`;
+  modal.classList.remove('hidden');
+
+  try {
+    const files = await revFetchFiles(projectId);
+    if (request !== revisionDownload.request) return;
+    if (!files.length) throw new Error('Belum ada file SVG di folder Drive proyek ini.');
+    revisionDownload.files = files;
+    // Isi folder berubah sejak download terakhir → wajib download ulang
+    const st = revGet(projectId);
+    if (st && st.sig !== revSig(files)) {
+      revSave(projectId, { sig: revSig(files), done: [], complete: false, at: Date.now() });
+      revSetLocked(projectId, true);
+    }
+    revRenderList();
+  } catch (err) {
+    if (request !== revisionDownload.request) return;
+    body.innerHTML = `
+      <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold"><i class="fa-solid fa-circle-exclamation mr-1"></i>${esc(err.message)}</div>
+      <button type="button" data-dlrev="retry" class="w-full bg-white border border-slate-300 hover:border-blue-500 text-slate-700 text-xs font-bold py-2.5 rounded-xl"><i class="fa-solid fa-rotate-right mr-1"></i> Coba lagi</button>`;
+  }
+}
+
+/** Upload Canva tanpa izin download revisi: wajib lewat extension KEKAL Canva. */
+async function uploadCanvaExtOnly(btn, projectId, reopen) {
+  if (canvaHelperVersion()) return uploadCanvaDirect(btn, projectId, reopen);
+  return showModalAlert(
+    'Extension Wajib Dipasang',
+    'Upload Canva wajib memakai extension KEKAL Canva. Pasang extension tersebut di Chrome (minta file dan panduannya ke admin), lalu muat ulang halaman ini dan klik Upload Canva lagi.',
+    'warning'
+  );
+}
+
+/** Upload Canva: wajib sudah download file revisi terbaru (dicek ulang ke Drive). */
+async function uploadCanvaGuarded(btn, projectId, title, reopen) {
+  if (canvaHelperVersion()) return uploadCanvaDirect(btn, projectId, reopen);
+  if (!isRevisionDownloaded(projectId)) return openRevisionDownload(projectId, title, true);
+  if (btn.dataset.checking) return;
+  btn.dataset.checking = '1';
+  const html = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Memeriksa file revisi...';
+  let files = null, error = '';
+  try { files = await revFetchFiles(projectId); } catch (err) { error = err.message; }
+  btn.disabled = false;
+  btn.innerHTML = html;
+  delete btn.dataset.checking;
+  if (error) return showModalAlert('Gagal Memeriksa File', error, 'error');
+  const st = revGet(projectId);
+  if (!st || st.sig !== revSig(files)) {
+    revSave(projectId, { sig: revSig(files), done: [], complete: false, at: Date.now() });
+    revSetLocked(projectId, true);
+    await showModalAlert('File Revisi Berubah', 'Isi folder Drive sudah berubah sejak Anda download. Download ulang file terbaru dulu, lalu klik ' + (reopen ? 'Buka Ulang Canva' : 'Upload Canva') + ' lagi.', 'warning');
+    return openRevisionDownload(projectId, title, true);
+  }
+  return openCanvaFromUI(btn, projectId, undefined, reopen);
+}
+
+/** Upload Canva lewat extension: SVG terbaru diambil dari Drive lalu dititipkan ke extension (tanpa download). */
+async function uploadCanvaDirect(btn, projectId, reopen) {
+  if (btn.dataset.checking) return;
+  btn.dataset.checking = '1';
+  const html = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengambil file dari Drive...';
+  let files = null, error = '';
+  try { files = await revFetchFiles(projectId); } catch (err) { error = err.message; }
+  btn.disabled = false;
+  btn.innerHTML = html;
+  delete btn.dataset.checking;
+  if (error) return showModalAlert('Gagal Mengambil File', error, 'error');
+  if (!files.length) return showModalAlert('Belum Ada File', 'Belum ada file SVG di folder Drive proyek ini.', 'warning');
+  return openCanvaFromUI(btn, projectId, files, reopen);
+}
+
+/* ===== Timestamp Upload Canva: wajib tersimpan di database ===== */
+const CANVA_PENDING_KEY = 'kekal_canva_pending';
+function canvaPendingAll() { try { return JSON.parse(localStorage.getItem(CANVA_PENDING_KEY)) || {}; } catch (e) { return {}; } }
+function canvaPendingGet(pid) { return canvaPendingAll()[String(pid)] || null; }
+function canvaPendingSet(pid, info, at) { try { const all = canvaPendingAll(); all[String(pid)] = { info, at }; localStorage.setItem(CANVA_PENDING_KEY, JSON.stringify(all)); } catch (e) {} }
+function canvaPendingClear(pid) { try { const all = canvaPendingAll(); if (all[String(pid)]) { delete all[String(pid)]; localStorage.setItem(CANVA_PENDING_KEY, JSON.stringify(all)); } } catch (e) {} }
+const canvaSaving = new Set();
+const canvaAutoTried = new Set();
+
+function canvaBannerHtml(pid, info, pending) {
+  return `<div data-canva-banner="${esc(pid)}" class="bg-slate-200 text-slate-700 border border-slate-300 text-[10px] px-3 py-2 rounded-lg font-semibold leading-snug text-center mx-auto w-full">
+    <i class="fa-solid fa-circle-check text-slate-500 mr-1"></i> ${esc(info)}
+    ${pending ? canvaWarnHtml(pid) : ''}
+  </div>`;
+}
+/** Di bawah banner timestamp: Download File Revisi (jika diizinkan admin) + Buka Ulang Canva (timestamp pertama tetap). */
+function canvaReopenHtml(p) {
+  const pid = jsArg(p.id);
+  const title = jsArg(p.kategori || 'File revisi');
+  const reopenCls = 'bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-600 text-[10px] px-3 py-1.5 rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 w-full disabled:opacity-70';
+  const reopenTip = 'Buka lagi halaman upload Canva (misal tab Canva tertutup). Waktu upload pertama tetap, tidak dicatat ulang.';
+  if (!p.revision_download_enabled) {
+    return `<div class="grid grid-cols-1 gap-1.5 mx-auto w-full mt-1.5">
+      <button onclick="uploadCanvaExtOnly(this, ${pid}, true)" class="${reopenCls}" title="${reopenTip}">
+        <i class="fa-solid fa-rotate-right"></i> Buka Ulang Canva
+      </button>
+    </div>`;
+  }
+  const unlocked = isRevisionDownloaded(p.id);
+  return `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mx-auto w-full mt-1.5">
+    <button onclick="openRevisionDownload(${pid}, ${title})" class="bg-white hover:bg-blue-50 text-blue-700 border border-blue-600 text-[10px] px-3 py-1.5 rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 w-full" title="Download SVG terbaru dari folder Drive proyek">
+      <i class="fa-solid fa-file-arrow-down"></i> Download File Revisi
+    </button>
+    <button data-rev-lock="${esc(p.id)}" onclick="openRevisionDownload(${pid}, ${title}, true)" class="${unlocked ? 'hidden ' : ''}bg-slate-200 hover:bg-slate-300 text-slate-500 border border-slate-300 text-[10px] px-3 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 w-full" title="Download file revisi dulu untuk membuka Buka Ulang Canva">
+      <i class="fa-solid fa-lock"></i> Download file revisi dulu
+    </button>
+    <button data-rev-canva="${esc(p.id)}" onclick="uploadCanvaGuarded(this, ${pid}, ${title}, true)" class="${unlocked ? '' : 'hidden '}${reopenCls}" title="${reopenTip}">
+      <i class="fa-solid fa-rotate-right"></i> Buka Ulang Canva
+    </button>
+  </div>`;
+}
+
+/** Nama file untuk Canva: + 6 karakter terakhir ID Drive (permanen per file) agar nama kembar beda file tidak dianggap duplikat. */
+function canvaNamaUnik(f) {
+  const nama = String((f && f.name) || '');
+  const kode = String((f && f.id) || '').replace(/[^A-Za-z0-9]/g, '').slice(-6);
+  if (!kode) return nama;
+  const m = nama.match(/^(.*?)(\.svg)?$/i);
+  const dasar = m[1], ext = m[2] || '';
+  if (dasar.endsWith(' ' + kode)) return nama;
+  return `${dasar} ${kode}${ext}`;
+}
+
+function canvaWarnHtml(pid) {
+  return `<div data-canva-warn class="mt-1.5 pt-1.5 border-t border-slate-300 text-rose-600 font-bold">
+    <i class="fa-solid fa-triangle-exclamation"></i> Waktu upload belum tersimpan ke server.
+    <button type="button" onclick="retryCanvaSave(${jsArg(pid)}, this)" class="ml-1 underline text-blue-700 hover:text-blue-900">Simpan ulang</button>
+  </div>`;
+}
+
+/** Simpan canva_uploaded_info dari cadangan perangkat; cek baris benar-benar berubah, coba ulang 3x. */
+async function saveCanvaUploadInfo(pid, bannerEl) {
+  const pend = canvaPendingGet(pid);
+  if (!pend || canvaSaving.has(String(pid))) return false;
+  canvaSaving.add(String(pid));
+  let lastErr = '';
+  try {
+    for (let i = 0; i < 3; i++) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('icon_projects')
+          .update({ canva_uploaded_info: pend.info, updated_at: pend.at || new Date().toISOString() })
+          .eq('id', pid)
+          .select('id, canva_uploaded_info');
+        if (!error && data && data.length && data[0].canva_uploaded_info) {
+          canvaPendingClear(pid);
+          document.querySelectorAll(`[data-canva-banner="${CSS.escape(String(pid))}"] [data-canva-warn]`).forEach((w) => w.remove());
+          if (bannerEl) { const w = bannerEl.querySelector('[data-canva-warn]'); if (w) w.remove(); }
+          return true;
+        }
+        lastErr = error ? error.message : 'Data tidak tersimpan (akses ditolak database).';
+      } catch (e) { lastErr = e.message || String(e); }
+      await new Promise((r) => setTimeout(r, 1500 * (i + 1)));
+    }
+    console.error('Gagal menyimpan status upload Canva:', lastErr);
+    const banners = bannerEl ? [bannerEl] : [...document.querySelectorAll(`[data-canva-banner="${CSS.escape(String(pid))}"]`)];
+    banners.forEach((b) => { if (b && b.isConnected && !b.querySelector('[data-canva-warn]')) b.insertAdjacentHTML('beforeend', canvaWarnHtml(pid)); });
+    return false;
+  } finally {
+    canvaSaving.delete(String(pid));
+  }
+}
+
+async function retryCanvaSave(pid, btn) {
+  const banner = btn && btn.closest('[data-canva-banner]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+  const ok = await saveCanvaUploadInfo(pid, banner);
+  if (ok) showModalAlert('Tersimpan', 'Waktu upload Canva sudah tersimpan.', 'success');
+  else if (btn && btn.isConnected) { btn.disabled = false; btn.textContent = 'Simpan ulang'; }
+  if (!ok) showModalAlert('Belum Tersimpan', 'Waktu upload Canva masih gagal disimpan. Periksa koneksi internet lalu klik "Simpan ulang" lagi. Jika terus gagal, hubungi admin.', 'error');
+}
+
+async function openCanvaFromUI(btnElement, projectId, driveFiles, reopen) {
+  // 1. Cari kontainer baris/kartu utama tempat tombol berada
+  const parentContainer = btnElement.closest('tr') || btnElement.closest('li') || btnElement.closest('.border') || btnElement.parentElement.parentElement;
+  
+  let judulIcon = '';
+  let keywordStr = '';
+
+  if (parentContainer) {
+    // 2. Ekstrak teks langsung dari elemen UI (Kotak Judul & Keyword di kanan)
+    const containerText = parentContainer.innerText || parentContainer.textContent || '';
+    
+    // Mengambil teks persis setelah kata "Judul:" sampai akhir baris
+    const matchJudul = containerText.match(/Judul:\s*([^\n\r]+)/i);
+    // Mengambil teks persis setelah kata "Keyword:" sampai akhir baris
+    const matchKeyword = containerText.match(/Keyword:\s*([^\n\r]+)/i);
+
+    if (matchJudul && matchJudul[1]) {
+      judulIcon = matchJudul[1].replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+    }
+    
+    if (matchKeyword && matchKeyword[1]) {
+      keywordStr = matchKeyword[1].replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+    }
+  }
+
+// Fallback jika ekstrak UI tidak menemukan hasil
+
+  // --- TAMBAHAN BARU: POP-UP KONFIRMASI UPLOAD CANVA ---
+  const isConfirmed = reopen ? await showModalConfirm(
+    "Buka Ulang Canva",
+    `Buka lagi halaman upload Canva untuk desain "${judulIcon || 'ini'}"?\n\n${driveFiles && driveFiles.length ? `${driveFiles.length} file SVG terbaru dari Drive akan otomatis dimasukkan lagi ke Canva oleh extension, lalu judul, seniman & keyword diisi.\n\n` : ''}Waktu upload pertama tetap seperti yang sudah tercatat (tidak dicatat ulang).`
+  ) : await showModalConfirm(
+    "Konfirmasi Upload Canva",
+    `Apakah Anda yakin ingin mengupload desain "${judulIcon || 'ini'}" ke Canva sekarang?\n\n${driveFiles && driveFiles.length ? `${driveFiles.length} file SVG dari Drive akan otomatis dimasukkan ke Canva oleh extension, lalu judul, seniman & keyword diisi.\n\n` : ''}Setelah dikonfirmasi, waktu upload (timestamp) akan langsung dicatat dan tidak dapat dibatalkan.`
+  );
+  if (!isConfirmed) return;
+  // -----------------------------------------------------
+
+  const designerName = (typeof currentUser !== 'undefined' && currentUser && typeof userProfilesMap !== 'undefined' && userProfilesMap[currentUser.id]) 
+                    || (typeof currentUser !== 'undefined' && currentUser && currentUser.email) 
+                    || 'KEKAL Studio';
+
+  // 3. Format waktu & hari saat ini: hari {x}, dd-mm-yyyy pukul hh:mm:ss oleh {uploader/designer}
+  const now = new Date();
+  const namaHariList = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
+  const namaHari = namaHariList[now.getDay()];
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const yyyy = now.getFullYear();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+
+  const infoUploadText = `Tema ini telah diupload pada hari ${namaHari}, ${dd}-${mm}-${yyyy} pukul ${hh}:${min}:${ss} oleh ${designerName}`;
+
+  // Buka Ulang Canva: tombol & timestamp pertama dibiarkan apa adanya
+  if (!reopen) {
+  // 4. Ubah tombol menjadi banner abu-abu secara langsung di UI
+  const bannerDiv = document.createElement('div');
+  bannerDiv.className = "bg-slate-200 text-slate-700 border border-slate-300 text-[10px] px-3 py-2 rounded-lg font-semibold leading-snug text-center mx-auto w-full";
+  bannerDiv.innerHTML = `<i class="fa-solid fa-circle-check text-slate-500 mr-1"></i> ${esc(infoUploadText)}`;
+  if (projectId) bannerDiv.setAttribute('data-canva-banner', String(projectId));
+  btnElement.replaceWith(bannerDiv);
+
+  // 5. Simpan keterangan upload Canva ke Supabase (dicek & dicoba ulang; cadangan di perangkat)
+  if (projectId && typeof supabaseClient !== 'undefined') {
+    canvaPendingSet(projectId, infoUploadText, now.toISOString());
+    saveCanvaUploadInfo(projectId, bannerDiv);
+  }
+  }
+
+  const payloadData = {
+    judul: judulIcon || 'USB flash drive icon',
+    keyword: keywordStr || '',
+    seniman: designerName,
+    timestamp: now.getTime()
+  };
+
+  try {
+    localStorage.setItem("kekal_autofill_data", JSON.stringify(payloadData));
+  } catch (e) {}
+
+  // 6. Encode data ke parameter URL Canva & buka halaman upload
+  const encodedJudul = encodeURIComponent(payloadData.judul);
+  const encodedKeyword = encodeURIComponent(payloadData.keyword);
+  const encodedSeniman = encodeURIComponent(payloadData.seniman);
+
+  // File SVG dari Drive → dititipkan ke extension (disimpan sementara di perangkat ini)
+  let batchParam = '';
+  if (driveFiles && driveFiles.length) {
+    const batchId = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+    window.postMessage({
+      type: 'KEKAL_CANVA_FILES',
+      payload: {
+        id: batchId,
+        projectId: String(projectId || ''),
+        meta: payloadData,
+        files: driveFiles.map((f) => ({ name: canvaNamaUnik(f), content: f.content }))
+      }
+    }, window.location.origin);
+    batchParam = `&kekal_batch=${batchId}`;
+  }
+
+  const canvaUrl = `https://www.canva.com/creators/element/upload?kekal_title=${encodedJudul}&kekal_keyword=${encodedKeyword}&kekal_artist=${encodedSeniman}${batchParam}`;
+
+  window.open(canvaUrl, "_blank");
+  if (reopen) logUserActivity('BUKA_ULANG_CANVA', `Membuka ulang upload Canva untuk desain "${judulIcon || 'Icon'}" (waktu upload pertama tetap).`);
+  else logUserActivity('UPLOAD_CANVA', `Mengunggah desain "${judulIcon || 'Icon'}" ke Canva Creator.`);
+}
+
+    // ==========================================
+    // PENATA IKON: CATAT STATUS "SUDAH DIUPLOAD KE ADOBE STOCK"
+    // Dipanggil modal Penata Ikon setelah tombol "Upload Adobe" (perlu kolom adobe_uploaded_info)
+    // ==========================================
+    async function recordAdobeUpload(projectId) {
+      const actorName = (currentUser && (userProfilesMap[currentUser.id] || currentUser.email)) || 'KEKAL Studio';
+      const now = new Date();
+      const namaHari = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'][now.getDay()];
+      const pad = (n) => String(n).padStart(2, '0');
+      const tanggal = `${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${now.getFullYear()}`;
+      const jam = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      const info = `Diupload ke Adobe Stock pada hari ${namaHari}, ${tanggal} pukul ${jam} oleh ${actorName}`;
+
+      const { error } = await supabaseClient
+        .from('icon_projects')
+        .update({ adobe_uploaded_info: info })
+        .eq('id', projectId);
+      if (error) throw new Error(error.message);
+
+      const row = allAdminProjectsData.find((p) => String(p.id) === String(projectId));
+      if (row) row.adobe_uploaded_info = info;
+      lastAdminTableHash = '';
+      renderAdminProjectsTable();
+      logUserActivity('UPLOAD_ADOBE', `Mengunggah "${row ? row.kategori : 'icon set'}" ke Adobe Stock.`);
+      return info;
+    }
+
+// ==========================================
+    // LOGIKA FITUR LEVEL DESAINER (TERBARU)
+    // ==========================================
+
+    async function evaluateAndUpdateDesignerLevel(userId) {
+      if (!userId) return;
+
+      try {
+        const { data: profile } = await supabaseClient
+          .from('profiles')
+          .select('id, level, role')
+          .eq('id', userId)
+          .single();
+
+        if (!profile) return;
+
+        const currentLevel = profile.level || 2;
+        const now = new Date();
+
+        const { data: projects } = await supabaseClient
+          .from('icon_projects')
+          .select('created_at, jumlah_icon, approved_count, status_admin')
+          .eq('designer_id', userId)
+          .order('created_at', { ascending: false });
+
+        let lastClaimDate = null;
+        if (projects && projects.length > 0) {
+          lastClaimDate = new Date(projects[0].created_at);
+        }
+
+        let newLevel = currentLevel;
+
+        if (currentLevel === 3) {
+          // Logika Level 3: Jika 30 hari penuh tidak klaim -> Turun ke Level 2
+          if (lastClaimDate) {
+            const diffInMs = now - lastClaimDate;
+            const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+            if (diffInDays >= 30) {
+              newLevel = 2;
+            }
+          } else {
+            newLevel = 2;
+          }
+        } else {
+          // Logika Level 2: Aktif klaim 30 hari unik & total approved_count (status_admin = Approved) >= 1000 -> Naik ke Level 3
+          const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+          
+          if (projects && projects.length > 0) {
+            const recentProjects = projects.filter(p => new Date(p.created_at) >= thirtyDaysAgo);
+            
+            const uniqueClaimDays = new Set(
+              recentProjects.map(p => new Date(p.created_at).toISOString().split('T')[0])
+            );
+
+            let totalApprovedCount = 0;
+            recentProjects.forEach(p => {
+              if (p.status_admin === 'Approved') {
+                totalApprovedCount += (Number(p.approved_count) || (Number(p.jumlah_icon) - (Number(p.rejected_count) || 0)));
+              }
+            });
+
+            if (uniqueClaimDays.size >= 30 && totalApprovedCount >= 1000) {
+              newLevel = 3;
+            }
+          }
+        }
+
+        // Update database Supabase jika level berubah
+        if (newLevel !== currentLevel) {
+          await supabaseClient
+            .from('profiles')
+            .update({ level: newLevel })
+            .eq('id', userId);
+          
+          userLevelsMap[userId] = newLevel;
+        }
+
+        renderLevelBadgeUI(userId, newLevel, lastClaimDate);
+
+      } catch (err) {
+        console.error("Error evaluateAndUpdateDesignerLevel:", err);
+      }
+    }
+
+    function renderLevelBadgeUI(userId, level, lastClaimDate) {
+      const badgeContainer = document.getElementById('header-designer-level-badge');
+      if (!badgeContainer) return;
+
+      if (!currentUser || currentUser.id !== userId) {
+        badgeContainer.classList.add('hidden');
+        return;
+      }
+
+      badgeContainer.classList.remove('hidden');
+
+      if (level === 3) {
+        const now = new Date();
+        const diffInMs = lastClaimDate ? (now - lastClaimDate) : (25 * 60 * 60 * 1000);
+        const twentyFourHoursMs = 24 * 60 * 60 * 1000;
+
+        if (diffInMs <= twentyFourHoursMs) {
+          // Minimal 1 klaim dalam 24 jam -> Animasi Hijau Aktif
+          badgeContainer.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-xs animate-pulse">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Level 3 Aktif
+            </span>
+          `;
+        } else {
+          // Tidak aktif > 24 jam -> Countdown 30 hari (Hari, Jam, Menit, Detik)
+          const expirationTime = new Date(lastClaimDate.getTime() + (30 * 24 * 60 * 60 * 1000));
+          
+          function updateLevel3Countdown() {
+            const currentTime = new Date();
+            const distance = expirationTime - currentTime;
+
+            if (distance <= 0) {
+              clearInterval(window.levelCountdownInterval);
+              evaluateAndUpdateDesignerLevel(userId);
+              return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            badgeContainer.innerHTML = `
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 shadow-xs">
+                <i class="fa-solid fa-clock text-amber-600"></i> Level 3 Expire: ${days}h ${hours}j ${minutes}m ${seconds}d
+              </span>
+            `;
+          }
+
+          if (window.levelCountdownInterval) clearInterval(window.levelCountdownInterval);
+          updateLevel3Countdown();
+          window.levelCountdownInterval = setInterval(updateLevel3Countdown, 1000);
+        }
+      } else {
+        badgeContainer.innerHTML = `
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-300">
+            <i class="fa-solid fa-user text-slate-500"></i> Level 2
+          </span>
+        `;
+      }
+    }
+
+  let flashCountdownInterval = null;
+
+    function handleFlashTargetTypeChange() {
+      const type = document.getElementById('flash-target-type').value;
+      document.getElementById('flash-target-level-box').classList.toggle('hidden', type !== 'level');
+      document.getElementById('flash-target-designer-box').classList.toggle('hidden', type !== 'designer');
+    }
+
+    function checkUserTargetMatch(targetType, targetValue) {
+      if (!currentUser) return false;
+      if (targetType === 'all') return true;
+      if (targetType === 'level') {
+        const myLevel = String(userLevelsMap[currentUser.id] || 2);
+        return myLevel === String(targetValue);
+      }
+      if (targetType === 'designer') {
+        return currentUser.id === targetValue || currentUser.email === targetValue;
+      }
+      return false;
+    }
+
+    function hideSmoothFlashModal() {
+      const modal = document.getElementById('modal-flash-banner');
+      const card = document.getElementById('modal-flash-banner-card');
+      if (!modal || !card) return;
+
+      modal.classList.add('opacity-0');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+   // --- Pop-up informasi: antrean & penanda "sudah dibaca" ---
+    // Penanda baca memakai id + updated_at + sidik isi pesan, jadi setiap kali admin
+    // mengedit teks, pop-up pasti muncul lagi walau updated_at tidak berubah.
+    let flashQueue = [];          // pop-up berikutnya yang menunggu giliran
+    let flashCurrent = null;      // pop-up yang sedang tampil
+    const flashSeenSig = {};      // id -> versi terakhir yang sudah diproses (cegah tampil ulang karena update read_by)
+
+    function flashNoticeSig(data) {
+      const text = String(data.message || '');
+      let h = 5381;
+      for (let i = 0; i < text.length; i++) h = ((h * 33) ^ text.charCodeAt(i)) >>> 0;
+      return `${new Date(data.updated_at || 0).getTime() || 0}_${h.toString(36)}`;
+    }
+
+    function flashNoticeKey(data) {
+      const userId = currentUser ? currentUser.id : 'guest';
+      return `read_notice_${userId}_${data.id}_${flashNoticeSig(data)}`;
+    }
+
+    function isFlashNoticeRead(data) {
+      try { return localStorage.getItem(flashNoticeKey(data)) === 'true'; } catch (e) { return false; }
+    }
+
+    function isFlashModalOpen() {
+      const modal = document.getElementById('modal-flash-banner');
+      return !!(modal && !modal.classList.contains('hidden') && flashCurrent);
+    }
+
+    function isFlashNoticeEligible(data) {
+      return !!(data && data.id && data.is_active && data.message && checkUserTargetMatch(data.target_type, data.target_value) && !isFlashNoticeRead(data));
+    }
+
+    function showNextFlashNotice() {
+      flashQueue = flashQueue.filter(isFlashNoticeEligible);
+      const next = flashQueue.shift();
+      if (next) showSmoothFlashModal(next);
+    }
+
+    /** Admin menonaktifkan / menghapus pop-up: buang dari antrean, tutup jika sedang tampil. */
+    function dropFlashNotice(id) {
+      flashQueue = flashQueue.filter(n => String(n.id) !== String(id));
+      if (flashCurrent && String(flashCurrent.id) === String(id)) {
+        if (flashCountdownInterval) clearInterval(flashCountdownInterval);
+        flashCurrent = null;
+        hideSmoothFlashModal();
+        setTimeout(showNextFlashNotice, 350);
+      }
+    }
+
+   function showSmoothFlashModal(data, isRealtimeUpdate = false) {
+      const modal = document.getElementById('modal-flash-banner');
+      const card = document.getElementById('modal-flash-banner-card');
+      const content = document.getElementById('flash-banner-content');
+      const btn = document.getElementById('btn-understand-flash');
+      const btnText = document.getElementById('btn-understand-text');
+      const btnCloseTemp = document.getElementById('btn-close-flash-temp');
+
+      if (!modal || !data || !data.is_active || !data.message) return;
+
+      // Cek apakah desainer saat ini termasuk target sasaran
+      if (!checkUserTargetMatch(data.target_type, data.target_value)) return;
+
+      // Sudah klik "Saya Mengerti" untuk versi isi ini -> jangan munculkan
+      if (isFlashNoticeRead(data)) return;
+
+      const sig = flashNoticeSig(data);
+      flashSeenSig[data.id] = sig;
+
+      if (isFlashModalOpen()) {
+        if (String(flashCurrent.id) === String(data.id)) {
+          // Pop-up yang sama sedang tampil: perbarui isinya jika diedit admin, tanpa mengulang hitungan
+          if (flashNoticeSig(flashCurrent) !== sig) content.innerHTML = window.parseObsidianFormat(data.message);
+          flashCurrent = data;
+          return;
+        }
+        // Pop-up lain sedang tampil: masukkan ke antrean (ganti versi lama jika ada)
+        flashQueue = flashQueue.filter(n => String(n.id) !== String(data.id));
+        flashQueue.push(data);
+        return;
+      }
+
+      flashCurrent = data;
+      flashQueue = flashQueue.filter(n => String(n.id) !== String(data.id));
+      const noticeKey = flashNoticeKey(data);
+
+      content.innerHTML = window.parseObsidianFormat(data.message);
+      content.scrollTop = 0;
+      btn.disabled = true;
+
+      // Tampilkan Modal Efek Smooth
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+      }, 50);
+
+      // Hitungan Mundur 5 Detik
+      let timeLeft = 5;
+      btnText.innerText = `Mengerti (${timeLeft}s)`;
+
+      if (flashCountdownInterval) clearInterval(flashCountdownInterval);
+
+      flashCountdownInterval = setInterval(() => {
+        timeLeft -= 1;
+        if (timeLeft <= 0) {
+          clearInterval(flashCountdownInterval);
+          btn.disabled = false;
+          btnText.innerText = "Saya Mengerti";
+        } else {
+          btnText.innerText = `Mengerti (${timeLeft}s)`;
+        }
+      }, 1000);
+
+      // Tombol Saya Mengerti -> Simpan ke LocalStorage agar tidak muncul lagi pada refresh berikutnya
+    btn.onclick = async () => {
+        const shown = flashCurrent || data;
+        try { localStorage.setItem(flashNoticeKey(shown), 'true'); } catch (e) {}
+        flashCurrent = null;
+        hideSmoothFlashModal();
+        // Pop-up berikutnya (jika ada) muncul setelah animasi tutup selesai
+        setTimeout(showNextFlashNotice, 350);
+
+        if (currentUser && shown.id) {
+          const existingReaders = Array.isArray(shown.read_by) ? shown.read_by : [];
+          if (!existingReaders.includes(currentUser.id)) {
+            const updatedReaders = [...existingReaders, currentUser.id];
+            await supabaseClient
+              .from('popup_notices')
+              .update({ read_by: updatedReaders })
+              .eq('id', shown.id);
+          }
+        }
+      };
+
+      // Tombol [X] -> Tutup sementara (Akan tetap muncul jika di-refresh / auto refresh idle)
+      if (btnCloseTemp) {
+        btnCloseTemp.onclick = () => {
+          if (flashCountdownInterval) clearInterval(flashCountdownInterval);
+          flashCurrent = null;
+          flashQueue = [];
+          hideSmoothFlashModal();
+        };
+      }
+    }
+
+    // Mengambil data dari tabel popup_notices saat login / refresh
+    async function loadFlashBannerAnnouncement() {
+      try {
+        if (!currentUser) return;
+        const { data } = await supabaseClient
+          .from('popup_notices')
+          .select('*')
+          .eq('is_active', true)
+          .order('updated_at', { ascending: false });
+
+        if (!data || data.length === 0) return;
+
+        // Tampilkan SEMUA pop-up yang sesuai target & belum dibaca, berurutan dari yang terbaru
+        data.filter(isFlashNoticeEligible).forEach(n => showSmoothFlashModal(n));
+      } catch (err) {
+        console.warn("Popup notice error:", err.message);
+      }
+    }
+
+    // 1. Helper fungsi apply formatting (Obsidian style)
+    window.applyMarkdownStyle = function(prefix, suffix, defaultText, isLinePrefix) {
+      if (suffix === undefined) suffix = '';
+      if (defaultText === undefined) defaultText = 'teks';
+      if (isLinePrefix === undefined) isLinePrefix = false;
+
+      // Handle khusus untuk tag underline tanpa menggunakan karakter < > di inline HTML onclick
+      if (prefix === 'u' && suffix === 'u') {
+        prefix = '<u>';
+        suffix = '</u>';
+      }
+
+      const textarea = document.getElementById('flash-message-content');
+      if (!textarea) return;
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      const textToUse = selectedText || defaultText;
+
+      let replacement = '';
+      if (isLinePrefix) {
+        replacement = `${prefix}${textToUse}`;
+      } else {
+        replacement = `${prefix}${textToUse}${suffix}`;
+      }
+
+      textarea.focus();
+      textarea.setRangeText(replacement, start, end, 'select');
+    };
+
+    // 2. Keyboard Shortcuts (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+K, Ctrl+1, Ctrl+2, Ctrl+3)
+    document.addEventListener('keydown', (e) => {
+      const flashTextarea = document.getElementById('flash-message-content');
+      if (!flashTextarea || document.activeElement !== flashTextarea) return;
+
+      if (e.ctrlKey || e.metaKey) {
+        const key = e.key.toLowerCase();
+        if (key === 'b') {
+          e.preventDefault();
+          window.applyMarkdownStyle('**', '**', 'teks tebal');
+        } else if (key === 'i') {
+          e.preventDefault();
+          window.applyMarkdownStyle('*', '*', 'teks miring');
+        } else if (key === 'u') {
+          e.preventDefault();
+          window.applyMarkdownStyle('u', 'u', 'teks garis bawah');
+        } else if (key === 'k') {
+          e.preventDefault();
+          window.applyMarkdownStyle('[', '](https://)', 'Teks Link');
+        } else if (key === '1') {
+          e.preventDefault();
+          window.applyMarkdownStyle('# ', '', 'Judul Utama', true);
+        } else if (key === '2') {
+          e.preventDefault();
+          window.applyMarkdownStyle('## ', '', 'Sub Judul', true);
+        } else if (key === '3') {
+          e.preventDefault();
+          window.applyMarkdownStyle('### ', '', 'Sub Heading', true);
+        }
+      }
+    });
+
+    // 3. Utility Parser Obsidian Markdown ke HTML
+    window.parseObsidianFormat = (function() {
+  // Semua teks di-escape dulu (anti-XSS); hanya tag <u> dari toolbar yang diizinkan kembali.
+  const CALLOUTS = {
+    note:      { label: 'Catatan',    icon: 'fa-circle-info',          cls: 'border-sky-500 bg-sky-50 text-sky-900' },
+    info:      { label: 'Info',       icon: 'fa-circle-info',          cls: 'border-sky-500 bg-sky-50 text-sky-900' },
+    abstract:  { label: 'Ringkasan',  icon: 'fa-clipboard-list',       cls: 'border-cyan-500 bg-cyan-50 text-cyan-900' },
+    summary:   { label: 'Ringkasan',  icon: 'fa-clipboard-list',       cls: 'border-cyan-500 bg-cyan-50 text-cyan-900' },
+    todo:      { label: 'To-do',      icon: 'fa-list-check',           cls: 'border-sky-500 bg-sky-50 text-sky-900' },
+    tip:       { label: 'Tips',       icon: 'fa-lightbulb',            cls: 'border-emerald-500 bg-emerald-50 text-emerald-900' },
+    hint:      { label: 'Tips',       icon: 'fa-lightbulb',            cls: 'border-emerald-500 bg-emerald-50 text-emerald-900' },
+    success:   { label: 'Berhasil',   icon: 'fa-circle-check',         cls: 'border-emerald-500 bg-emerald-50 text-emerald-900' },
+    check:     { label: 'Berhasil',   icon: 'fa-circle-check',         cls: 'border-emerald-500 bg-emerald-50 text-emerald-900' },
+    done:      { label: 'Selesai',    icon: 'fa-circle-check',         cls: 'border-emerald-500 bg-emerald-50 text-emerald-900' },
+    important: { label: 'Penting',    icon: 'fa-circle-exclamation',   cls: 'border-indigo-500 bg-indigo-50 text-indigo-900' },
+    warning:   { label: 'Peringatan', icon: 'fa-triangle-exclamation', cls: 'border-amber-500 bg-amber-50 text-amber-900' },
+    caution:   { label: 'Perhatian',  icon: 'fa-triangle-exclamation', cls: 'border-amber-500 bg-amber-50 text-amber-900' },
+    attention: { label: 'Perhatian',  icon: 'fa-triangle-exclamation', cls: 'border-amber-500 bg-amber-50 text-amber-900' },
+    danger:    { label: 'Bahaya',     icon: 'fa-bolt',                 cls: 'border-rose-500 bg-rose-50 text-rose-900' },
+    error:     { label: 'Error',      icon: 'fa-circle-xmark',         cls: 'border-rose-500 bg-rose-50 text-rose-900' },
+    failure:   { label: 'Gagal',      icon: 'fa-circle-xmark',         cls: 'border-rose-500 bg-rose-50 text-rose-900' },
+    bug:       { label: 'Bug',        icon: 'fa-bug',                  cls: 'border-rose-500 bg-rose-50 text-rose-900' },
+    question:  { label: 'Pertanyaan', icon: 'fa-circle-question',      cls: 'border-violet-500 bg-violet-50 text-violet-900' },
+    faq:       { label: 'FAQ',        icon: 'fa-circle-question',      cls: 'border-violet-500 bg-violet-50 text-violet-900' },
+    help:      { label: 'Bantuan',    icon: 'fa-circle-question',      cls: 'border-violet-500 bg-violet-50 text-violet-900' },
+    example:   { label: 'Contoh',     icon: 'fa-list',                 cls: 'border-purple-500 bg-purple-50 text-purple-900' },
+    quote:     { label: 'Kutipan',    icon: 'fa-quote-left',           cls: 'border-slate-400 bg-slate-50 text-slate-700' },
+    cite:      { label: 'Kutipan',    icon: 'fa-quote-left',           cls: 'border-slate-400 bg-slate-50 text-slate-700' }
+  };
+  const SAFE_URL = /^(https?:\/\/|mailto:)/i;
+  const FENCE = /^\s*(`{3,}|~{3,})\s*([^`\s]*)\s*$/;
+  const HR = /^\s*([-*_])(?:\s*\1){2,}\s*$/;
+  const HEADING = /^(#{1,6})\s*(.+?)\s*#*\s*$/;
+  const LIST = /^(\s*)([-*+]|\d+[.)])\s+(.*)$/;
+  const TABLE_SEP = /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/;
+  const HEAD_CLS = [
+    'text-lg font-black text-indigo-900',
+    'text-base font-extrabold text-slate-900',
+    'text-sm font-extrabold text-slate-800',
+    'text-sm font-bold text-slate-800',
+    'text-xs font-bold text-slate-800',
+    'text-xs font-bold text-slate-500 uppercase tracking-wide'
+  ];
+
+  /** Format di dalam satu baris: kode, link, wikilink, tebal, miring, coret, highlight. */
+  function inline(raw) {
+    const tokens = [];
+    const put = (html) => '\u0000' + (tokens.push(html) - 1) + '\u0000';
+    let s = esc(raw);
+
+    s = s.replace(/(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/g, (m, ticks, code) =>
+      put(`<code class="font-mono text-[0.85em] bg-slate-100 text-rose-700 border border-slate-200 rounded px-1 py-px">${code.trim() || code}</code>`));
+    s = s.replace(/&lt;u&gt;/gi, '<u>').replace(/&lt;\/u&gt;/gi, '</u>');
+
+    // Gambar ![alt](url) & embed ![[...]]
+    s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, url) => SAFE_URL.test(url)
+      ? put(`<img src="${url}" alt="${alt}" class="max-w-full h-auto rounded-lg border border-slate-200 my-1" loading="lazy">`)
+      : alt);
+    // Wikilink [[Catatan]] / [[Catatan|Alias]] / [[Catatan#Bagian]] -> teks tersorot (tidak ada catatan tujuan di pop-up)
+    s = s.replace(/!?\[\[([^\]|]+?)(?:\|([^\]]+))?\]\]/g, (m, target, alias) =>
+      put(`<span class="font-bold text-indigo-700 bg-indigo-50 rounded px-1">${emphasis(alias || target.replace(/#\^?/, ' › '))}</span>`));
+    // Link [teks](url) — hanya http/https/mailto
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g, (m, text, url) => SAFE_URL.test(url)
+      ? put(`<a href="${url}" target="_blank" rel="noopener" class="text-indigo-600 underline font-bold hover:text-indigo-800">${emphasis(text)}</a>`)
+      : emphasis(text));
+    // Link mentah https://...
+    s = s.replace(/(^|[\s(])(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, (m, pre, url) =>
+      pre + put(`<a href="${url}" target="_blank" rel="noopener" class="text-indigo-600 underline font-bold hover:text-indigo-800 break-all">${url}</a>`));
+
+    s = emphasis(s);
+    for (let i = 0; i < 3 && s.indexOf('\u0000') !== -1; i++) {
+      s = s.replace(/\u0000(\d+)\u0000/g, (m, n) => tokens[n]);
+    }
+    return s;
+  }
+
+  function emphasis(s) {
+    return s
+      .replace(/(\*\*|__)(?=\S)([\s\S]*?\S)\1/g, '<strong>$2</strong>')
+      .replace(/(^|[^\w*])\*(?=[^\s*])([^*]*?[^\s*]|[^\s*])\*(?![\w*])/g, '$1<em>$2</em>')
+      .replace(/(^|[^\w])_(?=[^\s_])([^_]*?[^\s_]|[^\s_])_(?!\w)/g, '$1<em>$2</em>')
+      .replace(/~~(?=\S)([\s\S]*?\S)~~/g, '<del>$1</del>')
+      .replace(/==(?=\S)([\s\S]*?\S)==/g, '<mark class="bg-amber-200 text-amber-950 px-1 rounded font-semibold">$1</mark>');
+  }
+
+  const splitRow = (line) => {
+    let t = line.trim().replace(/\\\|/g, '\u0001');
+    if (t.startsWith('|')) t = t.slice(1);
+    if (t.endsWith('|')) t = t.slice(0, -1);
+    return t.split('|').map(c => c.trim().replace(/\u0001/g, '|'));
+  };
+
+  function renderList(items) {
+    // items: [{indent, ordered, num, text}] -> daftar bertingkat sesuai indentasi
+    let html = '';
+    let i = 0;
+    while (i < items.length) {
+      const base = items[i].indent;
+      const ordered = items[i].ordered;
+      const tag = ordered ? 'ol' : 'ul';
+      const start = ordered && items[i].num !== 1 ? ` start="${items[i].num}"` : '';
+      html += `<${tag}${start} class="${ordered ? 'list-decimal' : 'list-disc'} pl-5 my-0.5 space-y-0.5 text-slate-700">`;
+      while (i < items.length && items[i].indent === base && items[i].ordered === ordered) {
+        const it = items[i++];
+        const children = [];
+        while (i < items.length && items[i].indent > base) children.push(items[i++]);
+        const task = it.text.match(/^\[([ xX\/-])\]\s+(.*)$/);
+        const sub = children.length ? renderList(children) : '';
+        if (task) {
+          const done = task[1] !== ' ';
+          html += `<li class="list-none -ml-5"><span class="flex items-start gap-1.5"><i class="${done ? 'fa-solid fa-square-check text-emerald-600' : 'fa-regular fa-square text-slate-400'} mt-[3px] shrink-0"></i><span class="${done ? 'line-through text-slate-400' : ''}">${inline(task[2])}</span></span>${sub}</li>`;
+        } else {
+          html += `<li class="m-0 p-0">${inline(it.text)}${sub}</li>`;
+        }
+      }
+      html += `</${tag}>`;
+    }
+    return html;
+  }
+
+  function blocks(lines) {
+    const out = [];
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Blok kode ```bahasa ... ```
+      const fence = line.match(FENCE);
+      if (fence) {
+        const mark = fence[1];
+        const lang = fence[2];
+        const body = [];
+        i++;
+        const isClose = (l) => { const t = l.trim(); return t.length >= mark.length && t === mark[0].repeat(t.length); };
+        while (i < lines.length && !isClose(lines[i])) body.push(lines[i++]);
+        i++;
+        out.push(`<div class="my-1.5 rounded-lg border border-slate-200 bg-slate-50 overflow-hidden">${lang ? `<div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-500 bg-slate-100 border-b border-slate-200">${esc(lang)}</div>` : ''}<pre class="m-0 px-2.5 py-2 text-[11px] sm:text-xs leading-relaxed font-mono text-slate-800 whitespace-pre-wrap break-words overflow-x-auto"><code>${esc(body.join('\n'))}</code></pre></div>`);
+        continue;
+      }
+
+      if (!line.trim()) { out.push('<div class="h-2"></div>'); i++; continue; }
+
+      if (HR.test(line)) { out.push('<hr class="my-2 border-slate-200">'); i++; continue; }
+
+      const head = line.match(HEADING);
+      if (head && !/^#+$/.test(head[2])) {
+        const lvl = head[1].length;
+        out.push(`<h${lvl} class="${HEAD_CLS[lvl - 1]} mt-2 mb-1">${inline(head[2])}</h${lvl}>`);
+        i++;
+        continue;
+      }
+
+      // Kutipan & callout Obsidian  > [!note] Judul
+      if (/^\s*>/.test(line)) {
+        const body = [];
+        while (i < lines.length && /^\s*>/.test(lines[i])) body.push(lines[i++].replace(/^\s*>\s?/, ''));
+        const call = body[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+        if (call) {
+          const type = call[1].toLowerCase();
+          const c = CALLOUTS[type] || CALLOUTS.note;
+          const title = call[3] ? inline(call[3]) : esc(CALLOUTS[type] ? c.label : call[1]);
+          const rest = body.slice(1);
+          out.push(`<div class="my-1.5 rounded-lg border-l-4 ${c.cls} px-3 py-2"><div class="flex items-center gap-1.5 font-extrabold"><i class="fa-solid ${c.icon}"></i><span>${title}</span></div>${rest.some(l => l.trim()) ? `<div class="mt-1 text-slate-700">${blocks(rest)}</div>` : ''}</div>`);
+        } else {
+          out.push(`<blockquote class="border-l-4 border-indigo-500 pl-2.5 py-0.5 text-slate-600 italic bg-slate-50 my-1 rounded-r">${blocks(body)}</blockquote>`);
+        }
+        continue;
+      }
+
+      // Tabel  | a | b |  +  |---|---|
+      if (line.includes('|') && i + 1 < lines.length && lines[i + 1].includes('-') && TABLE_SEP.test(lines[i + 1])) {
+        const aligns = splitRow(lines[i + 1]).map(c => /^:-+:$/.test(c) ? 'center' : /-+:$/.test(c) ? 'right' : 'left');
+        const header = splitRow(line);
+        const rows = [];
+        i += 2;
+        while (i < lines.length && lines[i].includes('|') && lines[i].trim()) rows.push(splitRow(lines[i++]));
+        const cell = (tag, txt, k) => `<${tag} class="border border-slate-200 px-2 py-1 align-top" style="text-align:${aligns[k] || 'left'}">${inline(txt || '')}</${tag}>`;
+        out.push(`<div class="my-1.5 overflow-x-auto"><table class="w-full border-collapse text-[11px] sm:text-xs"><thead class="bg-slate-100 font-bold text-slate-800"><tr>${header.map((h, k) => cell('th', h, k)).join('')}</tr></thead><tbody>${rows.map(r => `<tr class="even:bg-slate-50">${header.map((h, k) => cell('td', r[k], k)).join('')}</tr>`).join('')}</tbody></table></div>`);
+        continue;
+      }
+
+      // Daftar (bertingkat), termasuk checkbox - [ ] / - [x]
+      if (LIST.test(line)) {
+        const items = [];
+        while (i < lines.length) {
+          const m = lines[i].match(LIST);
+          if (!m) break;
+          items.push({ indent: m[1].replace(/\t/g, '    ').length, ordered: /\d/.test(m[2]), num: parseInt(m[2], 10) || 1, text: m[3] });
+          i++;
+        }
+        // Normalisasi: indentasi item pertama = 0
+        const min = Math.min(...items.map(it => it.indent));
+        items.forEach(it => { it.indent -= min; });
+        out.push(renderList(items));
+        continue;
+      }
+
+      out.push(`<div>${inline(line)}</div>`);
+      i++;
+    }
+    return out.join('');
+  }
+
+  return function(str) {
+    if (!str) return '';
+    return blocks(String(str).replace(/\r\n?/g, '\n').split('\n'));
+  };
+})();
+
+
+async function sendTelegramReport(projectId, kategori, jumlahIcon, driveUrl, targetBelajar, rawStyle) {
+  if (!currentUser) {
+    await showModalAlert("Akses Ditolak", "Silakan login terlebih dahulu.", "warning");
+    return;
+  }
+
+  const confirmSend = await showModalConfirm(
+    "Konfirmasi Laporan",
+    `Apakah Anda yakin ingin mengirimkan laporan pengerjaan tema "${kategori}" (${jumlahIcon} Icon) ke grup Telegram Admin?`
+  );
+
+  if (!confirmSend) return;
+
+  // Kunci tombol seketika agar mencegah double-click saat proses kirim berjalan
+  const btnTrigger = document.getElementById('btn-trigger-telegram');
+  if (btnTrigger) {
+    if (btnTrigger.disabled) return;
+    btnTrigger.disabled = true;
+    btnTrigger.className = "bg-emerald-900/40 text-emerald-100 border border-emerald-400/30 font-extrabold text-xs px-4 py-2 rounded-lg whitespace-nowrap flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center cursor-not-allowed opacity-90 z-20";
+    btnTrigger.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Mengirim Laporan...`;
+  }
+
+  const desainerName = (typeof userProfilesMap !== 'undefined' && userProfilesMap[currentUser.id]) 
+    || (currentUser.user_metadata && currentUser.user_metadata.full_name)
+    || currentUser.email 
+    || "Desainer";
+
+  const todayFormatted = new Date().toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  let extractedStyle = rawStyle || '';
+  if (!extractedStyle && kategori) {
+    const match = kategori.match(/\(([^)]+)\)/);
+    if (match) extractedStyle = match[1];
+  }
+
+  const payloadData = {
+    nama: desainerName,
+    tanggal: todayFormatted,
+    tema: kategori,
+    jumlah: `${jumlahIcon} Icon`,
+    style: extractedStyle || '-',
+    target_belajar: targetBelajar || '-'
+  };
+
+  try {
+    const { data: currentProj } = await supabaseClient
+      .from('icon_projects')
+      .select('status_admin')
+      .eq('id', projectId)
+      .single();
+
+    let targetStatus = 'Submitted';
+    if (currentProj && currentProj.status_admin === 'Rejected') {
+      targetStatus = 'Submitted'; // Diubah jadi 'Submitted' agar lolos constraint database
+    }
+
+    const { error: dbErr } = await supabaseClient
+      .from('icon_projects')
+      .update({
+        status_admin: targetStatus,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', projectId);
+
+    if (dbErr) throw dbErr;
+    const waktuLaporan = formatNotifUploadTime(new Date().toISOString());
+    await logUserActivity(
+      'LAPORAN',
+      `${desainerName} telah mengirim laporan ${jumlahIcon} ${kategori} ke Grup Telegram KEKAL Studio (${waktuLaporan})`
+    );
+    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(payloadData)
+    });
+
+    const resJson = await response.json();
+
+    // Ubah tampilan tombol menjadi "Laporan Terkirim" dan tetap disabled
+    if (btnTrigger) {
+      btnTrigger.innerHTML = `<i class="fa-solid fa-check-double"></i> Laporan Terkirim`;
+    }
+
+    if (resJson.status === 'success') {
+      await showModalAlert("Laporan Terkirim! 🎉", `Laporan pengerjaan Anda berhasil dikirimkan ke Admin Telegram.`, "success");
+    } else {
+      await showModalAlert("Peringatan", `Laporan tersimpan di database, tetapi notifikasi Telegram gagal: ${resJson.message}`, "warning");
+    }
+
+    if (typeof loadUserDashboardData === 'function') await loadUserDashboardData();
+    if (typeof loadThemes === 'function') await loadThemes();
+
+  } catch (err) {
+    console.error("Error sendTelegramReport:", err);
+    // Buka kembali tombol jika proses gagal total agar desainer bisa mencoba ulang
+    if (btnTrigger) {
+      btnTrigger.disabled = false;
+      btnTrigger.className = "bg-white text-emerald-800 hover:bg-emerald-50 font-extrabold text-xs px-4 py-2 rounded-lg transition shadow-sm whitespace-nowrap flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center cursor-pointer z-20";
+      btnTrigger.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Laporan`;
+    }
+    await showModalAlert("Gagal Kirim Laporan", err.message || "Terjadi kesalahan sistem.", "error");
+  }
+}
+
+// ==========================================
+    // FITUR RIWAYAT AKTIVITAS (DESAINER & ADMIN)
+    // ==========================================
+    let activityHistoryLimit = 15;
+
+    async function logUserActivity(actionType, description) {
+      if (!currentUser || !supabaseClient) return;
+      try {
+        const actorName = userProfilesMap[currentUser.id] || currentUser.email || 'Pengguna';
+        const actorRole = isAdminUser ? 'admin' : 'designer';
+
+        await supabaseClient.from('activity_logs').insert([{
+          user_id: currentUser.id,
+          user_name: actorName,
+          user_role: actorRole,
+          action_type: actionType,
+          description: description
+        }]);
+      } catch (err) {
+        console.warn("Gagal mencatat log aktivitas:", err.message);
+      }
+    }
+
+    async function loadActivityHistory(resetLimit = false) {
+      const tbody = document.getElementById('activity-history-body');
+      const loadMoreBox = document.getElementById('activity-load-more-container');
+      const adminFilterBox = document.getElementById('activity-admin-filter-box');
+      const selectUser = document.getElementById('activity-filter-user');
+
+      if (!tbody) return;
+      if (!currentUser) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="4">Silakan login untuk melihat riwayat aktivitas.</td></tr>`;
+        return;
+      }
+
+      if (resetLimit) activityHistoryLimit = 15;
+
+      // Tampilkan dropdown filter desainer jika yang login adalah Admin
+      if (isAdminUser && adminFilterBox && selectUser) {
+        adminFilterBox.classList.remove('hidden');
+        if (selectUser.options.length <= 1 && Object.keys(userProfilesMap).length > 0) {
+          const opts = Object.keys(userProfilesMap)
+            .map(id => `<option value="${esc(id)}">${esc(userProfilesMap[id])}</option>`)
+            .join('');
+          selectUser.innerHTML = `<option value="ALL">Semua Desainer & Admin</option>` + opts;
+        }
+      } else if (adminFilterBox) {
+        adminFilterBox.classList.add('hidden');
+      }
+
+      const filterType = document.getElementById('activity-filter-type')?.value || 'ALL';
+      const filterUser = isAdminUser ? (selectUser?.value || 'ALL') : currentUser.id;
+
+      let query = supabaseClient
+        .from('activity_logs')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(activityHistoryLimit + 1);
+
+      // Desainer hanya bisa melihat log miliknya sendiri; Admin bisa melihat semua / per-filter
+      if (!isAdminUser) {
+        query = query.eq('user_id', currentUser.id);
+      } else if (filterUser !== 'ALL') {
+        query = query.eq('user_id', filterUser);
+      }
+
+      if (filterType !== 'ALL') {
+        query = query.eq('action_type', filterType);
+      }
+
+      const { data: logs, error } = await query;
+
+      if (error || !logs || logs.length === 0) {
+        tbody.innerHTML = `<tr><td class="p-4 text-center text-slate-400" colspan="4">Belum ada catatan riwayat aktivitas.</td></tr>`;
+        if (loadMoreBox) loadMoreBox.classList.add('hidden');
+        return;
+      }
+
+      const hasMore = logs.length > activityHistoryLimit;
+      const visibleLogs = logs.slice(0, activityHistoryLimit);
+
+      if (loadMoreBox) {
+        loadMoreBox.classList.toggle('hidden', !hasMore);
+      }
+
+      const badgeStyles = {
+        'KLAIM': 'bg-blue-50 text-blue-700 border-blue-200',
+        'UPLOAD_DRIVE': 'bg-amber-50 text-amber-700 border-amber-200',
+        'LAPORAN': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+        'UPLOAD_CANVA': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+        'MODERASI': 'bg-purple-50 text-purple-700 border-purple-200',
+        'AUTH': 'bg-slate-100 text-slate-700 border-slate-300'
+      };
+
+      tbody.innerHTML = visibleLogs.map(log => {
+        const badgeClass = badgeStyles[log.action_type] || 'bg-slate-100 text-slate-600 border-slate-200';
+        const roleTag = log.user_role === 'admin'
+          ? `<span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-extrabold ml-1">Admin</span>`
+          : '';
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 text-slate-500 font-medium whitespace-nowrap">${formatFullDateTime(log.created_at)}</td>
+            <td class="p-3 font-bold text-slate-800">${esc(log.user_name || 'Pengguna')}${roleTag}</td>
+            <td class="p-3 text-center">
+              <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold border whitespace-nowrap ${badgeClass}">
+                ${esc(log.action_type)}
+              </span>
+            </td>
+            <td class="p-3 text-slate-700 leading-relaxed break-words">${esc(log.description)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+// =========================================================================
+    // FITUR EXPORT CSV, EXPORT PDF & TIMER HITUNG MUNDUR RIWAYAT AKTIVITAS
+    // =========================================================================
+    const LOG_RETENTION_DAYS = 30; // <-- Sesuaikan jumlah hari retensi log di sini
+    let activityRetentionInterval = null;
+
+    // 1. Jalankan Timer Hitung Mundur Otomatis Saat Tab Riwayat Aktivitas Dibuka
+    async function startActivityRetentionTimer() {
+      const countdownEl = document.getElementById('activity-retention-countdown');
+      const labelDaysEl = document.getElementById('txt-retention-days-label');
+      if (!countdownEl) return;
+
+      if (labelDaysEl) labelDaysEl.innerText = `${LOG_RETENTION_DAYS} Hari`;
+      if (activityRetentionInterval) clearInterval(activityRetentionInterval);
+
+      let targetDeleteTime = null;
+
+      try {
+        // Ambil timestamp log tertua milik user (atau global jika admin)
+        let query = supabaseClient
+          .from('activity_logs')
+          .select('created_at')
+          .order('created_at', { ascending: true })
+          .limit(1);
+
+        if (!isAdminUser && currentUser) {
+          query = query.eq('user_id', currentUser.id);
+        }
+
+        const { data } = await query;
+        if (data && data.length > 0 && data[0].created_at) {
+          const oldestLogDate = new Date(data[0].created_at);
+          targetDeleteTime = new Date(oldestLogDate.getTime() + LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+        } else {
+          // Fallback jika log kosong: hitung dari hari ini + LOG_RETENTION_DAYS
+          targetDeleteTime = new Date(Date.now() + LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+        }
+      } catch (err) {
+        targetDeleteTime = new Date(Date.now() + LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+      }
+
+      const updateRetentionClock = () => {
+        const now = new Date();
+        const diff = targetDeleteTime - now;
+
+        if (diff <= 0) {
+          countdownEl.innerText = "00 Hari 00:00:00 (Segera Terhapus)";
+          clearInterval(activityRetentionInterval);
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hrs = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        const mins = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+        const secs = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+        countdownEl.innerText = `${days} Hari ${hrs}:${mins}:${secs}`;
+      };
+
+      updateRetentionClock();
+      activityRetentionInterval = setInterval(updateRetentionClock, 1000);
+    }
+
+    // 2. Fungsi Export CSV (Mengambil semua data terfilter langsung dari Supabase)
+    async function exportActivityHistoryCSV() {
+      if (!currentUser) return;
+
+      const filterUser = document.getElementById('activity-filter-user')?.value || 'ALL';
+      const filterType = document.getElementById('activity-filter-type')?.value || 'ALL';
+
+      try {
+        let query = supabaseClient
+          .from('activity_logs')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!isAdminUser) {
+          query = query.eq('user_id', currentUser.id);
+        } else if (filterUser !== 'ALL') {
+          query = query.eq('user_id', filterUser);
+        }
+
+        if (filterType !== 'ALL') {
+          query = query.eq('action_type', filterType);
+        }
+
+        const { data: logs, error } = await query;
+        if (error) throw error;
+
+        if (!logs || logs.length === 0) {
+          await showModalAlert("Data Kosong", "Tidak ada data riwayat aktivitas untuk di-export.", "warning");
+          return;
+        }
+
+        let csvContent = "Waktu,Pengguna,Kategori,Detail Aktivitas\n";
+        logs.forEach(item => {
+          const waktu = formatFullDateTime(item.created_at).replace(/"/g, '""');
+          const pengguna = String(item.user_name || userProfilesMap[item.user_id] || 'Pengguna').replace(/"/g, '""');
+          const kategori = String(item.action_type || '-').replace(/"/g, '""');
+          const detail = (item.description || '-').replace(/"/g, '""');
+          csvContent += `"${waktu}","${pengguna}","${kategori}","${detail}"\n`;
+        });
+
+        const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const roleLabel = isAdminUser ? "Admin" : (userProfilesMap[currentUser.id] || "Desainer").replace(/\s+/g, '_');
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Riwayat_Aktivitas_${roleLabel}_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        await showModalAlert("Berhasil Export CSV", "File CSV riwayat aktivitas berhasil diunduh!", "success");
+      } catch (err) {
+        await showModalAlert("Gagal Export CSV", err.message, "error");
+      }
+    }
+
+    // 3. Fungsi Export PDF (Menggunakan Native Print PDF agar bersih tanpa library tambahan)
+    function exportActivityHistoryPDF() {
+      const tbody = document.getElementById('activity-history-body');
+      if (!tbody || tbody.innerText.includes('Belum ada') || tbody.innerText.includes('Memuat')) {
+        showModalAlert("Data Kosong", "Tidak ada data riwayat aktivitas untuk dicetak ke PDF.", "warning");
+        return;
+      }
+
+      document.body.classList.add('printing-activity');
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('printing-activity');
+      }, 500);
+    }
+
+
+    // =====================================================================
+    // TRANSKRIP VIDEO / AUDIO (KHUSUS ADMIN)
+    // Hasil hanya ada di halaman ini (tidak disimpan ke database / Drive).
+    // Upload file: jeda suara dideteksi di browser → tiap ucapan dipotong lalu
+    //   ditranskrip AI (Gemini lewat Apps Script transkrip.gs).
+    // Link YouTube / Drive: jeda diperkirakan oleh AI.
+    // Kata Arab dari AI berformat ⟦tulisan Arab|latin⟧.
+    // =====================================================================
+    const TR_SR = 16000;                       // sample rate audio yang dikirim (cukup untuk suara percakapan)
+    const TR_BATCH_BYTES = 6 * 1024 * 1024;    // ukuran audio per kiriman ke Apps Script
+    const TR_BATCH_MAX = 30;                   // jumlah ucapan per kiriman
+    const trState = {
+      sumber: 'file', file: null, url: '', busy: false, batal: false,
+      seg: [], judul: '', durasi: 0, progres: null, error: '',
+      opt: { waktu: true, latin: true, format: 'baris', jeda: 0.6 }
+    };
+
+    function trInitAdmin() {
+      if (!isAdminUser) return;
+      const btn = document.getElementById('btn-tab-transkrip-admin');
+      if (btn) btn.classList.remove('hidden');
+    }
+
+    function trOnSwitchTab(tabName) {
+      const view = document.getElementById('view-transkrip-admin');
+      const btn = document.getElementById('btn-tab-transkrip-admin');
+      if (!view || !btn) return;
+      const active = tabName === 'transkrip-admin' && isAdminUser;
+      view.classList.toggle('hidden', !active);
+      btn.className = (active
+        ? 'bg-sky-50 text-sky-700 border border-sky-300 shadow-xs'
+        : 'hover:bg-sky-50 text-sky-700') + ' px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0' + (isAdminUser ? '' : ' hidden');
+      if (active && !view.dataset.siap) trRender();
+    }
+
+    async function trCall(action, extra) {
+      const { data: sessionData } = await supabaseClient.auth.getSession();
+      const token = sessionData && sessionData.session && sessionData.session.access_token;
+      if (!token) throw new Error('Sesi login tidak ditemukan. Silakan login ulang.');
+      let data;
+      try {
+        const res = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(Object.assign({ action, access_token: token }, extra || {}))
+        });
+        data = await res.json();
+      } catch (err) {
+        throw new Error('Gagal terhubung ke Apps Script. Periksa koneksi internet, atau file terlalu besar untuk sekali kirim.');
+      }
+      if (!data || typeof data !== 'object' || !data.status) throw new Error('Apps Script belum diperbarui: file transkrip.gs belum di-deploy.');
+      if (data.status === 'success' || data.status === 'retry' || data.status === 'mismatch') return data;
+      throw new Error(data.message || 'Terjadi kesalahan.');
+    }
+
+    /** Panggil Apps Script; bila kuota AI penuh, tunggu lalu coba lagi. */
+    async function trCallUlang(action, extra) {
+      for (let i = 0; i < 6; i++) {
+        if (trState.batal) throw new Error('Dibatalkan.');
+        const r = await trCall(action, extra);
+        if (r.status !== 'retry') return r;
+        for (let s = 25; s > 0; s--) {
+          if (trState.batal) throw new Error('Dibatalkan.');
+          trSetProgres(null, `Kuota AI sedang penuh, mencoba lagi dalam ${s} detik…`);
+          await new Promise((ok) => setTimeout(ok, 1000));
+        }
+      }
+      throw new Error('Kuota AI masih penuh. Coba lagi beberapa menit lagi.');
+    }
+
+    /* ---------- format teks ---------- */
+
+    function trJam(sec) {
+      sec = Math.max(0, Math.floor(sec || 0));
+      const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+      const p = (n) => String(n).padStart(2, '0');
+      return h ? `${h}:${p(m)}:${p(s)}` : `${p(m)}:${p(s)}`;
+    }
+
+    function trRapikan(t) {
+      t = String(t || '').replace(/\s+/g, ' ').trim();
+      if (!t) return '';
+      t = t.replace(/^([a-z])/, (c) => c.toUpperCase());
+      if (!/[.?!…]["'”’)\]]*$/.test(t)) t += '.';
+      return t;
+    }
+
+    function trTeksTampil(seg) {
+      if (seg.edit != null) return seg.edit;
+      const t = String(seg.raw || '').replace(/⟦([^|⟧]*)\|([^⟧]*)⟧/g, (_, ar, lat) => {
+        ar = ar.trim(); lat = lat.trim();
+        if (!trState.opt.latin || !lat) return ar || lat;
+        return ar ? `${lat} (${ar})` : lat;
+      }).replace(/[⟦⟧]/g, '');
+      return trRapikan(t);
+    }
+
+    /** Teks akhir sesuai pilihan (dipakai untuk Salin / Unduh / pratinjau paragraf). */
+    function trTeksAkhir() {
+      const seg = trState.seg.filter((s) => trTeksTampil(s).trim());
+      if (trState.opt.format === 'baris') {
+        return seg.map((s) => (trState.opt.waktu ? `[${trJam(s.t)}] ` : '') + trTeksTampil(s)).join('\n');
+      }
+      // Paragraf: paragraf baru bila jeda panjang (≥ 2,5 dtk) atau sudah 6 kalimat
+      const par = [];
+      let cur = null;
+      seg.forEach((s, i) => {
+        const prev = seg[i - 1];
+        const gap = prev && prev.akhir != null ? s.t - prev.akhir : (prev ? s.t - prev.t : 0);
+        if (!cur || gap >= 2.5 || cur.n >= 6) { cur = { t: s.t, teks: [], n: 0 }; par.push(cur); }
+        cur.teks.push(trTeksTampil(s)); cur.n++;
+      });
+      return par.map((p) => (trState.opt.waktu ? `[${trJam(p.t)}] ` : '') + p.teks.join(' ')).join('\n\n');
+    }
+
+    /* ---------- tampilan ---------- */
+
+    function trSetProgres(persen, teks) {
+      trState.progres = { persen: persen == null ? (trState.progres ? trState.progres.persen : 0) : persen, teks };
+      const bar = document.getElementById('tr-progres-bar');
+      const label = document.getElementById('tr-progres-teks');
+      if (bar) bar.style.width = Math.round(trState.progres.persen) + '%';
+      if (label) label.textContent = teks;
+    }
+
+    function trRender() {
+      const view = document.getElementById('view-transkrip-admin');
+      if (!view) return;
+      view.dataset.siap = '1';
+      const st = trState, o = st.opt;
+      const pill = (on) => on ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-600 border-slate-300 hover:border-sky-400';
+      const disabled = st.busy ? 'disabled' : '';
+      view.innerHTML = `
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-4">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h2 class="text-base sm:text-lg font-extrabold text-slate-800"><i class="fa-solid fa-closed-captioning text-sky-600 mr-1"></i> Transkrip Video / Audio</h2>
+              <p class="text-xs text-slate-500 mt-0.5">Ubah ucapan menjadi teks rapi untuk disalin. Hasil <b>tidak disimpan</b>: hilang saat halaman ditutup.</p>
+            </div>
+          </div>
+
+          <div class="inline-flex rounded-xl border border-slate-200 p-1 bg-slate-50 text-xs font-bold">
+            <button type="button" data-tr="sumber" data-v="file" class="px-3 py-1.5 rounded-lg ${st.sumber === 'file' ? 'bg-white shadow text-sky-700' : 'text-slate-500'}" ${disabled}><i class="fa-solid fa-file-arrow-up mr-1"></i> Upload file</button>
+            <button type="button" data-tr="sumber" data-v="link" class="px-3 py-1.5 rounded-lg ${st.sumber === 'link' ? 'bg-white shadow text-sky-700' : 'text-slate-500'}" ${disabled}><i class="fa-solid fa-link mr-1"></i> Link YouTube / Drive</button>
+          </div>
+
+          ${st.sumber === 'file' ? `
+            <label class="block border-2 border-dashed ${st.file ? 'border-sky-300 bg-sky-50/40' : 'border-slate-300 hover:border-sky-400 bg-slate-50'} rounded-xl p-4 text-center cursor-pointer transition" id="tr-drop">
+              <input type="file" accept="video/*,audio/*,.mp4,.mov,.m4a,.mp3,.wav,.webm,.ogg,.aac,.mkv" class="hidden" id="tr-file" ${disabled}/>
+              ${st.file
+                ? `<div class="text-sm font-bold text-slate-800 truncate"><i class="fa-solid fa-file-audio text-sky-600 mr-1"></i> ${esc(st.file.name)}</div><div class="text-[11px] text-slate-500">${(st.file.size / 1048576).toFixed(1)} MB · klik untuk ganti</div>`
+                : `<div class="py-2 text-slate-500 text-xs font-semibold"><i class="fa-solid fa-cloud-arrow-up text-2xl text-sky-500 mb-1 block"></i> Pilih atau seret file video / audio ke sini<div class="text-[11px] font-normal mt-1">mp4, mov, webm, mp3, m4a, wav… · jeda suara dideteksi paling presisi</div></div>`}
+            </label>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="font-bold text-slate-600">Jeda dianggap akhir kalimat bila diam ≥</span>
+              ${[[0.4, 'Pendek (0,4 dtk)'], [0.6, 'Sedang (0,6 dtk)'], [0.9, 'Panjang (0,9 dtk)']].map(([v, l]) => `<button type="button" data-tr="jeda" data-v="${v}" class="px-2.5 py-1 rounded-full border font-semibold ${pill(o.jeda === v)}" ${disabled}>${l}</button>`).join('')}
+            </div>` : `
+            <div class="space-y-1.5">
+              <input type="url" id="tr-url" value="${esc(st.url)}" placeholder="https://www.youtube.com/watch?v=…  atau  https://drive.google.com/file/d/…" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-sky-500" ${disabled}/>
+              <p class="text-[11px] text-slate-500 leading-snug"><i class="fa-solid fa-circle-info text-sky-500"></i> YouTube harus berstatus <b>Publik</b>. File Drive maksimal 45 MB dan harus bisa dibuka akun pemilik Apps Script. Jeda & penanda waktu diperkirakan AI (bisa meleset 1–2 detik); untuk hasil paling presisi gunakan Upload file.</p>
+            </div>`}
+
+          <div class="flex flex-wrap items-center gap-2">
+            ${st.busy
+              ? `<button type="button" data-tr="batal" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-sm font-bold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-stop mr-1"></i> Batalkan</button>`
+              : `<button type="button" data-tr="mulai" class="bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition shadow-sm"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Buat Transkrip</button>`}
+          </div>
+
+          ${st.busy || st.progres ? `
+            <div class="space-y-1 ${st.busy ? '' : 'hidden'}">
+              <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div id="tr-progres-bar" class="h-full bg-sky-500 transition-all" style="width:${Math.round(st.progres ? st.progres.persen : 0)}%"></div></div>
+              <div id="tr-progres-teks" class="text-[11px] font-semibold text-slate-500">${esc(st.progres ? st.progres.teks : '')}</div>
+            </div>` : ''}
+          ${st.error ? `<div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${esc(st.error)}</div>` : ''}
+        </div>
+
+        ${st.seg.length ? trHtmlHasil() : ''}`;
+      trPasangAksi(view);
+    }
+
+    function trHtmlHasil() {
+      const st = trState, o = st.opt;
+      const pill = (on) => on ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-600 border-slate-300 hover:border-sky-400';
+      const adaArab = st.seg.some((s) => /⟦/.test(s.raw || ''));
+      const isi = st.seg.filter((s) => trTeksTampil(s).trim()).length;
+      const rows = o.format === 'baris'
+        ? st.seg.map((s, i) => `
+            <div class="group flex items-start gap-2 py-1.5 border-b border-slate-100 last:border-0">
+              ${o.waktu ? `<span class="shrink-0 mt-0.5 text-[11px] font-mono font-bold text-sky-700 bg-sky-50 border border-sky-200 rounded px-1.5">${trJam(s.t)}</span>` : ''}
+              <div class="flex-1 text-sm text-slate-800 leading-relaxed outline-none focus:bg-amber-50 rounded px-1" contenteditable="true" dir="auto" data-tr-edit="${i}">${esc(trTeksTampil(s))}</div>
+              <button type="button" data-tr="hapus-baris" data-v="${i}" class="shrink-0 opacity-0 group-hover:opacity-100 text-slate-400 hover:text-rose-600 px-1 transition" title="Hapus baris ini"><i class="fa-solid fa-xmark"></i></button>
+            </div>`).join('')
+        : `<div class="text-sm text-slate-800 leading-relaxed whitespace-pre-wrap" dir="auto">${esc(trTeksAkhir())}</div>
+           <p class="text-[11px] text-slate-400 mt-2">Untuk mengedit kalimat, pilih format "Per baris".</p>`;
+      return `
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-3" id="tr-hasil">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm font-extrabold text-slate-800">Hasil Transkrip</h3>
+              <p class="text-[11px] text-slate-500">${esc(st.judul)} · ${isi} ucapan${st.durasi ? ' · ' + trJam(st.durasi) : ''}</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" data-tr="salin" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition"><i class="fa-regular fa-copy mr-1"></i> Salin semua</button>
+              <button type="button" data-tr="unduh" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-download mr-1"></i> .txt</button>
+              <button type="button" data-tr="bersihkan" class="bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-trash mr-1"></i> Hapus hasil</button>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 text-xs">
+            <button type="button" data-tr="waktu" class="px-2.5 py-1 rounded-full border font-semibold ${pill(o.waktu)}"><i class="fa-regular fa-clock mr-1"></i> Penanda waktu ${o.waktu ? 'ON' : 'OFF'}</button>
+            ${adaArab ? `<button type="button" data-tr="latin" class="px-2.5 py-1 rounded-full border font-semibold ${pill(o.latin)}">ع Latin Arab ${o.latin ? 'ON' : 'OFF'}</button>` : ''}
+            <span class="mx-1 text-slate-300">|</span>
+            <button type="button" data-tr="format" data-v="baris" class="px-2.5 py-1 rounded-full border font-semibold ${pill(o.format === 'baris')}"><i class="fa-solid fa-list mr-1"></i> Per baris</button>
+            <button type="button" data-tr="format" data-v="paragraf" class="px-2.5 py-1 rounded-full border font-semibold ${pill(o.format === 'paragraf')}"><i class="fa-solid fa-align-left mr-1"></i> Paragraf</button>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-3 max-h-[60vh] overflow-y-auto bg-slate-50/50">${rows}</div>
+        </div>`;
+    }
+
+    function trPasangAksi(view) {
+      view.querySelectorAll('[data-tr]').forEach((el) => el.addEventListener('click', (e) => {
+        const act = el.dataset.tr, v = el.dataset.v;
+        const st = trState;
+        if (act === 'sumber') { st.sumber = v; st.error = ''; trRender(); }
+        else if (act === 'jeda') { st.opt.jeda = Number(v); trRender(); }
+        else if (act === 'mulai') trMulai();
+        else if (act === 'batal') { st.batal = true; trSetProgres(null, 'Membatalkan…'); }
+        else if (act === 'waktu') { st.opt.waktu = !st.opt.waktu; trRender(); }
+        else if (act === 'latin') { st.opt.latin = !st.opt.latin; trRender(); }
+        else if (act === 'format') { st.opt.format = v; trRender(); }
+        else if (act === 'hapus-baris') { st.seg.splice(Number(v), 1); trRender(); }
+        else if (act === 'salin') trSalin(el);
+        else if (act === 'unduh') trUnduh();
+        else if (act === 'bersihkan') { if (confirm('Hapus hasil transkrip ini?')) { st.seg = []; st.progres = null; trRender(); } }
+      }));
+      const f = view.querySelector('#tr-file');
+      if (f) f.addEventListener('change', () => { if (f.files && f.files[0]) { trState.file = f.files[0]; trState.error = ''; trRender(); } });
+      const drop = view.querySelector('#tr-drop');
+      if (drop) {
+        drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('border-sky-500'); });
+        drop.addEventListener('dragleave', () => drop.classList.remove('border-sky-500'));
+        drop.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (file && !trState.busy) { trState.file = file; trState.error = ''; trRender(); }
+        });
+      }
+      const u = view.querySelector('#tr-url');
+      if (u) u.addEventListener('input', () => { trState.url = u.value; });
+      view.querySelectorAll('[data-tr-edit]').forEach((el) => el.addEventListener('input', () => {
+        const s = trState.seg[Number(el.dataset.trEdit)];
+        if (s) s.edit = el.innerText.replace(/\n+/g, ' ');
+      }));
+    }
+
+    async function trSalin(btn) {
+      const teks = trTeksAkhir();
+      try { await navigator.clipboard.writeText(teks); }
+      catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = teks; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (er) { /* abaikan */ }
+        ta.remove();
+      }
+      const old = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Tersalin';
+      setTimeout(() => { if (btn.isConnected) btn.innerHTML = old; }, 1600);
+    }
+
+    function trUnduh() {
+      const blob = new Blob([trTeksAkhir()], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'transkrip-' + String(trState.judul || 'video').replace(/\.[a-z0-9]+$/i, '').replace(/[^\w\- ]+/g, '').trim().slice(0, 60) + '.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }
+
+    /* ---------- proses ---------- */
+
+    async function trMulai() {
+      const st = trState;
+      if (st.busy) return;
+      if (st.sumber === 'file' && !st.file) { st.error = 'Pilih file video / audio dulu.'; trRender(); return; }
+      if (st.sumber === 'link' && !String(st.url).trim()) { st.error = 'Tempel link YouTube atau Google Drive dulu.'; trRender(); return; }
+      if (st.seg.length && !confirm('Hasil transkrip sebelumnya akan diganti. Lanjutkan?')) return;
+      st.busy = true; st.batal = false; st.error = ''; st.seg = []; st.durasi = 0;
+      st.progres = { persen: 0, teks: 'Memulai…' };
+      trRender();
+      try {
+        if (st.sumber === 'file') await trProsesFile(st.file);
+        else await trProsesLink(String(st.url).trim());
+      } catch (err) {
+        st.error = (err && err.message) || String(err);
+      } finally {
+        st.busy = false;
+        trRender();
+      }
+    }
+
+    async function trProsesLink(url) {
+      const st = trState;
+      st.judul = /youtu/i.test(url) ? 'YouTube' : 'Google Drive';
+      trSetProgres(15, 'AI sedang menonton & mentranskrip video… (video 10 menit ±1–2 menit)');
+      let p = 15;
+      const t = setInterval(() => { p = Math.min(92, p + 1.5); trSetProgres(p, trState.progres.teks); }, 2000);
+      try {
+        const r = await trCallUlang('transkrip_link', { url });
+        st.seg = (r.segmen || []).map((s) => ({ t: Number(s.mulai) || 0, raw: s.teks, akhir: null, edit: null }));
+        st.seg.sort((a, b) => a.t - b.t);
+        st.durasi = st.seg.length ? st.seg[st.seg.length - 1].t : 0;
+        if (!st.seg.length) throw new Error('Tidak ada ucapan yang terdeteksi di video ini.');
+        trSetProgres(100, 'Selesai.');
+      } finally {
+        clearInterval(t);
+      }
+    }
+
+    async function trProsesFile(file) {
+      const st = trState;
+      st.judul = file.name;
+      if (file.size > 2 * 1024 * 1024 * 1024) throw new Error('File lebih dari 2 GB. Ekspor audionya saja (mp3/m4a) lalu upload.');
+      trSetProgres(2, 'Membaca file…');
+      const buf = await file.arrayBuffer();
+      if (st.batal) throw new Error('Dibatalkan.');
+      trSetProgres(8, 'Mengambil suara dari file…');
+      let audio;
+      try {
+        const ctx = new OfflineAudioContext(1, TR_SR, TR_SR);
+        audio = await ctx.decodeAudioData(buf);
+      } catch (e) {
+        throw new Error('Suara di file ini tidak bisa dibaca browser. Coba ekspor audionya (mp3 / m4a / wav) lalu upload lagi.');
+      }
+      const pcm = trMono(audio);
+      st.durasi = pcm.length / TR_SR;
+      trSetProgres(14, 'Mendeteksi jeda suara…');
+      await new Promise((ok) => setTimeout(ok, 30));
+      const ucapan = trDeteksiUcapan(pcm, TR_SR, st.opt.jeda);
+      if (!ucapan.length) throw new Error('Tidak ada suara ucapan yang terdeteksi di file ini.');
+
+      // Potong per ucapan → WAV kecil
+      const klip = ucapan.map((u) => {
+        const a = Math.max(0, Math.floor((u.s - 0.15) * TR_SR));
+        const b = Math.min(pcm.length, Math.ceil((u.e + 0.2) * TR_SR));
+        return { s: u.s, e: u.e, a, b, bytes: (b - a) * 2 + 44 };
+      });
+      // Bagi menjadi kiriman
+      const batches = [];
+      let cur = [], size = 0;
+      for (const k of klip) {
+        if (cur.length && (size + k.bytes > TR_BATCH_BYTES || cur.length >= TR_BATCH_MAX)) { batches.push(cur); cur = []; size = 0; }
+        cur.push(k); size += k.bytes;
+      }
+      if (cur.length) batches.push(cur);
+
+      let selesai = 0;
+      const total = klip.length;
+      for (const b of batches) {
+        if (st.batal) throw new Error('Dibatalkan.');
+        trSetProgres(18 + 80 * selesai / total, `Mentranskrip ucapan ${selesai + 1}–${Math.min(total, selesai + b.length)} dari ${total}…`);
+        const teks = await trKirimKlip(b, pcm);
+        b.forEach((k, i) => {
+          if (String(teks[i] || '').trim()) st.seg.push({ t: k.s, akhir: k.e, raw: teks[i], edit: null });
+        });
+        selesai += b.length;
+        // Tampilkan hasil sementara
+        if (st.seg.length) {
+          const hasil = document.getElementById('tr-hasil');
+          const wrap = document.createElement('div');
+          wrap.innerHTML = trHtmlHasil();
+          if (hasil) hasil.replaceWith(wrap.firstElementChild);
+          else document.getElementById('view-transkrip-admin').appendChild(wrap.firstElementChild);
+          trPasangAksi(document.getElementById('tr-hasil'));
+        }
+      }
+      if (!st.seg.length) throw new Error('AI tidak menemukan ucapan yang jelas di file ini.');
+      trSetProgres(100, 'Selesai.');
+    }
+
+    /** Kirim sekumpulan ucapan; bila jumlah jawaban AI tidak cocok, kirim ulang dalam bagian lebih kecil. */
+    async function trKirimKlip(batch, pcm) {
+      const konteks = trState.seg.slice(-3).map((s) => trTeksTampil(s)).join(' ');
+      const r = await trCallUlang('transkrip_klip', {
+        konteks,
+        klip: batch.map((k) => ({ mime: 'audio/wav', b64: trWavBase64(pcm.subarray(k.a, k.b), TR_SR) }))
+      });
+      if (r.status === 'success') return r.teks;
+      if (batch.length === 1) return [''];
+      const mid = Math.ceil(batch.length / 2);
+      const a = await trKirimKlip(batch.slice(0, mid), pcm);
+      const b = await trKirimKlip(batch.slice(mid), pcm);
+      return a.concat(b);
+    }
+
+    /* ---------- audio ---------- */
+
+    function trMono(audio) {
+      const n = audio.length, ch = audio.numberOfChannels;
+      if (ch === 1) return audio.getChannelData(0);
+      const out = new Float32Array(n);
+      for (let c = 0; c < ch; c++) {
+        const d = audio.getChannelData(c);
+        for (let i = 0; i < n; i++) out[i] += d[i] / ch;
+      }
+      return out;
+    }
+
+    /**
+     * Deteksi ucapan berdasarkan kekerasan suara (per 20 ms).
+     * Ambang hening menyesuaikan rekaman (dari tingkat derau & suara terkeras),
+     * jadi tetap jalan untuk rekaman pelan maupun keras.
+     * Hasil: [{ s, e }] dalam detik. Ucapan > 25 dtk dipecah di titik paling pelan.
+     */
+    function trDeteksiUcapan(pcm, sr, minJeda) {
+      const hop = Math.round(sr * 0.02);
+      const n = Math.floor(pcm.length / hop);
+      if (!n) return [];
+      const db = new Float32Array(n);
+      for (let f = 0; f < n; f++) {
+        let sum = 0;
+        const o = f * hop;
+        for (let i = 0; i < hop; i++) { const v = pcm[o + i]; sum += v * v; }
+        db[f] = 10 * Math.log10(sum / hop + 1e-10);
+      }
+      const sorted = Array.from(db).sort((a, b) => a - b);
+      const pct = (p) => sorted[Math.min(n - 1, Math.floor(p * n))];
+      const lantai = pct(0.1), puncak = pct(0.95);
+      const rentang = puncak - lantai;
+      const ambang = rentang < 12 ? lantai + rentang * 0.5 : lantai + Math.max(6, rentang * 0.3);
+      // Haluskan (rata-rata 3 frame) agar letupan pendek tidak memecah ucapan
+      const ucap = new Uint8Array(n);
+      for (let f = 0; f < n; f++) {
+        const m = (db[Math.max(0, f - 1)] + db[f] + db[Math.min(n - 1, f + 1)]) / 3;
+        ucap[f] = m > ambang ? 1 : 0;
+      }
+      const jedaF = Math.max(5, Math.round(minJeda / 0.02));
+      const out = [];
+      let mulai = -1, akhir = -1, hening = 0, aktif = 0;
+      for (let f = 0; f < n; f++) {
+        if (ucap[f]) {
+          if (mulai < 0) { mulai = f; aktif = 0; }
+          akhir = f; hening = 0; aktif++;
+        } else if (mulai >= 0) {
+          hening++;
+          if (hening >= jedaF) {
+            if (aktif >= 12) out.push({ a: mulai, b: akhir });   // abaikan bunyi < 0,24 dtk (klik, napas)
+            mulai = -1; hening = 0;
+          }
+        }
+      }
+      if (mulai >= 0 && aktif >= 12) out.push({ a: mulai, b: akhir });
+
+      // Pecah ucapan yang terlalu panjang di titik paling pelan antara 8–25 detik
+      const hasil = [];
+      const maxF = Math.round(25 / 0.02), minF = Math.round(8 / 0.02);
+      for (const u of out) {
+        let a = u.a;
+        while (u.b - a > maxF) {
+          let best = a + minF, bestDb = Infinity;
+          for (let f = a + minF; f < a + maxF; f++) {
+            const m = (db[f - 2] + db[f - 1] + db[f] + db[f + 1] + db[f + 2]) / 5;
+            if (m < bestDb) { bestDb = m; best = f; }
+          }
+          hasil.push({ s: a * 0.02, e: best * 0.02 });
+          a = best + 1;
+        }
+        hasil.push({ s: a * 0.02, e: (u.b + 1) * 0.02 });
+      }
+      return hasil;
+    }
+
+    function trWavBase64(samples, sr) {
+      const n = samples.length;
+      const buf = new ArrayBuffer(44 + n * 2);
+      const v = new DataView(buf);
+      const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+      w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE');
+      w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+      w(36, 'data'); v.setUint32(40, n * 2, true);
+      // Normalisasi ringan agar suara pelan tetap jelas untuk AI
+      let peak = 0;
+      for (let i = 0; i < n; i++) { const a = Math.abs(samples[i]); if (a > peak) peak = a; }
+      const gain = peak > 0 && peak < 0.5 ? Math.min(4, 0.9 / peak) : 1;
+      for (let i = 0; i < n; i++) {
+        const s = Math.max(-1, Math.min(1, samples[i] * gain));
+        v.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+      }
+      const bytes = new Uint8Array(buf);
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+      return btoa(bin);
+    }
+
+    // =====================================================================
+    // STUDIO ICON — editor icon SVG ala Figma (modul terpisah studio-icon-<versi>.js,
+    // diunduh saat pertama kali dibuka). Setelan di tabel studio_pengaturan.
+    // =====================================================================
+    const STUDIO_VERSI = '1.0.0';
+    let studioSetelan = null;
+    let studioMemuatModul = null;
+    let studioFormAturan = null;
+    const studioSudahLog = new Set();
+
+    function studioUrlModul() {
+      // versi diambil dari baris versi di tema Blogger (studio: '…'); jika tema lama, pakai versi bawaan
+      const nama = 'studio-icon-' + ((window.klAsetVersi && window.klAsetVersi.studio) || STUDIO_VERSI) + '.js';
+      const src = [...document.scripts].map((s) => s.src || '').find((s) => /\/dashboard-[\d.]+\.js(\?|$)/.test(s));
+      const urls = [];
+      if (src) urls.push(src.replace(/dashboard-[\d.]+\.js.*$/, nama));
+      urls.push('https://kekaldesainer.github.io/kekal-assets/' + nama, 'https://cdn.jsdelivr.net/gh/kekaldesainer/kekal-assets@main/' + nama);
+      return [...new Set(urls)];
+    }
+    function studioMuatModul() {
+      if (window.KekalStudio && window.KekalStudio.open) return Promise.resolve();
+      if (studioMemuatModul) return studioMemuatModul;
+      const urls = studioUrlModul();
+      studioMemuatModul = new Promise((ok, gagal) => {
+        (function coba(i) {
+          if (i >= urls.length) { studioMemuatModul = null; return gagal(new Error('Studio Icon gagal dimuat. Periksa koneksi internet lalu coba lagi.')); }
+          const s = document.createElement('script');
+          s.src = urls[i];
+          s.onload = () => (window.KekalStudio && window.KekalStudio.open ? ok() : coba(i + 1));
+          s.onerror = () => { s.remove(); coba(i + 1); };
+          document.head.appendChild(s);
+        })(0);
+      });
+      return studioMemuatModul;
+    }
+
+    async function studioAmbilSetelan() {
+      try {
+        const { data, error } = await supabaseClient.from('studio_pengaturan').select('*').eq('id', 1).limit(1);
+        if (error) throw error;
+        const row = data && data[0];
+        const aturanRow = (row && row.aturan) || {};
+        studioSetelan = { ada: !!row, wajib: !!(row && row.wajib), aturan: aturanRow, nonaktif: !!aturanRow.nonaktifDesainer, updated_at: row && row.updated_at, updated_by: row && row.updated_by };
+      } catch (e) {
+        studioSetelan = { ada: false, wajib: false, aturan: {}, nonaktif: false, galat: e.message || String(e) };
+      }
+      studioTerapkanAkses();
+      return studioSetelan;
+    }
+
+    /** Studio dinonaktifkan admin untuk desainer? (admin selalu boleh) */
+    const studioTertutup = () => !isAdminUser && !!(studioSetelan && studioSetelan.nonaktif);
+    /** Sembunyikan tab & tombol Studio dari desainer jika dinonaktifkan admin. */
+    function studioTerapkanAkses() {
+      if (!document.getElementById('kl-studio-akses-css')) {
+        const st = document.createElement('style');
+        st.id = 'kl-studio-akses-css';
+        st.textContent = 'html.kl-studio-mati .kl-studio-btn{display:none!important}';
+        document.head.appendChild(st);
+      }
+      document.documentElement.classList.toggle('kl-studio-mati', studioTertutup());
+    }
+    let studioAksesDicek = 0;
+    function studioCekAkses() {
+      if (Date.now() - studioAksesDicek < 30000) return;
+      studioAksesDicek = Date.now();
+      studioAmbilSetelan();
+    }
+
+    /** API Apps Script untuk satu proyek. Aksi lewat jalur "designer_" (izin proyek dicek di server). */
+    function studioApi(projectId) {
+      return async (action, extra) => {
+        const { data: sessionData } = await supabaseClient.auth.getSession();
+        const token = sessionData && sessionData.session && sessionData.session.access_token;
+        if (!token) throw new Error('Sesi login tidak ditemukan. Silakan login ulang.');
+        let data;
+        try {
+          const res = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(Object.assign({ action: 'designer_' + action, project_id: projectId, access_token: token }, extra || {}))
+          });
+          data = await res.json();
+        } catch (err) {
+          throw new Error('Gagal terhubung ke Google Drive. Periksa koneksi internet lalu coba lagi.');
+        }
+        if (!data || typeof data !== 'object' || !data.status) throw new Error('Apps Script belum diperbarui: file studio-icon.gs belum di-deploy.');
+        if (data.status !== 'success') {
+          if (/tidak dikenal/i.test(data.message || '')) throw new Error('Apps Script belum diperbarui: tambahkan file studio-icon.gs lalu deploy versi baru.');
+          throw new Error(data.message || 'Permintaan ke Drive ditolak.');
+        }
+        return data;
+      };
+    }
+
+    async function studioMulai(opts) {
+      let pil = document.getElementById('kl-studio-loading');
+      if (!pil) {
+        pil = document.createElement('div'); pil.id = 'kl-studio-loading';
+        pil.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;background:#1E293B;color:#fff;font:600 13px system-ui,sans-serif;padding:10px 18px;border-radius:999px;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)';
+        pil.textContent = 'Memuat Studio Icon…';
+        document.body.appendChild(pil);
+      }
+      try {
+        const set = await studioAmbilSetelan();
+        if (studioTertutup()) {
+          pil.remove();
+          await showModalAlert('Studio Icon Dinonaktifkan', 'Admin sedang menonaktifkan Studio Icon untuk desainer, sehingga file icon di Drive tidak bisa diubah dari Studio.', 'warning');
+          return;
+        }
+        await studioMuatModul();
+        pil.remove();
+        await window.KekalStudio.open(Object.assign({ aturan: set.aturan, wajib: set.wajib }, opts));
+      } catch (e) {
+        pil.remove();
+        await showModalAlert('Studio Icon', e.message || 'Studio Icon gagal dibuka.', 'error');
+      }
+    }
+
+    function studioBukaProyek(projectId, kategori, jumlahIcon, namaDesainer) {
+      return studioMulai({
+        proyek: { id: projectId, kategori, jumlah_icon: jumlahIcon, desainer: namaDesainer },
+        api: studioApi(projectId),
+        onSimpan: () => {
+          if (studioSudahLog.has(String(projectId))) return;
+          studioSudahLog.add(String(projectId));
+          logUserActivity('STUDIO_ICON', `Menyimpan icon dari Studio Icon ke folder Drive tema "${kategori}".`);
+        }
+      });
+    }
+    function studioBukaBebas() { return studioMulai({}); }
+
+    /** Tombol kecil "Studio Icon" di baris tema (desainer). */
+    function studioTombolBaris(p, namaDesainer) {
+      if (!p || !p.drive_folder_url) return '';
+      return `<div><button type="button" onclick="studioBukaProyek(${jsArg(p.id)}, ${jsArg(p.kategori || '')}, ${Number(p.jumlah_icon) || 0}, ${jsArg(namaDesainer || '')})" class="kl-studio-btn mt-1 inline-flex items-center gap-1 text-[10px] font-bold text-violet-700 bg-violet-50 hover:bg-violet-100 border border-violet-200 px-2 py-0.5 rounded" title="Buat / edit icon tema ini di Studio Icon (tersimpan ke folder Drive proyek)"><i class="fa-solid fa-pen-nib"></i> Studio Icon</button></div>`;
+    }
+
+    /** Aturan "wajib Studio": dipanggil sebelum laporan upload dikirim. true = laporan ditahan. */
+    async function studioCekWajib(projectId) {
+      const set = await studioAmbilSetelan();
+      if (!set.wajib || set.nonaktif) return false;
+      let res;
+      try { res = await studioApi(projectId)('studio_cek'); }
+      catch (e) { await showModalAlert('Pengecekan Studio Icon Gagal ⚠️', e.message, 'error'); return true; }
+      const bukan = res.bukan_studio || [];
+      if (!bukan.length) return false;
+      await showModalAlert(
+        'Icon Wajib Dibuat di Studio Icon ⚠️',
+        `Admin mewajibkan semua icon dibuat di Studio Icon. ${bukan.length} file di folder Drive belum dibuat / disimpan dari Studio:\n\n${bukan.slice(0, 10).map((n) => '• ' + n).join('\n')}${bukan.length > 10 ? '\n…' : ''}\n\nKlik tombol "Studio Icon" pada baris tema ini, buka file tersebut (otomatis diubah jadi vektor), periksa, lalu klik "Simpan ke Drive".`,
+        'warning'
+      );
+      return true;
+    }
+
+    /* ---------- tab Studio Icon ---------- */
+    function studioOnSwitchTab(tabName) {
+      const view = document.getElementById('view-studio-icon');
+      const btn = document.getElementById('btn-tab-studio-icon');
+      if (!view || !btn) return;
+      const active = tabName === 'studio-icon';
+      view.classList.toggle('hidden', !active);
+      btn.className = (active
+        ? 'bg-violet-50 text-violet-700 border border-violet-300 shadow-xs'
+        : 'hover:bg-violet-50 text-violet-700') + ' kl-studio-btn px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0';
+      if (active) studioRender(); else studioCekAkses();
+    }
+
+    async function studioRender() {
+      const view = document.getElementById('view-studio-icon');
+      if (!view) return;
+      const set = await studioAmbilSetelan();
+      if (studioTertutup()) {
+        view.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-center"><div class="w-12 h-12 mx-auto rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center text-xl"><i class="fa-solid fa-lock"></i></div><h2 class="mt-3 text-lg font-extrabold text-slate-800">Studio Icon sedang dinonaktifkan</h2><p class="text-sm text-slate-500 mt-1">Admin menonaktifkan Studio Icon untuk desainer agar file yang sudah diupload tidak diubah.</p></div>`;
+        return;
+      }
+      const a = set.aturan || {};
+      const uk = (g, d) => (a[g] && Number(a[g].ukuran)) || d;
+      view.innerHTML = `
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 flex flex-col md:flex-row gap-5 md:items-center">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-violet-600 text-white flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-pen-nib"></i></div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-lg font-extrabold text-slate-800">Studio Icon</h2>
+            <p class="text-sm text-slate-500 mt-1 leading-relaxed">Editor icon SVG ala Figma yang fokus untuk icon: grid piksel, keyline, tebal garis terkunci, magnet & garis bantu, penggabungan bentuk, pena kurva, edit titik, dan pemeriksa kualitas otomatis. Icon proyek tersimpan langsung ke folder Drive tema.</p>
+            <div class="flex flex-wrap gap-2 mt-3 text-[11px] font-bold">
+              ${set.nonaktif ? '<span class="px-2 py-1 rounded-full bg-slate-800 text-white"><i class="fa-solid fa-ban"></i> Nonaktif untuk desainer (hanya admin)</span>' : `<span class="px-2 py-1 rounded-full ${set.wajib ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}"><i class="fa-solid ${set.wajib ? 'fa-lock' : 'fa-lock-open'}"></i> ${set.wajib ? 'Wajib: semua icon harus dibuat di Studio' : 'Opsional: boleh tetap pakai Figma / Illustrator'}</span>`}
+              <span class="px-2 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Line & Glyph ${uk('line', 24)}×${uk('line', 24)} · Flat ${uk('flat', 64)}×${uk('flat', 64)}</span>
+              <span class="px-2 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200 hidden md:inline-flex">Paling nyaman di laptop / PC</span>
+            </div>
+          </div>
+          <button type="button" onclick="studioBukaBebas()" class="bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl shadow-sm flex items-center justify-center gap-2 shrink-0"><i class="fa-solid fa-wand-magic-sparkles"></i> Buka Studio (latihan)</button>
+        </div>
+        ${isAdminUser ? '<div id="studio-setelan-admin" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6"></div>' : '<div id="studio-daftar-proyek" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6"></div>'}`;
+      if (isAdminUser) studioRenderSetelan(); else studioRenderProyek();
+    }
+
+    async function studioRenderProyek() {
+      const box = document.getElementById('studio-daftar-proyek');
+      if (!box) return;
+      box.innerHTML = '<div class="text-sm text-slate-400">Memuat tema Anda…</div>';
+      let rows = [];
+      try {
+        const { data, error } = await supabaseClient.from('icon_projects').select('*').eq('designer_id', currentUser.id);
+        if (error) throw error;
+        rows = (data || []).filter((p) => p.drive_folder_url).sort((x, y) => new Date(y.created_at || 0) - new Date(x.created_at || 0));
+      } catch (e) {
+        box.innerHTML = `<div class="text-sm text-rose-600 font-semibold">Gagal memuat tema: ${esc(e.message || String(e))}</div>`;
+        return;
+      }
+      const nama = userProfilesMap[currentUser.id] || currentUser.email || '';
+      box.innerHTML = `
+        <div class="flex items-center justify-between gap-2 mb-3"><h3 class="font-extrabold text-slate-800">Buat icon untuk tema yang Anda klaim</h3><span class="text-[11px] text-slate-400 font-semibold">${rows.length} tema</span></div>
+        ${rows.length ? `<div class="divide-y divide-slate-100">${rows.slice(0, 30).map((p) => `
+          <div class="py-2.5 flex items-center gap-3">
+            <div class="flex-1 min-w-0"><div class="font-bold text-blue-600 truncate">${esc(p.kategori)}</div><div class="text-[11px] text-slate-400">${Number(p.jumlah_icon) || 0} icon · ${esc(p.status_admin || 'Pending')}</div></div>
+            <button type="button" onclick="studioBukaProyek(${jsArg(p.id)}, ${jsArg(p.kategori || '')}, ${Number(p.jumlah_icon) || 0}, ${jsArg(nama)})" class="bg-white hover:bg-violet-50 text-violet-700 border border-violet-300 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shrink-0"><i class="fa-solid fa-pen-nib"></i> Buka di Studio</button>
+          </div>`).join('')}</div>` : '<div class="text-sm text-slate-400">Belum ada tema dengan folder Drive. Klaim tema dulu di tab Klaim & Stock Tema.</div>'}`;
+    }
+
+    /* ---------- setelan admin ---------- */
+    async function studioRenderSetelan() {
+      const box = document.getElementById('studio-setelan-admin');
+      if (!box) return;
+      box.innerHTML = '<div class="text-sm text-slate-400">Memuat aturan Studio…</div>';
+      try { await studioMuatModul(); } catch (e) { box.innerHTML = `<div class="text-sm text-rose-600 font-semibold">${esc(e.message)}</div>`; return; }
+      const set = studioSetelan || await studioAmbilSetelan();
+      studioFormAturan = { wajib: !!set.wajib, nonaktif: !!set.nonaktif, aturan: window.KekalStudio.gabungAturan(set.aturan) };
+      studioGambarSetelan();
+    }
+    function studioGambarSetelan() {
+      const box = document.getElementById('studio-setelan-admin');
+      if (!box || !studioFormAturan) return;
+      const f = studioFormAturan, a = f.aturan, set = studioSetelan || {};
+      const kolom = (g, k, step) => `<input type="number" min="0" step="${step}" value="${a[g][k]}" data-studio-f="${g}.${k}" class="w-20 border border-slate-300 rounded-lg px-2 py-1 text-sm font-bold text-slate-700 outline-none focus:border-violet-500">`;
+      const palet = (g) => `<div class="flex flex-wrap items-center gap-1.5">${a[g].warna.map((w, i) => `<span class="inline-flex items-center gap-1 pl-1 pr-1.5 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-[10px] font-mono font-bold text-slate-600"><span class="w-3.5 h-3.5 rounded" style="background:${esc(w)};box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)"></span>${esc(w)}<button type="button" onclick="studioHapusWarna('${g}', ${i})" class="text-slate-400 hover:text-rose-600 ml-0.5" title="Hapus warna">×</button></span>`).join('')}
+        <label class="inline-flex items-center gap-1 text-[11px] font-bold text-violet-700 cursor-pointer border border-dashed border-violet-300 rounded-md px-1.5 py-0.5 hover:bg-violet-50"><input type="color" class="w-0 h-0 opacity-0 absolute" onchange="studioTambahWarna('${g}', this.value)"><i class="fa-solid fa-plus"></i> Warna</label></div>`;
+      box.innerHTML = `
+        <div class="flex items-center justify-between gap-2 mb-4"><h3 class="font-extrabold text-slate-800"><i class="fa-solid fa-sliders text-violet-600"></i> Aturan & Setelan Studio Icon</h3>${set.updated_at ? `<span class="text-[11px] text-slate-400">Diubah ${esc(formatFullDateTime(set.updated_at))}${set.updated_by ? ' oleh ' + esc(set.updated_by) : ''}</span>` : ''}</div>
+        ${set.ada ? '' : `<div class="mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-semibold">Tabel setelan belum ada di database. Jalankan file <b>sql-studio-icon.sql</b> di Supabase › SQL Editor, lalu muat ulang halaman ini.${set.galat ? `<div class="mt-1 font-normal">${esc(set.galat)}</div>` : ''}</div>`}
+        <div class="text-[11px] font-extrabold uppercase tracking-wide text-slate-400 mb-2">Akses Studio untuk desainer</div>
+        <div class="grid sm:grid-cols-2 gap-3 mb-5">
+          ${[[false, 'Aktif', 'Desainer bisa membuka Studio Icon dan menyimpan icon ke folder Drive temanya.', 'fa-circle-check'], [true, 'Nonaktif', 'Tab & tombol Studio disembunyikan dari desainer, dan penyimpanan dari desainer ditolak server. File di Drive tidak bisa diubah lewat Studio. Admin tetap bisa memakai Studio.', 'fa-ban']].map(([v, t, d, ic]) => `
+            <button type="button" onclick="studioFormAturan.nonaktif=${v};studioGambarSetelan()" class="text-left p-3.5 rounded-xl border-2 ${f.nonaktif === v ? (v ? 'border-slate-700 bg-slate-50' : 'border-violet-500 bg-violet-50') : 'border-slate-200 hover:border-slate-300'}">
+              <div class="font-extrabold text-slate-800 flex items-center gap-2"><i class="fa-solid ${ic} ${f.nonaktif === v ? (v ? 'text-slate-700' : 'text-violet-600') : 'text-slate-400'}"></i> ${t}</div>
+              <div class="text-xs text-slate-500 mt-1 leading-relaxed">${d}</div>
+            </button>`).join('')}
+        </div>
+        <div class="text-[11px] font-extrabold uppercase tracking-wide text-slate-400 mb-2">Kewajiban memakai Studio${f.nonaktif ? ' <span class="normal-case font-semibold text-amber-600">(tidak berlaku selama Studio nonaktif untuk desainer)</span>' : ''}</div>
+        <div class="grid sm:grid-cols-2 gap-3 mb-5${f.nonaktif ? ' opacity-50' : ''}">
+          ${[[false, 'Opsional', 'Desainer boleh membuat icon di Studio, Figma, atau Illustrator.', 'fa-lock-open'], [true, 'Wajib', 'Laporan upload ditahan jika ada file di Drive yang tidak dibuat / disimpan dari Studio Icon.', 'fa-lock']].map(([v, t, d, ic]) => `
+            <button type="button" onclick="studioFormAturan.wajib=${v};studioGambarSetelan()" class="text-left p-3.5 rounded-xl border-2 ${f.wajib === v ? 'border-violet-500 bg-violet-50' : 'border-slate-200 hover:border-slate-300'}">
+              <div class="font-extrabold text-slate-800 flex items-center gap-2"><i class="fa-solid ${ic} ${f.wajib === v ? 'text-violet-600' : 'text-slate-400'}"></i> ${t}</div>
+              <div class="text-xs text-slate-500 mt-1 leading-relaxed">${d}</div>
+            </button>`).join('')}
+        </div>
+        <div class="overflow-x-auto"><table class="w-full text-sm">
+          <thead><tr class="text-left text-[11px] uppercase tracking-wide text-slate-400"><th class="py-2 pr-3">Gaya</th><th class="py-2 pr-3">Artboard (px)</th><th class="py-2 pr-3">Tebal garis</th><th class="py-2 pr-3">Magnet grid</th><th class="py-2 pr-3">Area aman</th><th class="py-2">Palet warna</th></tr></thead>
+          <tbody class="divide-y divide-slate-100">${['line', 'glyph', 'flat'].map((g) => `
+            <tr><td class="py-2.5 pr-3 font-extrabold text-slate-700">${{ line: 'Line', glyph: 'Glyph', flat: 'Flat' }[g]}</td><td class="py-2.5 pr-3">${kolom(g, 'ukuran', 1)}</td><td class="py-2.5 pr-3">${kolom(g, 'stroke', 0.25)}</td><td class="py-2.5 pr-3">${kolom(g, 'snap', 0.25)}</td><td class="py-2.5 pr-3">${kolom(g, 'padding', 0.5)}</td><td class="py-2.5">${palet(g)}</td></tr>`).join('')}
+          </tbody></table></div>
+        <div class="mt-4 space-y-2 text-sm">
+          <label class="flex items-start gap-2 cursor-pointer"><input type="checkbox" class="mt-1" ${a.kunciStroke ? 'checked' : ''} onchange="studioFormAturan.aturan.kunciStroke=this.checked"><span><b class="text-slate-800">Kunci tebal garis gaya Line</b><span class="block text-xs text-slate-500">Desainer tidak bisa mengubah tebal garis; garis yang berbeda dianggap error.</span></span></label>
+          <label class="flex items-start gap-2 cursor-pointer"><input type="checkbox" class="mt-1" ${a.outline ? 'checked' : ''} onchange="studioFormAturan.aturan.outline=this.checked"><span><b class="text-slate-800">Ubah garis jadi bentuk saat disimpan (outline)</b><span class="block text-xs text-slate-500">SVG di Drive tidak memakai stroke lagi (lebih aman di Canva / Adobe), tetapi file sumber Studio tetap bisa diedit.</span></span></label>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <button type="button" onclick="studioSimpanSetelan(this)" class="bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Simpan aturan</button>
+          <button type="button" onclick="studioBawaanSetelan()" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-300 text-sm font-bold px-4 py-2 rounded-xl">Kembalikan bawaan</button>
+        </div>`;
+      box.querySelectorAll('[data-studio-f]').forEach((inp) => inp.addEventListener('change', () => {
+        const [g, k] = inp.dataset.studioF.split('.');
+        const v = parseFloat(inp.value);
+        if (isFinite(v) && v > 0) studioFormAturan.aturan[g][k] = v; else inp.value = studioFormAturan.aturan[g][k];
+      }));
+    }
+    function studioTambahWarna(g, w) {
+      const v = String(w || '').toUpperCase();
+      if (!/^#[0-9A-F]{6}$/.test(v) || studioFormAturan.aturan[g].warna.includes(v)) return;
+      studioFormAturan.aturan[g].warna.push(v);
+      studioGambarSetelan();
+    }
+    function studioHapusWarna(g, i) {
+      if (studioFormAturan.aturan[g].warna.length <= 1) return showModalAlert('Palet', 'Palet minimal berisi 1 warna.', 'warning');
+      studioFormAturan.aturan[g].warna.splice(i, 1);
+      studioGambarSetelan();
+    }
+    async function studioBawaanSetelan() {
+      const ok = await showModalConfirm('Kembalikan Bawaan', 'Kembalikan semua aturan Studio Icon ke bawaan? (Belum tersimpan sampai Anda klik Simpan aturan.)');
+      if (!ok) return;
+      studioFormAturan.aturan = window.KekalStudio.aturanBawaan();
+      studioGambarSetelan();
+    }
+    async function studioSimpanSetelan(btn) {
+      if (btn) btn.disabled = true;
+      try {
+        const nama = (currentUser && (userProfilesMap[currentUser.id] || currentUser.email)) || 'Admin';
+        const { data, error } = await supabaseClient.from('studio_pengaturan')
+          .update({ wajib: studioFormAturan.wajib, aturan: Object.assign({}, studioFormAturan.aturan, { nonaktifDesainer: !!studioFormAturan.nonaktif }), updated_at: new Date().toISOString(), updated_by: nama })
+          .eq('id', 1).select('id');
+        if (error) throw error;
+        if (!data || !data.length) throw new Error('Perubahan tidak tersimpan. Pastikan sql-studio-icon.sql sudah dijalankan dan akun ini admin.');
+        await studioAmbilSetelan();
+        const ringkas = studioFormAturan.nonaktif ? 'nonaktif untuk desainer' : (studioFormAturan.wajib ? 'wajib' : 'opsional');
+        logUserActivity('STUDIO_SETELAN', `Mengubah aturan Studio Icon (${ringkas}).`);
+        await showModalAlert('Tersimpan', `Aturan Studio Icon tersimpan. Studio: ${ringkas}.`, 'success');
+        studioRender();
+      } catch (e) {
+        await showModalAlert('Gagal Menyimpan', e.message || String(e), 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // =====================================================================
+    // ANGGARAN KLAIM BULANAN — jatah klaim dibagi rata dari SISA anggaran.
+    // Desainer hanya melihat jumlah icon/tema (fungsi kl_jatah_saya, tanpa nominal);
+    // admin mengatur anggaran & tarif. Pengaman sebenarnya ada di database (trigger).
+    // =====================================================================
+    const jatahState = { data: null, tampil: { icon: null, tema: null }, anim: 0, sendiriAt: 0, catatanTimer: null, debounce: null, poll: null, ch: null, siap: false };
+    const anggaranState = { data: null, row: null, form: null, rincianBuka: false };
+    const jatahAngka = (n) => Math.max(0, Math.floor(Number(n) || 0)).toLocaleString('id-ID');
+    const jatahRp = (n) => 'Rp ' + Math.round(Number(n) || 0).toLocaleString('id-ID');
+
+    async function jatahAmbil() {
+      try {
+        const { data, error } = await supabaseClient.rpc('kl_jatah_saya');
+        if (error) throw error;
+        return data && typeof data === 'object' ? data : null;
+      } catch (e) {
+        return null;   // fungsi belum dipasang (SQL belum dijalankan) → fitur tidak tampil, klaim tetap seperti biasa
+      }
+    }
+
+    function jatahTema(d, icon) {
+      const rata = Math.max(1, Number(d && d.rata_icon_per_tema) || 12);
+      return Math.floor((Number(icon) || 0) / rata);
+    }
+
+    /** Banner jatah desainer: warna mengikuti sisa, angka beranimasi, catatan perubahan sesaat. */
+    function jatahRender(baru) {
+      const el = document.getElementById('jatah-klaim-banner');
+      if (!el) return;
+      const lama = jatahState.data;
+      jatahState.data = baru;
+      if (!baru || (!baru.aktif && baru.boleh_klaim !== false)) { el.className = 'hidden'; el.innerHTML = ''; return; }
+
+      if (baru.boleh_klaim === false) {
+        el.className = 'rounded-xl p-4 border shadow-sm bg-slate-100 border-slate-300 text-slate-700 flex items-center gap-3';
+        el.innerHTML = `<div class="w-11 h-11 rounded-xl bg-slate-300 text-slate-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-user-lock"></i></div>
+          <div><div class="text-sm font-extrabold">Akun Anda belum diaktifkan untuk klaim tema</div><div class="text-[11px] mt-0.5">Hubungi admin untuk mengaktifkan klaim tema bulan ini.</div></div>`;
+        return;
+      }
+
+      const habis = !!baru.habis || (Number(baru.maks_icon) || 0) <= 0;
+      const persen = Math.max(0, Math.min(100, Number(baru.persen_sisa) || 0));
+      const warna = habis ? { box: 'bg-slate-100 border-slate-300 text-slate-700', ikon: 'bg-slate-300 text-slate-600', bar: 'bg-slate-400' }
+        : persen < 10 ? { box: 'bg-rose-50 border-rose-300 text-rose-900', ikon: 'bg-rose-500 text-white', bar: 'bg-rose-500' }
+        : persen < 30 ? { box: 'bg-amber-50 border-amber-300 text-amber-900', ikon: 'bg-amber-400 text-slate-900', bar: 'bg-amber-400' }
+        : { box: 'bg-emerald-50 border-emerald-300 text-emerald-900', ikon: 'bg-emerald-500 text-white', bar: 'bg-emerald-500' };
+      const akhir = baru.periode_akhir ? new Date(new Date(baru.periode_akhir).getTime() - 1) : null;
+      const akhirTxt = akhir ? akhir.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' }) : '';
+
+      el.className = `rounded-xl p-4 border shadow-sm transition-colors duration-700 ${warna.box}`;
+      el.innerHTML = `
+        <div class="flex items-start gap-3">
+          <div class="w-11 h-11 rounded-xl ${warna.ikon} flex items-center justify-center text-lg shrink-0 transition-colors duration-700"><i class="fa-solid ${habis ? 'fa-hourglass-end' : 'fa-bullseye'}"></i></div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] font-extrabold uppercase tracking-wide opacity-80">${habis ? 'Jatah klaim bulan ini' : 'Estimasi jatah klaim bulan ini'}</div>
+            ${habis
+              ? `<div class="text-lg sm:text-xl font-black mt-0.5">Jatah habis</div><div class="text-[11px] mt-0.5">Jatah klaim periode ini sudah habis diambil. Klaim dibuka lagi di periode berikutnya${akhirTxt ? ` (setelah ${esc(akhirTxt)})` : ''}.</div>`
+              : `<div class="flex items-baseline gap-2 flex-wrap mt-0.5"><span class="text-xl sm:text-2xl font-black tabular-nums" data-jatah-tema>± ${jatahAngka(jatahState.tampil.tema ?? jatahTema(baru, baru.jatah_icon))} tema</span><span class="text-sm font-bold tabular-nums opacity-80" data-jatah-icon>(${jatahAngka(jatahState.tampil.icon ?? baru.jatah_icon)} icon)</span></div>
+                 <div class="text-[11px] mt-0.5 leading-snug">Jatah berkurang saat desainer lain mengklaim. Klaim lebih awal agar tidak kehabisan.${akhirTxt ? ` Periode berakhir ${esc(akhirTxt)}.` : ''}</div>`}
+            <div class="mt-2 h-1.5 rounded-full bg-black/10 overflow-hidden"><div class="h-full rounded-full ${warna.bar} transition-all duration-1000" style="width:${habis ? 0 : persen}%"></div></div>
+            <div data-jatah-catatan class="text-[11px] font-bold mt-1.5 h-4 transition-opacity duration-500 opacity-0"></div>
+          </div>
+        </div>`;
+
+      if (!habis) {
+        const dari = { icon: jatahState.tampil.icon ?? Number(baru.jatah_icon), tema: jatahState.tampil.tema ?? jatahTema(baru, baru.jatah_icon) };
+        jatahAnimasi(dari, { icon: Number(baru.jatah_icon) || 0, tema: jatahTema(baru, baru.jatah_icon) });
+      } else {
+        jatahState.tampil = { icon: 0, tema: 0 };
+      }
+
+      // Catatan perubahan sesaat (tanpa nama desainer & tanpa nominal)
+      if (lama && lama.aktif && baru.aktif && Number(lama.jatah_icon) !== Number(baru.jatah_icon)) {
+        const selisih = (Number(baru.jatah_icon) || 0) - (Number(lama.jatah_icon) || 0);
+        const sendiri = Date.now() - jatahState.sendiriAt < 90000;
+        const teks = selisih < 0
+          ? `↓ ${jatahAngka(-selisih)} icon · ${sendiri ? 'klaim Anda sudah tercatat' : 'baru saja ada desainer lain yang klaim'}`
+          : `↑ ${jatahAngka(selisih)} icon · jatah bertambah`;
+        const c = el.querySelector('[data-jatah-catatan]');
+        if (c) {
+          c.textContent = teks;
+          requestAnimationFrame(() => { c.classList.remove('opacity-0'); });
+          clearTimeout(jatahState.catatanTimer);
+          jatahState.catatanTimer = setTimeout(() => { const c2 = document.querySelector('#jatah-klaim-banner [data-jatah-catatan]'); if (c2) c2.classList.add('opacity-0'); }, 6000);
+        }
+      }
+    }
+
+    /** Angka bergerak halus seperti hitungan mundur/naik (±0,9 detik). */
+    function jatahAnimasi(dari, ke) {
+      cancelAnimationFrame(jatahState.anim);
+      const t0 = performance.now(), durasi = 900;
+      const langkah = (t) => {
+        const k = Math.min(1, (t - t0) / durasi), e = 1 - Math.pow(1 - k, 3);
+        const icon = Math.round(dari.icon + (ke.icon - dari.icon) * e), tema = Math.round(dari.tema + (ke.tema - dari.tema) * e);
+        jatahState.tampil = { icon, tema };
+        const a = document.querySelector('#jatah-klaim-banner [data-jatah-icon]'), b = document.querySelector('#jatah-klaim-banner [data-jatah-tema]');
+        if (a) a.textContent = `(${jatahAngka(icon)} icon)`;
+        if (b) b.textContent = ke.tema === 0 && ke.icon > 0 && k === 1 ? '< 1 tema' : `± ${jatahAngka(tema)} tema`;
+        if (k < 1) jatahState.anim = requestAnimationFrame(langkah);
+      };
+      jatahState.anim = requestAnimationFrame(langkah);
+    }
+
+    async function jatahSegarkan() {
+      if (!currentUser) return;
+      if (isAdminUser) { if (anggaranState.data !== undefined) anggaranRenderAdmin(true); return; }
+      const d = await jatahAmbil();
+      jatahRender(d);
+    }
+    function jatahJadwal() {
+      clearTimeout(jatahState.debounce);
+      jatahState.debounce = setTimeout(jatahSegarkan, 1200);
+    }
+
+    /** Dipanggil dari switchTab: siapkan realtime sekali, lalu segarkan tampilan yang relevan. */
+    function jatahOnSwitchTab(tabName) {
+      if (!currentUser) return;
+      if (!jatahState.siap) {
+        jatahState.siap = true;
+        try {
+          jatahState.ch = supabaseClient.channel('kl-jatah-klaim')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'themes_stock' }, jatahJadwal)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'icon_projects' }, jatahJadwal)
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, jatahJadwal)
+            .subscribe();
+        } catch (e) { console.warn('Jatah klaim realtime:', e); }
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') jatahJadwal(); });
+        jatahState.poll = setInterval(() => { if (document.visibilityState === 'visible') jatahSegarkan(); }, 60000);
+      }
+      if (isAdminUser) { if (tabName === 'claim') anggaranRenderAdmin(); }
+      else if (tabName === 'claim') jatahSegarkan();
+    }
+
+    /** Cek sebelum klaim (sebelum folder Drive dibuat). false = klaim dibatalkan. */
+    async function jatahCekSebelumKlaim(jumlah) {
+      const d = await jatahAmbil();
+      if (!d) return true;
+      jatahRender(d);
+      if (d.boleh_klaim === false) {
+        await showModalAlert('Klaim Belum Diaktifkan', 'Akun Anda belum diaktifkan admin untuk klaim tema bulan ini. Hubungi admin.', 'warning');
+        return false;
+      }
+      if (d.aktif) {
+        const maks = Math.max(0, Math.floor(Number(d.maks_icon) || 0));
+        if (d.habis || maks <= 0) {
+          await showModalAlert('Jatah Klaim Habis', 'Jatah klaim tema bulan ini sudah habis diambil. Klaim dibuka lagi di periode berikutnya.', 'warning');
+          return false;
+        }
+        if (jumlah > maks) {
+          await showModalAlert('Jatah Klaim Tidak Cukup', `Sisa jatah yang bisa Anda klaim saat ini ${jatahAngka(maks)} icon. Kurangi jumlah icon lalu klaim lagi.`, 'warning');
+          return false;
+        }
+      }
+      jatahState.sendiriAt = Date.now();
+      return true;
+    }
+
+    /* ---------- admin: kartu Anggaran Klaim Bulanan ---------- */
+    async function anggaranRenderAdmin(diam) {
+      const box = document.getElementById('anggaran-klaim-admin');
+      if (!box || !isAdminUser) return;
+      const view = document.getElementById('view-claim-admin');
+      if (diam && view && view.classList.contains('hidden')) return;   // hanya segarkan saat tab Ikhtisar terbuka
+      if (!diam && !anggaranState.data) box.innerHTML = '<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 text-xs text-slate-400">Memuat anggaran klaim…</div>';
+      let data = null, row = null, galat = '';
+      try {
+        const r1 = await supabaseClient.rpc('kl_anggaran_admin');
+        if (r1.error) throw r1.error;
+        data = r1.data && typeof r1.data === 'object' ? r1.data : null;
+        const r2 = await supabaseClient.from('anggaran_klaim').select('*').eq('id', 1).limit(1);
+        if (r2.error) throw r2.error;
+        row = r2.data && r2.data[0];
+      } catch (e) { galat = e.message || String(e); }
+      anggaranState.data = data; anggaranState.row = row;
+      if (!data || !row) {
+        box.innerHTML = `<div class="bg-amber-50 rounded-xl border border-amber-200 p-4 text-xs text-amber-800 font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Fitur Anggaran Klaim belum aktif di database. Jalankan file <b>sql-anggaran-klaim.sql</b> di Supabase › SQL Editor, lalu muat ulang halaman.${galat ? `<div class="font-normal mt-1">${esc(galat)}</div>` : ''}</div>`;
+        return;
+      }
+      if (!anggaranState.form || !diam) anggaranState.form = { aktif: !!row.aktif, nominal: Number(row.nominal) || 0, l2_ikut: !!row.l2_ikut };
+      const aktifEl = document.activeElement;
+      if (diam && aktifEl && box.contains(aktifEl) && aktifEl.tagName === 'INPUT') return;   // admin sedang mengetik
+      anggaranGambar();
+    }
+    function anggaranGambar() {
+      const box = document.getElementById('anggaran-klaim-admin');
+      const d = anggaranState.data, f = anggaranState.form;
+      if (!box || !d || !f) return;
+      const nominal = Number(d.nominal) || 0, pasti = Number(d.terpakai_pasti) || 0, tambahan = Number(d.perkiraan_tambahan) || 0;
+      const terpakai = Number(d.terpakai) || pasti + tambahan, sisa = Number(d.sisa) || 0;
+      const persen = nominal > 0 ? Math.min(100, Math.round(terpakai * 100 / nominal)) : 0;
+      const persenPasti = nominal > 0 ? Math.min(100, Math.round(pasti * 100 / nominal)) : 0;
+      const n = Number(d.desainer_aktif) || 0;
+      const perOrang = n > 0 ? sisa / n : 0;
+      const rata = Math.max(1, Number(d.rata_icon_per_tema) || 12);
+      const baru = Date.now() >= Date.parse('2026-11-29T00:00:00+07:00');   // sama dengan aturan gaji baru di slip
+      const est = (tarif) => { const i = Math.floor(perOrang / (tarif + (baru ? 250 : 0))); return `<b class="text-slate-800">${jatahAngka(i)} icon</b> <span class="text-slate-400">(± ${jatahAngka(Math.floor(i / rata))} tema)</span>`; };
+      const akhir = d.periode_akhir ? new Date(new Date(d.periode_akhir).getTime() - 1) : null, mulai = d.periode_mulai ? new Date(d.periode_mulai) : null;
+      const tgl = (x) => x ? x.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' }) : '-';
+      const rp = (v) => jatahRp(v).replace('Rp ', '');
+      const rincian = Array.isArray(d.rincian) ? d.rincian : [];
+      const baris = rincian.map((r) => `
+        <tr class="${r.dihitung ? '' : 'text-slate-400'}">
+          <td class="py-1.5 pr-2 whitespace-nowrap"><span class="font-bold ${r.dihitung ? 'text-slate-800' : ''}">${esc(r.nama || '-')}</span> <span class="text-[10px] text-slate-400">Lvl ${Number(r.level) || 2}</span>${r.boleh === false ? ' <span class="text-[9px] font-bold bg-slate-200 text-slate-500 px-1 rounded">nonaktif</span>' : ''}${r.dihitung ? '' : ' <span class="text-[9px] font-bold bg-slate-100 text-slate-400 px-1 rounded">tidak dibatasi</span>'}</td>
+          <td class="py-1.5 px-2 text-right text-emerald-700">${jatahAngka(r.diterima)}</td>
+          <td class="py-1.5 px-2 text-right text-rose-600">${jatahAngka(r.ditolak)}</td>
+          <td class="py-1.5 px-2 text-right text-amber-600">${jatahAngka(r.menunggu)}</td>
+          <td class="py-1.5 px-2 text-right">${rp(r.hasil)}</td>
+          <td class="py-1.5 px-2 text-right">${rp(r.reward1)}</td>
+          <td class="py-1.5 px-2 text-right">${rp(r.reward2)}</td>
+          <td class="py-1.5 px-2 text-right font-bold ${r.dihitung ? 'text-slate-800' : ''}">${rp(r.total_pasti)}</td>
+          <td class="py-1.5 pl-2 text-right text-amber-700">${Number(r.perkiraan_tambahan) > 0 ? '+' + rp(r.perkiraan_tambahan) : '-'}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 sm:p-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-sack-dollar text-emerald-600"></i> Anggaran Klaim Bulanan</h3>
+            <span class="text-[11px] font-semibold text-slate-400">Periode ${esc(tgl(mulai))} – ${esc(tgl(akhir))}</span>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <label class="flex items-center gap-2 text-sm font-bold text-slate-700 cursor-pointer"><input type="checkbox" data-anggaran-f="aktif" ${f.aktif ? 'checked' : ''} class="w-4 h-4 accent-emerald-600"> Batasi klaim dengan anggaran bulanan</label>
+              <label class="block max-w-xs"><span class="text-[11px] font-bold text-slate-500">Anggaran per periode (Rp)</span><input type="number" min="0" step="50000" value="${f.nominal}" data-anggaran-f="nominal" class="mt-1 w-full border border-slate-300 rounded-lg px-2.5 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-blue-500"></label>
+              <label class="flex items-center gap-2 text-xs font-semibold text-slate-600 cursor-pointer"><input type="checkbox" data-anggaran-f="l2_ikut" ${f.l2_ikut ? 'checked' : ''} class="w-4 h-4 accent-blue-600"> Desainer Level 2 ikut dihitung & dibatasi</label>
+              <div class="rounded-lg bg-slate-50 border border-slate-200 p-2.5 text-[11px] text-slate-600 space-y-0.5">
+                <div class="font-bold text-slate-700 mb-0.5"><i class="fa-solid fa-scale-balanced text-slate-400"></i> Tarif mengikuti aturan slip gaji (otomatis)</div>
+                <div>Level 3: diterima Rp 2.500 · ditolak Rp 1.500 per icon</div>
+                <div>Level 2: diterima Rp 750 · ditolak Rp 450 per icon</div>
+                <div>Reward 1: Rp 250 per icon yang di-upload ke Canva</div>
+                <div>Reward 2: diterima 100–199 → Rp 50.000 · 200–299 → Rp 120.000 · ≥300 → Rp 200.000</div>
+              </div>
+              <div class="flex flex-wrap gap-2 items-center">
+                <button type="button" onclick="anggaranSimpan(this)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Simpan anggaran</button>
+                <span class="text-[11px] text-slate-400">Aktif/nonaktif klaim per desainer diatur di Daftar Kelola Desainer (ikon <i class="fa-solid fa-user-check"></i>).</span>
+              </div>
+            </div>
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs space-y-2">
+              ${d.aktif ? '' : '<div class="p-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 font-semibold"><i class="fa-solid fa-circle-info"></i> Pembatasan anggaran sedang <b>mati</b>. Desainer aktif bisa klaim tanpa batas.</div>'}
+              <div class="flex justify-between"><span class="text-slate-500">Terpakai pasti <span class="text-slate-400">(sesuai slip gaji)</span></span><b class="text-slate-800">${esc(jatahRp(pasti))}</b></div>
+              <div class="flex justify-between"><span class="text-slate-500">Perkiraan klaim yang belum diputuskan</span><b class="text-amber-700">+ ${esc(jatahRp(tambahan))}</b></div>
+              <div class="flex justify-between"><span class="text-slate-500">Total dipakai anggaran</span><b class="text-slate-800">${esc(jatahRp(terpakai))} <span class="text-slate-400 font-semibold">(${persen}%)</span></b></div>
+              <div class="h-2 rounded-full bg-slate-200 overflow-hidden flex"><div class="h-full ${persen >= 90 ? 'bg-rose-500' : persen >= 70 ? 'bg-amber-400' : 'bg-emerald-500'}" style="width:${persenPasti}%"></div><div class="h-full ${persen >= 90 ? 'bg-rose-300' : persen >= 70 ? 'bg-amber-200' : 'bg-emerald-200'}" style="width:${Math.max(0, persen - persenPasti)}%"></div></div>
+              <div class="flex justify-between"><span class="text-slate-500">Sisa anggaran</span><b class="text-emerald-700">${esc(jatahRp(sisa))}</b></div>
+              <div class="flex justify-between"><span class="text-slate-500">Desainer aktif dihitung</span><b class="text-slate-800">${n} <span class="text-slate-400 font-semibold">(Lvl 3: ${Number(d.desainer_l3) || 0} · Lvl 2: ${Number(d.desainer_l2) || 0})</span></b></div>
+              <div class="border-t border-slate-200 pt-2">
+                <div class="text-slate-500 mb-1">Jatah per desainer saat ini: <b class="text-slate-800">${esc(jatahRp(perOrang))}</b></div>
+                <div class="text-slate-600">Level 3 ≈ ${est(2500)}</div>
+                ${d.l2_ikut ? `<div class="text-slate-600">Level 2 ≈ ${est(750)}</div>` : '<div class="text-slate-400">Level 2 tidak dibatasi anggaran.</div>'}
+                <div class="text-[10px] text-slate-400 mt-1">Perkiraan kasar (icon + Reward 1). Jatah di layar desainer dihitung tepat per orang, termasuk bonus tier. Desainer hanya melihat jumlah icon & tema, tanpa nominal.</div>
+              </div>
+            </div>
+          </div>
+          <details class="mt-4 group" ${anggaranState.rincianBuka ? 'open' : ''} ontoggle="anggaranState.rincianBuka=this.open">
+            <summary class="cursor-pointer text-xs font-bold text-blue-700 select-none"><i class="fa-solid fa-table-list"></i> Rincian per desainer (sama dengan slip gaji) · ${rincian.length} desainer</summary>
+            <div class="overflow-x-auto mt-2">
+              ${rincian.length ? `<table class="w-full text-[11px]">
+                <thead><tr class="text-[10px] uppercase tracking-wide text-slate-400 border-b border-slate-200">
+                  <th class="py-1.5 pr-2 text-left">Desainer</th><th class="py-1.5 px-2 text-right">Diterima</th><th class="py-1.5 px-2 text-right">Ditolak</th><th class="py-1.5 px-2 text-right">Menunggu</th>
+                  <th class="py-1.5 px-2 text-right">Hasil desain</th><th class="py-1.5 px-2 text-right">Reward 1</th><th class="py-1.5 px-2 text-right">Reward 2</th><th class="py-1.5 px-2 text-right">Total (slip)</th><th class="py-1.5 pl-2 text-right">Perkiraan</th>
+                </tr></thead>
+                <tbody class="divide-y divide-slate-100">${baris}</tbody>
+                <tfoot><tr class="border-t-2 border-slate-200 font-bold text-slate-800"><td class="py-1.5 pr-2" colspan="7">Total desainer yang dihitung</td><td class="py-1.5 px-2 text-right">${rp(pasti)}</td><td class="py-1.5 pl-2 text-right text-amber-700">${tambahan > 0 ? '+' + rp(tambahan) : '-'}</td></tr></tfoot>
+              </table>
+              <div class="text-[10px] text-slate-400 mt-1.5">"Menunggu" = icon yang belum diputuskan admin; dihitung sebagai perkiraan maksimal (semua diterima) di kolom Perkiraan, lalu menjadi nilai pasti setelah Approved.</div>` : '<div class="text-xs text-slate-400">Belum ada klaim di periode ini.</div>'}
+            </div>
+          </details>
+        </div>`;
+      box.querySelectorAll('[data-anggaran-f]').forEach((inp) => inp.addEventListener('change', () => {
+        const k = inp.dataset.anggaranF;
+        if (inp.type === 'checkbox') anggaranState.form[k] = inp.checked;
+        else { const v = Math.round(Number(inp.value)); if (isFinite(v) && v >= 0) anggaranState.form[k] = v; else inp.value = anggaranState.form[k]; }
+      }));
+    }
+    async function anggaranSimpan(btn) {
+      const f = anggaranState.form;
+      if (!f) return;
+      if (btn) btn.disabled = true;
+      try {
+        const nama = (currentUser && (userProfilesMap[currentUser.id] || currentUser.email)) || 'Admin';
+        const { data, error } = await supabaseClient.from('anggaran_klaim')
+          .update({ aktif: !!f.aktif, nominal: Math.max(0, Math.round(f.nominal)), l2_ikut: !!f.l2_ikut, updated_at: new Date().toISOString(), updated_by: nama })
+          .eq('id', 1).select('id');
+        if (error) throw error;
+        if (!data || !data.length) throw new Error('Perubahan tidak tersimpan. Pastikan sql-anggaran-klaim.sql sudah dijalankan dan akun ini admin.');
+        logUserActivity('ANGGARAN_KLAIM', `Mengubah anggaran klaim bulanan (${f.aktif ? 'aktif' : 'mati'}).`);
+        await showModalAlert('Tersimpan', `Anggaran klaim ${f.aktif ? 'aktif' : 'dimatikan'}. Jatah desainer diperbarui otomatis.`, 'success');
+        anggaranState.form = null;
+        anggaranRenderAdmin();
+      } catch (e) {
+        await showModalAlert('Gagal Menyimpan', e.message || String(e), 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    /** Admin: aktif/nonaktifkan klaim tema untuk satu desainer (Daftar Kelola Desainer). */
+    async function toggleBolehKlaim(userId, current) {
+      const { data, error } = await supabaseClient.from('profiles')
+        .update({ boleh_klaim: !current }).eq('id', userId).select('id, boleh_klaim');
+      if (error || !data || !data.length) {
+        const pesan = error && /boleh_klaim/.test(error.message || '') ? 'Kolom aktif/nonaktif klaim belum ada. Jalankan sql-anggaran-klaim.sql di Supabase terlebih dahulu.' : (error ? error.message : 'Perubahan tidak tersimpan (cek izin akses).');
+        return await showModalAlert('Gagal Mengubah', pesan, 'error');
+      }
+      await renderOverviewDesignersTable();
+      anggaranRenderAdmin(true);
+    }
+
+    // =====================================================================
+    // BUKU KEKAL — tab Buku (modul terpisah buku-kekal-<versi>.js), wajib baca
+    // per klaim tema, dan jalur Santri HSI (NIP diisi admin di Edit Profil).
+    // Pengaman sebenarnya ada di database (sql-buku-kekal.sql).
+    // =====================================================================
+    const BUKU_VERSI = '1.0.0';
+    let bukuMemuatModul = null;
+    let bukuStatus = null;
+    const BUKU_JALUR_KEY = 'kl_buku_jalur';
+
+    function bukuUrlModul() {
+      // versi diambil dari baris versi di tema Blogger (buku: '…'); jika tema lama, pakai versi bawaan
+      const nama = 'buku-kekal-' + ((window.klAsetVersi && window.klAsetVersi.buku) || BUKU_VERSI) + '.js';
+      const src = [...document.scripts].map((s) => s.src || '').find((s) => /\/dashboard-[\d.]+\.js(\?|$)/.test(s));
+      const urls = [];
+      if (src) urls.push(src.replace(/dashboard-[\d.]+\.js.*$/, nama));
+      urls.push('https://kekaldesainer.github.io/kekal-assets/' + nama, 'https://cdn.jsdelivr.net/gh/kekaldesainer/kekal-assets@main/' + nama);
+      return [...new Set(urls)];
+    }
+    function bukuMuatModul() {
+      if (window.KekalBuku && window.KekalBuku.buka) return Promise.resolve();
+      if (bukuMemuatModul) return bukuMemuatModul;
+      const urls = bukuUrlModul();
+      bukuMemuatModul = new Promise((ok, gagal) => {
+        (function coba(i) {
+          if (i >= urls.length) { bukuMemuatModul = null; return gagal(new Error('Tab Buku gagal dimuat. Periksa koneksi internet lalu coba lagi.')); }
+          const s = document.createElement('script');
+          s.src = urls[i];
+          s.onload = () => (window.KekalBuku && window.KekalBuku.buka ? ok() : coba(i + 1));
+          s.onerror = () => { s.remove(); coba(i + 1); };
+          document.head.appendChild(s);
+        })(0);
+      });
+      return bukuMemuatModul;
+    }
+
+    async function bukuAmbilStatus() {
+      try {
+        const { data, error } = await supabaseClient.rpc('kl_baca_status');
+        if (error) throw error;
+        bukuStatus = data && typeof data === 'object' ? data : null;
+      } catch (e) { bukuStatus = null; }   // SQL belum dijalankan → fitur tidak aktif, klaim seperti biasa
+      return bukuStatus;
+    }
+
+    function bukuOnSwitchTab(tabName) {
+      const view = document.getElementById('view-buku');
+      const btn = document.getElementById('btn-tab-buku');
+      if (!view || !btn) return;
+      const active = tabName === 'buku';
+      view.classList.toggle('hidden', !active);
+      btn.className = (active ? 'bg-sky-50 text-sky-700 border border-sky-300 shadow-xs' : 'hover:bg-sky-50 text-sky-700')
+        + ' px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0';
+      if (active) bukuBukaTab();
+      if (tabName === 'claim' && !isAdminUser) bukuRenderSyarat();
+    }
+
+    async function bukuBukaTab() {
+      const view = document.getElementById('view-buku');
+      if (!view) return;
+      if (!view.dataset.siap) view.innerHTML = '<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-sm text-slate-400"><i class="fa-solid fa-spinner fa-spin"></i> Memuat perpustakaan…</div>';
+      try { await bukuMuatModul(); } catch (e) {
+        view.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-sm text-rose-600 font-semibold">${esc(e.message)}</div>`;
+        return;
+      }
+      view.dataset.siap = '1';
+      window.KekalBuku.buka(view, {
+        sb: supabaseClient,
+        isAdmin: isAdminUser,
+        userId: currentUser && currentUser.id,
+        nama: (id) => userProfilesMap[id] || '',
+        alert: showModalAlert,
+        log: logUserActivity,
+        onStatus: (st) => { bukuStatus = st; bukuRenderSyarat(true); }
+      });
+    }
+
+    /* ---------- form klaim: syarat belajar (baca buku / Santri HSI) ---------- */
+    function bukuJalur() { try { return localStorage.getItem(BUKU_JALUR_KEY + '_' + (currentUser && currentUser.id)) === 'hsi' ? 'hsi' : 'baca'; } catch (e) { return 'baca'; } }
+    function bukuSetJalur(j) { try { localStorage.setItem(BUKU_JALUR_KEY + '_' + (currentUser && currentUser.id), j); } catch (e) {} bukuRenderSyarat(true); }
+
+    async function bukuRenderSyarat(tanpaAmbil) {
+      const box = document.getElementById('syarat-belajar-box');
+      const input = document.getElementById('input-target-belajar');
+      if (!box || !input || isAdminUser) return;
+      const st = tanpaAmbil ? bukuStatus : await bukuAmbilStatus();
+      if (!st || !st.aktif) {
+        box.classList.add('hidden'); box.innerHTML = '';
+        if (input.dataset.bukuOtomatis) { input.value = ''; delete input.dataset.bukuOtomatis; input.classList.remove('bg-emerald-50'); }
+        input.readOnly = false; input.placeholder = 'Contoh: Kitab Al-Kabair (BAB 3) halaman 234';
+        return;
+      }
+      const jalur = st.hsi ? 'hsi' : bukuJalur();
+      const sesi = st.sesi;
+      const selesai = !!(sesi && sesi.status === 'selesai');
+      if (jalur === 'baca' && selesai) {
+        input.value = 'Baca ' + (sesi.ringkasan || '');
+        input.readOnly = true; input.dataset.bukuOtomatis = '1'; input.classList.add('bg-emerald-50');
+      } else if (input.dataset.bukuOtomatis) {
+        input.readOnly = false; input.value = ''; delete input.dataset.bukuOtomatis; input.classList.remove('bg-emerald-50');
+      }
+      if (jalur === 'baca' && !selesai) { input.readOnly = true; input.placeholder = 'Terisi otomatis setelah syarat baca terpenuhi'; }
+      if (jalur === 'hsi' && !input.dataset.bukuOtomatis) { input.readOnly = false; input.placeholder = 'Target belajar HSI, mis. Silsilah Ilmiyyah Aqidah – halaqah 12'; }
+      const tgt = (sesi && sesi.target_kata) || st.target_kata || 1260, sah = (sesi && sesi.kata_sah) || 0;
+      const pilih = (j, ikon, teks) => `<button type="button" onclick="bukuSetJalur('${j}')" class="flex-1 px-2.5 py-2 rounded-lg border text-[11px] font-bold flex items-center justify-center gap-1.5 ${jalur === j ? 'bg-white border-blue-500 text-blue-700 shadow-sm' : 'bg-transparent border-slate-200 text-slate-500 hover:border-slate-300'}"><i class="fa-solid ${ikon}"></i> ${teks}</button>`;
+      box.classList.remove('hidden');
+      box.className = 'p-3 rounded-lg border space-y-2 ' + ((jalur === 'baca' && selesai) || st.hsi ? 'bg-emerald-50/70 border-emerald-200' : 'bg-blue-50/60 border-blue-200');
+      box.innerHTML = `
+        <div class="text-[11px] font-extrabold text-slate-700"><i class="fa-solid fa-book-open-reader text-blue-600"></i> Syarat belajar sebelum klaim</div>
+        <div class="flex gap-1.5">${pilih('baca', 'fa-book', 'Baca buku KEKAL')}${pilih('hsi', 'fa-graduation-cap', 'Saya Santri Aktif HSI')}</div>
+        ${jalur === 'baca'
+          ? (selesai
+            ? `<div class="text-[11px] text-emerald-800 font-semibold"><i class="fa-solid fa-circle-check"></i> Syarat baca terpenuhi. Target belajar terisi otomatis.</div>`
+            : `<div class="text-[11px] text-slate-600">Baca buku di tab <b>Buku</b> sampai target: <b>${sah.toLocaleString('id-ID')} / ${tgt.toLocaleString('id-ID')} kata</b> (atau sampai akhir buku jika lebih pendek). Membaca terlalu cepat atau tidak fokus tidak dihitung.</div>
+               <div class="h-1.5 rounded-full bg-blue-100 overflow-hidden"><div class="h-full bg-blue-600" style="width:${Math.min(100, Math.round(sah * 100 / tgt))}%"></div></div>
+               <button type="button" onclick="switchTab('buku')" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 rounded-lg"><i class="fa-solid fa-book-open"></i> Buka tab Buku</button>`)
+          : (st.hsi
+            ? `<div class="text-[11px] text-emerald-800 font-semibold"><i class="fa-solid fa-circle-check"></i> NIP Santri HSI terverifikasi untuk klaim ini · ${esc(st.hsi.target)}</div>`
+            : `<div class="text-[11px] text-slate-600">Isi <b>Target Belajar</b> HSI di kolom bawah, ketik NIP HSI Anda, lalu verifikasi.${st.punya_nip ? '' : ' <span class="text-amber-700 font-semibold">NIP Anda belum didaftarkan admin.</span>'}</div>
+               <div class="flex gap-1.5"><input id="input-nip-hsi" type="text" inputmode="numeric" autocomplete="off" placeholder="NIP HSI" class="flex-1 min-w-0 bg-white border border-slate-300 text-xs rounded-lg p-2 outline-none focus:border-blue-600 font-semibold"><button type="button" onclick="bukuVerifikasiNip(this)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 rounded-lg shrink-0">Verifikasi</button></div>`)}`;
+    }
+
+    async function bukuVerifikasiNip(btn) {
+      const nip = (document.getElementById('input-nip-hsi') || {}).value || '';
+      const target = (document.getElementById('input-target-belajar') || {}).value || '';
+      if (!nip.trim()) return showModalAlert('NIP HSI', 'Ketik NIP HSI Anda terlebih dahulu.', 'warning');
+      if (target.trim().length < 3) return showModalAlert('Target Belajar HSI', 'Isi Target Belajar HSI Anda di kolom Target Belajar terlebih dahulu.', 'warning');
+      if (btn) btn.disabled = true;
+      try {
+        const { data, error } = await supabaseClient.rpc('kl_hsi_verifikasi', { p_nip: nip, p_target: target });
+        if (error) throw error;
+        if (!data || !data.ok) {
+          await showModalAlert('NIP Tidak Sesuai', (data && data.pesan) || 'NIP tidak sesuai.' + (data && data.sisa_coba != null ? `\n\nSisa percobaan hari ini: ${data.sisa_coba}.` : ''), 'warning');
+        } else {
+          logUserActivity('HSI', `Verifikasi NIP Santri HSI untuk klaim (target: ${target.trim().slice(0, 80)}).`);
+          await showModalAlert('NIP Terverifikasi', 'NIP Santri HSI Anda sesuai. Wajib baca buku diganti target belajar HSI untuk klaim ini.', 'success');
+        }
+      } catch (e) {
+        await showModalAlert('Verifikasi Gagal', e.message || String(e), 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+        bukuRenderSyarat();
+      }
+    }
+
+    /** Dipanggil sebelum klaim (sebelum folder Drive dibuat). false = klaim ditahan. */
+    async function bukuCekSebelumKlaim() {
+      if (isAdminUser) return true;
+      const st = await bukuAmbilStatus();
+      if (!st || !st.aktif || st.hsi) return true;
+      if (st.sesi && st.sesi.status === 'selesai') { await bukuRenderSyarat(true); return true; }
+      if (bukuJalur() === 'hsi') {
+        await showModalAlert('Verifikasi NIP HSI', 'Anda memilih jalur Santri Aktif HSI. Isi Target Belajar HSI, ketik NIP, lalu klik Verifikasi sebelum klaim tema.', 'warning');
+        return false;
+      }
+      const sah = (st.sesi && st.sesi.kata_sah) || 0, tgt = (st.sesi && st.sesi.target_kata) || st.target_kata || 1260;
+      await showModalAlert('Wajib Baca Buku Dulu 📖', `Sebelum klaim tema, baca buku KEKAL sampai target: ${sah.toLocaleString('id-ID')} / ${tgt.toLocaleString('id-ID')} kata (atau sampai akhir buku jika lebih pendek).\n\nSantri HSI aktif dapat memilih "Saya Santri Aktif HSI" lalu verifikasi NIP.`, 'warning');
+      switchTab('buku');
+      return false;
+    }
+
+    /* ---------- admin: NIP HSI di Edit Profil ---------- */
+    async function bukuIsiNipModal(designerId) {
+      const inp = document.getElementById('edit-nip-hsi');
+      if (!inp) return;
+      inp.value = ''; inp.disabled = true; inp.placeholder = 'Memuat…'; delete inp.dataset.gagal; inp.dataset.untuk = designerId;
+      try {
+        const { data, error } = await supabaseClient.from('hsi_nip').select('nip').eq('designer_id', designerId).limit(1);
+        if (error) throw error;
+        if (inp.dataset.untuk !== designerId) return;
+        inp.value = (data && data[0] && data[0].nip) || '';
+        inp.disabled = false; inp.placeholder = 'Kosongkan jika bukan santri HSI';
+      } catch (e) {
+        inp.dataset.gagal = '1'; inp.placeholder = 'Jalankan sql-buku-kekal.sql dulu';
+      }
+    }
+    /** Simpan NIP HSI (kosong = hapus). Mengembalikan pesan galat, atau null jika berhasil / dilewati. */
+    async function bukuSimpanNip(designerId) {
+      const inp = document.getElementById('edit-nip-hsi');
+      if (!inp || inp.dataset.gagal || inp.disabled) return null;
+      try {
+        const { error } = await supabaseClient.rpc('kl_hsi_atur', { p_designer: designerId, p_nip: inp.value.trim() });
+        if (error) throw error;
+        return null;
+      } catch (e) { return e.message || String(e); }
+    }
+
+    // =====================================================================
+    // FOKUS MENONTON VIDEO TUTORIAL
+    // Video yang BELUM selesai otomatis dijeda bila desainer pindah tab di halaman,
+    // pindah tab / jendela browser, atau mengklik di luar browser.
+    // Klik di dalam video YouTube sendiri (play, CC, pengaturan, layar penuh) tidak dihitung.
+    // Tambahan: video dijeda bila digulir keluar layar (kurang dari separuh terlihat),
+    // dan kecepatan putar dikunci 1x selama video belum selesai.
+    // =====================================================================
+    const fokusVideo = { timer: null, installed: false, blurTimer: null, rateHooked: false, rateWarned: false };
+
+    function fokusBerlaku() {
+      if (!currentUser || isAdminUser) return false;
+      const v = currentVideoList[activeVideoIndex];
+      return !!(v && !userCompletedVideoIds.has(v.id));
+    }
+
+    function fokusSedangMain() {
+      if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function' || !window.YT || !YT.PlayerState) return false;
+      const st = ytPlayer.getPlayerState();
+      return st === YT.PlayerState.PLAYING || st === YT.PlayerState.BUFFERING;
+    }
+
+    function fokusViewTerlihat() {
+      const view = document.getElementById('view-video-tutorials');
+      return !!(view && !view.classList.contains('hidden'));
+    }
+
+    // Berapa bagian video yang terlihat di layar (0–1). Saat layar penuh dianggap terlihat penuh.
+    function fokusRasioTerlihat() {
+      if (document.fullscreenElement || document.webkitFullscreenElement) return 1;
+      const el = document.getElementById('yt-tutorial-player');
+      if (!el) return 1;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return 0;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const w = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0));
+      const h = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      return (w * h) / (r.width * r.height);
+    }
+
+    // document.hasFocus() tetap true saat yang difokus adalah video YouTube (iframe) di halaman ini.
+    function fokusHilang() {
+      if (!fokusViewTerlihat()) return 'tab';
+      if (document.hidden) return 'browser';
+      if (typeof document.hasFocus === 'function' && !document.hasFocus()) return 'luar';
+      if (fokusRasioTerlihat() < 0.5) return 'gulir';
+      return '';
+    }
+
+    function fokusPeriksa() {
+      if (!fokusBerlaku() || !fokusSedangMain()) return;
+      const alasan = fokusHilang();
+      if (alasan) { fokusJeda(alasan); return; }
+      fokusCekKecepatan();
+    }
+
+    // Kunci kecepatan 1x untuk video yang belum selesai.
+    function fokusCekKecepatan() {
+      if (!fokusBerlaku() || !ytPlayer || typeof ytPlayer.getPlaybackRate !== 'function') return;
+      const rate = Number(ytPlayer.getPlaybackRate());
+      if (!rate || rate === 1) { fokusVideo.rateWarned = false; return; }
+      try { ytPlayer.setPlaybackRate(1); } catch (e) { /* abaikan */ }
+      if (!fokusVideo.rateWarned) {
+        fokusVideo.rateWarned = true;
+        showModalAlert('Kecepatan Dikunci 1x', 'Video tutorial yang belum selesai wajib ditonton dengan kecepatan normal (1x). Kecepatan sudah dikembalikan ke normal.', 'warning');
+      }
+    }
+
+    function fokusJeda(alasan) {
+      try { ytPlayer.pauseVideo(); } catch (e) { /* abaikan */ }
+      fokusHentiPantau();
+      fokusTampilPeringatan(alasan);
+    }
+
+    function fokusModal() {
+      let m = document.getElementById('modal-fokus-video');
+      if (m) return m;
+      m = document.createElement('div');
+      m.id = 'modal-fokus-video';
+      m.className = 'fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[65] flex items-center justify-center hidden p-3 sm:p-4';
+      m.innerHTML = `
+        <div class="bg-white text-slate-900 w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 p-5 sm:p-6 text-center space-y-3">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl bg-purple-50 text-purple-600 border border-purple-200"><i class="fa-solid fa-eye"></i></div>
+          <h3 class="text-base font-extrabold text-slate-800">Mohon Fokus Menonton</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">Mohon fokus menonton video sampai selesai agar Anda benar-benar memahami materinya.</p>
+          <p class="text-[11px] font-semibold text-purple-700 bg-purple-50 border border-purple-200 rounded-lg px-3 py-2" id="fokus-video-alasan"></p>
+          <button type="button" id="btn-fokus-lanjut" class="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-play"></i> <span>Lanjutkan menonton</span></button>
+        </div>`;
+      document.body.appendChild(m);
+      m.querySelector('#btn-fokus-lanjut').addEventListener('click', fokusLanjut);
+      return m;
+    }
+
+    function fokusTampilPeringatan(alasan) {
+      const m = fokusModal();
+      const teks = {
+        tab: 'Video dijeda karena Anda membuka menu lain di halaman desainer.',
+        browser: 'Video dijeda karena Anda pindah ke tab lain atau mengecilkan browser.',
+        luar: 'Video dijeda karena Anda mengklik di luar halaman video.',
+        gulir: 'Video dijeda karena video digulir keluar dari layar.'
+      };
+      m.querySelector('#fokus-video-alasan').textContent = teks[alasan] || teks.luar;
+      m.classList.remove('hidden');
+    }
+
+    function fokusTutupPeringatan() {
+      const m = document.getElementById('modal-fokus-video');
+      if (m) m.classList.add('hidden');
+    }
+
+    function fokusLanjut() {
+      fokusTutupPeringatan();
+      if (!fokusViewTerlihat()) switchTab('video-tutorials');
+      try {
+        const el = document.getElementById('yt-tutorial-player');
+        if (el && fokusRasioTerlihat() < 0.9) el.scrollIntoView({ block: 'center' });
+      } catch (e) { /* abaikan */ }
+      setTimeout(() => {
+        try { if (ytPlayer && typeof ytPlayer.playVideo === 'function') ytPlayer.playVideo(); } catch (e) { /* abaikan */ }
+      }, 150);
+    }
+
+    function fokusMulaiPantau() {
+      fokusPasangPendengar();
+      if (!fokusVideo.rateHooked && ytPlayer && typeof ytPlayer.addEventListener === 'function') {
+        fokusVideo.rateHooked = true;
+        try { ytPlayer.addEventListener('onPlaybackRateChange', () => fokusCekKecepatan()); } catch (e) { /* abaikan */ }
+      }
+      if (fokusVideo.timer) return;
+      fokusVideo.timer = setInterval(fokusPeriksa, 500);
+    }
+
+    function fokusHentiPantau() {
+      if (fokusVideo.timer) clearInterval(fokusVideo.timer);
+      fokusVideo.timer = null;
+    }
+
+    function fokusPasangPendengar() {
+      if (fokusVideo.installed) return;
+      fokusVideo.installed = true;
+      document.addEventListener('visibilitychange', () => { if (document.hidden) fokusPeriksa(); });
+      // Saat video YouTube diklik, jendela juga "blur" sesaat; tunggu sebentar lalu cek apakah fokus masih di halaman ini.
+      window.addEventListener('blur', () => {
+        clearTimeout(fokusVideo.blurTimer);
+        fokusVideo.blurTimer = setTimeout(fokusPeriksa, 200);
+      });
+    }
+
+    // Dipanggil dari onPlayerStateChange
+    function fokusOnState(state) {
+      if (!window.YT || !YT.PlayerState) return;
+      if (state === YT.PlayerState.PLAYING) {
+        if (!fokusBerlaku()) { fokusHentiPantau(); return; }
+        const alasan = fokusHilang();
+        if (alasan) { fokusJeda(alasan); return; }
+        fokusTutupPeringatan();
+        fokusMulaiPantau();
+        fokusCekKecepatan();
+      } else if (state !== YT.PlayerState.BUFFERING) {
+        fokusHentiPantau();
+      }
+    }
+
+    // Dipanggil dari switchTab
+    function fokusOnSwitchTab(tabName) {
+      if (tabName === 'video-tutorials') return;
+      if (fokusBerlaku() && fokusSedangMain()) fokusJeda('tab');
+    }
+
+    // =====================================================================
+    // AJUKAN SLIP GAJI (desainer) & DAFTAR PENGAJUAN SLIP GAJI (admin)
+    // Tanggal, perhitungan slip, dan pengecekan QR DANA juga dicek ulang di
+    // Apps Script (slip-gaji.gs); pengecekan di sini hanya untuk tampilan cepat.
+    // =====================================================================
+    const SLIP_JSQR_URL = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+    const SLIP_JSQR_URLS = [SLIP_JSQR_URL, 'https://unpkg.com/jsqr@1.4.0/dist/jsQR.js', 'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js'];
+    const SLIP_MSG_FIX = 'Mohon perbaiki barcode Anda atau hubungi admin jika terdapat kendala.';
+    const slipState = {
+      info: null, infoAt: 0, loading: false, timer: null, tick: null, own: null,
+      qr: null, image: null, submitting: false,
+      admin: { rows: [], loaded: false, timer: null, filterPeriode: '', filterStatus: 'Menunggu', showUji: true }
+    };
+
+    function slipRp(n) { return 'Rp ' + (Math.round(Number(n) || 0)).toLocaleString('id-ID'); }
+
+    function slipLevelLabel(level) {
+      return Number(level) === 3 ? 'Level 3 (Rp 2.500 / Rp 1.500)' : 'Level 2 (Rp 750 / Rp 450)';
+    }
+
+    async function slipCall(action, extra) {
+      const { data: sessionData } = await supabaseClient.auth.getSession();
+      const token = sessionData && sessionData.session && sessionData.session.access_token;
+      if (!token) throw new Error('Sesi login tidak ditemukan. Silakan login ulang.');
+      let data;
+      try {
+        const res = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(Object.assign({ action, access_token: token }, extra || {}))
+        });
+        data = await res.json();
+      } catch (err) {
+        throw new Error('Gagal terhubung ke server. Periksa koneksi internet lalu coba lagi.');
+      }
+      if (!data || typeof data !== 'object' || !data.status) throw new Error('Apps Script belum diperbarui: fitur slip gaji belum di-deploy.');
+      if (data.status !== 'success') throw new Error(data.message || 'Terjadi kesalahan.');
+      return data;
+    }
+
+    /* ---------- QRIS: baca nama & nominal dari isi QR ---------- */
+
+    function slipCrc16(str) {
+      let crc = 0xFFFF;
+      for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let k = 0; k < 8; k++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+      }
+      return crc.toString(16).toUpperCase().padStart(4, '0');
+    }
+
+    function slipTlv(str) {
+      const out = {};
+      let i = 0;
+      while (i < str.length) {
+        if (i + 4 > str.length) return null;
+        const id = str.substr(i, 2), len = parseInt(str.substr(i + 2, 2), 10);
+        if (!/^\d\d$/.test(id) || !isFinite(len) || i + 4 + len > str.length) return null;
+        out[id] = str.substr(i + 4, len);
+        i += 4 + len;
+      }
+      return out;
+    }
+
+    function slipParseQris(payload) {
+      const s = String(payload || '');
+      if (!/^000201/.test(s) || s.length < 30) return { ok: false, pesan: 'Gambar bukan QR pembayaran (QRIS). Upload screenshot QR dari aplikasi DANA.' };
+      const tags = slipTlv(s);
+      if (!tags || !tags['63']) return { ok: false, pesan: 'Isi QR tidak lengkap. Ambil ulang screenshot QR DANA Anda.' };
+      if (slipCrc16(s.slice(0, -4)) !== String(tags['63']).toUpperCase()) {
+        return { ok: false, pesan: 'QR tidak valid (kode pemeriksa tidak cocok). Ambil ulang screenshot QR DANA asli dari aplikasi DANA.' };
+      }
+      let dana = false;
+      for (let n = 26; n <= 51; n++) {
+        if (!tags[String(n)]) continue;
+        const sub = slipTlv(tags[String(n)]);
+        if (sub && /ID\.DANA\.WWW/i.test(sub['00'] || '')) dana = true;
+      }
+      const nominal = tags['54'] ? Number(tags['54']) : null;
+      return { ok: true, dana, nama: String(tags['59'] || '').trim(), nominal: isFinite(nominal) ? nominal : null };
+    }
+
+    function slipNormName(s) {
+      return String(s || '').toUpperCase().replace(/[^A-Z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function slipNameMatch(qrName, slipName) {
+      const a = slipNormName(qrName), b = slipNormName(slipName);
+      if (!a || !b) return false;
+      if (a === b) return true;
+      return a.length >= 20 && b.length > a.length && b.startsWith(a);
+    }
+
+    let slipJsQrPromise = null;
+    function slipLoadJsQr() {
+      if (window.jsQR) return Promise.resolve(window.jsQR);
+      if (slipJsQrPromise) return slipJsQrPromise;
+      slipJsQrPromise = new Promise((ok, fail) => {
+        (function coba(i) {
+          if (i >= SLIP_JSQR_URLS.length) { slipJsQrPromise = null; return fail(new Error('Pembaca QR gagal dimuat. Periksa koneksi internet lalu coba lagi.')); }
+          const s = document.createElement('script');
+          let selesai = false;
+          const lanjut = () => { if (selesai) return; selesai = true; s.remove(); coba(i + 1); };
+          const batas = setTimeout(lanjut, 12000);
+          s.src = SLIP_JSQR_URLS[i];
+          s.onload = () => { if (selesai) return; clearTimeout(batas); if (window.jsQR) { selesai = true; ok(window.jsQR); } else lanjut(); };
+          s.onerror = () => { clearTimeout(batas); lanjut(); };
+          document.head.appendChild(s);
+        })(0);
+      });
+      return slipJsQrPromise;
+    }
+
+    function slipLoadImage(file) {
+      return new Promise((ok, fail) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => ok({ img, url });
+        img.onerror = async () => {
+          URL.revokeObjectURL(url);
+          try {
+            if (!window.createImageBitmap) throw new Error('x');
+            const bmp = await createImageBitmap(file);
+            const c = document.createElement('canvas');
+            c.width = bmp.width; c.height = bmp.height;
+            c.getContext('2d').drawImage(bmp, 0, 0);
+            const blob = await new Promise((r) => c.toBlob(r, 'image/png'));
+            const url2 = URL.createObjectURL(blob);
+            const img2 = new Image();
+            img2.onload = () => ok({ img: img2, url: url2 });
+            img2.onerror = () => { URL.revokeObjectURL(url2); fail(new Error('File ini bukan gambar yang bisa dibaca. Upload screenshot (JPG/PNG).')); };
+            img2.src = url2;
+          } catch (e) {
+            fail(new Error('File ini bukan gambar yang bisa dibaca. Upload screenshot (JPG/PNG).'));
+          }
+        };
+        img.src = url;
+      });
+    }
+
+    /** Baca QR dari gambar: coba beberapa ukuran agar screenshot besar/kecil tetap terbaca. */
+    function slipDecodeQr(jsQR, img) {
+      const W = img.naturalWidth, H = img.naturalHeight;
+      const longest = Math.max(W, H);
+      const targets = [Math.min(longest, 2400), 1600, 1000, 700].filter((v, i, a) => v <= longest && a.indexOf(v) === i);
+      if (!targets.length) targets.push(longest);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      for (const t of targets) {
+        const k = t / longest;
+        canvas.width = Math.max(1, Math.round(W * k));
+        canvas.height = Math.max(1, Math.round(H * k));
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const r = jsQR(d.data, d.width, d.height, { inversionAttempts: 'attemptBoth' });
+        if (r && r.data) return r.data;
+      }
+      return null;
+    }
+
+    /** Baca QR dengan beberapa cara: jsQR (jika termuat) → pembaca QR bawaan browser → jsQR pada potongan gambar. */
+    async function slipBacaQrGambar(jsQR, img) {
+      if (jsQR) { const r = slipDecodeQr(jsQR, img); if (r) return r; }
+      if ('BarcodeDetector' in window) {
+        try {
+          const det = new window.BarcodeDetector({ formats: ['qr_code'] });
+          const hasil = await det.detect(img);
+          if (hasil && hasil[0] && hasil[0].rawValue) return hasil[0].rawValue;
+        } catch (e) { /* pembaca bawaan tidak tersedia di perangkat ini */ }
+      }
+      if (!jsQR) return null;
+      // Screenshot HP tinggi (mis. 1080×2400): coba potongan atas / tengah / bawah agar QR tampak lebih besar.
+      const W = img.naturalWidth, H = img.naturalHeight;
+      const tinggi = H >= W;
+      const sisi = Math.min(W, H);
+      const panjang = Math.max(W, H);
+      const langkah = [0, (panjang - sisi) / 4, (panjang - sisi) / 2, (panjang - sisi) * 3 / 4, panjang - sisi];
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      const ukuran = Math.min(sisi, 1000);
+      for (const off of langkah) {
+        c.width = ukuran; c.height = ukuran;
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, ukuran, ukuran);
+        if (tinggi) ctx.drawImage(img, 0, off, sisi, sisi, 0, 0, ukuran, ukuran);
+        else ctx.drawImage(img, off, 0, sisi, sisi, 0, 0, ukuran, ukuran);
+        const d = ctx.getImageData(0, 0, ukuran, ukuran);
+        const r = jsQR(d.data, d.width, d.height, { inversionAttempts: 'attemptBoth' });
+        if (r && r.data) return r.data;
+      }
+      return null;
+    }
+
+    /** Gambar untuk dikirim: file asli kalau kecil, selain itu dikecilkan ke JPEG (maks 2000 px). */
+    async function slipPrepareUpload(file, img) {
+      const toB64 = (blob) => new Promise((ok, fail) => {
+        const fr = new FileReader();
+        fr.onload = () => ok(String(fr.result).split(',')[1] || '');
+        fr.onerror = () => fail(new Error('Gagal membaca gambar.'));
+        fr.readAsDataURL(blob);
+      });
+      if (/^image\/(png|jpeg)$/.test(file.type) && file.size <= 3 * 1024 * 1024) {
+        return { mime: file.type, base64: await toB64(file) };
+      }
+      const longest = Math.max(img.naturalWidth, img.naturalHeight);
+      const k = Math.min(1, 2000 / longest);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k);
+      c.height = Math.round(img.naturalHeight * k);
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      const blob = await new Promise((ok) => c.toBlob(ok, 'image/jpeg', 0.92));
+      if (!blob) throw new Error('Gagal memproses gambar.');
+      return { mime: 'image/jpeg', base64: await toB64(blob) };
+    }
+
+    /* ---------- kartu di halaman desainer ---------- */
+
+    async function slipInitDesigner() {
+      if (!currentUser || isAdminUser) return;
+      await slipRefreshDesigner();
+      slipSubscribeOwn();
+      if (slipState.timer) clearInterval(slipState.timer);
+      // Cek ulang tiap 10 menit (kartu muncul tepat tanggal 28 & terbuka begitu semua desain selesai).
+      slipState.timer = setInterval(() => {
+        if (document.visibilityState === 'visible' && !slipState.submitting) slipRefreshDesigner(true);
+      }, 10 * 60 * 1000);
+    }
+
+    async function slipRefreshDesigner(silent) {
+      if (!currentUser || isAdminUser || slipState.loading) return;
+      slipState.loading = true;
+      try {
+        // Status pengajuan terakhir milik sendiri (untuk "Menunggu" / "Sudah dibayar" setelah tanggal 28).
+        try {
+          const { data } = await supabaseClient.from('slip_gaji_pengajuan')
+            .select('id, periode, periode_mulai, periode_akhir, total, status, dibayar_at, created_at, is_uji')
+            .eq('designer_id', currentUser.id)
+            .order('created_at', { ascending: false })
+            .limit(1);
+          slipState.own = (data && data[0]) || null;
+        } catch (e) { slipState.own = null; }
+
+        const day = new Date().getDate();
+        // Hemat panggilan: tanya server hanya di sekitar tanggal 28, atau bila akun ini sedang mode uji.
+        if ([27, 28, 29].includes(day) || (slipState.info && slipState.info.uji) || !slipState.infoAt) {
+          try {
+            slipState.info = await slipCall('slip_info');
+            slipState.infoAt = Date.now();
+          } catch (err) {
+            if (!silent) console.warn('Slip gaji:', err.message);
+            slipState.info = slipState.info && slipState.info.tampil ? Object.assign({}, slipState.info, { error: err.message }) : null;
+            slipState.infoAt = slipState.infoAt || Date.now();
+          }
+        }
+      } finally {
+        slipState.loading = false;
+      }
+      slipRenderCard();
+    }
+
+    function slipSisaLabel() {
+      const info = slipState.info;
+      if (!info || info.sisa_detik == null) return '';
+      const left = Math.max(0, info.sisa_detik - Math.floor((Date.now() - slipState.infoAt) / 1000));
+      if (left <= 0) return 'Waktu pengajuan sudah habis.';
+      const h = Math.floor(left / 3600), m = Math.floor((left % 3600) / 60);
+      return `Ditutup pukul 23.59 WIB · sisa ${h ? h + ' jam ' : ''}${m} menit`;
+    }
+
+    function slipRenderCard() {
+      const box = document.getElementById('kl-slip-card');
+      if (!box) return;
+      if (slipState.tick) { clearInterval(slipState.tick); slipState.tick = null; }
+      const info = slipState.info;
+      const own = slipState.own;
+
+      // Di luar tanggal 28: hanya tampilkan status pengajuan yang belum dibayar / baru dibayar (3 hari).
+      if (!info || !info.tampil) {
+        const recentPaid = own && own.status === 'Sudah dibayar' && own.dibayar_at && (Date.now() - new Date(own.dibayar_at).getTime()) < 3 * 864e5;
+        if (own && (own.status === 'Menunggu' || recentPaid)) {
+          const paid = own.status === 'Sudah dibayar';
+          if (paid) slipShineCss();
+          box.className = `rounded-2xl border p-3 sm:p-4 shadow-sm flex items-center gap-3 relative overflow-hidden ${paid ? 'bg-gradient-to-r from-emerald-600 to-teal-600 border-emerald-500 text-white kl-slip-shine' : 'bg-gradient-to-r from-amber-500 to-orange-600 border-orange-400 text-white'}`;
+          box.innerHTML = `
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 bg-white/20 text-white">
+              <i class="fa-solid ${paid ? 'fa-circle-check' : 'fa-hourglass-half'}"></i>
+            </div>
+            <div class="min-w-0 text-xs sm:text-sm">
+              <div class="font-extrabold">${own.is_uji ? '[UJI] ' : ''}Slip gaji ${esc(slipPeriodeLabel(own))} · ${esc(slipRp(own.total))}</div>
+              <div class="font-semibold opacity-95">${paid ? `Gaji Anda sudah dibayarkan ke DANA 🎉${own.dibayar_at ? ' · ' + esc(slipPaidLabel(own.dibayar_at)) : ''}` : 'Sudah diajukan · menunggu pembayaran dari admin.'}</div>
+            </div>`;
+          slipPaidFx(box, paid ? own : null);
+          return;
+        }
+        slipCoinStop();
+        box.className = 'hidden';
+        box.innerHTML = '';
+        return;
+      }
+
+      const s = info.slip || {};
+      const head = `
+        <div class="flex items-start gap-3">
+          <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-money-check-dollar"></i></div>
+          <div class="min-w-0 flex-1">
+            <div class="text-[11px] font-bold uppercase tracking-wide opacity-90">${info.uji ? '[MODE UJI] ' : ''}Hari ini jadwal pengajuan slip gaji</div>
+            <div class="text-base sm:text-lg font-black leading-tight">${esc(slipRp(s.total))}</div>
+            <div class="text-[11px] sm:text-xs font-semibold opacity-90">Periode ${esc(info.periode ? info.periode.label : '-')}</div>
+          </div>
+        </div>`;
+      const sisa = `<div class="text-[11px] font-semibold opacity-90" data-slip-sisa>${esc(slipSisaLabel())}</div>`;
+      const errLine = info.error ? `<div class="text-[11px] font-semibold bg-white/15 rounded-lg px-2 py-1">${esc(info.error)}</div>` : '';
+
+      if (info.pengajuan) {
+        const paid = info.pengajuan.status === 'Sudah dibayar';
+        if (paid) slipShineCss();
+        box.className = paid
+          ? 'rounded-2xl p-4 shadow-md text-white bg-gradient-to-r from-emerald-600 to-teal-600 border border-emerald-500 space-y-2 relative overflow-hidden kl-slip-shine'
+          : 'rounded-2xl p-4 shadow-md text-white bg-gradient-to-r from-amber-500 to-orange-600 border border-orange-400 space-y-2 relative overflow-hidden';
+        box.innerHTML = `${head}
+          <div class="bg-white/15 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold flex items-center gap-2">
+            <i class="fa-solid ${paid ? 'fa-circle-check' : 'fa-hourglass-half'}"></i>
+            ${paid
+              ? `<span>Gaji Anda sudah dibayarkan ke DANA 🎉${info.pengajuan.dibayar_at ? `<span class="block text-[11px] font-semibold opacity-90">${esc(slipPaidLabel(info.pengajuan.dibayar_at))}</span>` : ''}</span>`
+              : `Sudah diajukan pukul ${esc(new Date(info.pengajuan.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }))} · menunggu pembayaran dari admin.`}
+          </div>`;
+        slipPaidFx(box, paid ? info.pengajuan : null);
+        return;
+      }
+      slipCoinStop();
+
+      const belum = Array.isArray(info.belum_siap) ? info.belum_siap : [];
+      if (belum.length || !(Number(s.total) > 0)) {
+        const reason = belum.length
+          ? `<b>${belum.length} klaim tema</b> belum berstatus <b>"Approved · Sudah di Canva"</b>. Tombol pengajuan terbuka setelah semuanya selesai.`
+          : 'Total pendapatan periode ini Rp 0, tidak ada yang bisa diajukan.';
+        const list = belum.slice(0, 6).map((b) => `<li class="flex justify-between gap-2"><span class="truncate">${esc(b.kategori)}</span><span class="shrink-0 font-bold">${esc(b.status)}</span></li>`).join('');
+        box.className = 'rounded-2xl p-4 shadow-md text-white bg-gradient-to-r from-slate-600 to-slate-700 border border-slate-500 space-y-2';
+        box.innerHTML = `${head}
+          <div class="bg-white/10 rounded-xl px-3 py-2 text-xs space-y-1.5">
+            <div class="font-semibold"><i class="fa-solid fa-lock mr-1"></i> ${reason}</div>
+            ${list ? `<ul class="text-[11px] space-y-0.5 opacity-95">${list}${belum.length > 6 ? `<li class="opacity-80">… dan ${belum.length - 6} lainnya</li>` : ''}</ul>` : ''}
+          </div>
+          ${errLine}
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            ${sisa}
+            <div class="flex gap-2">
+              <button type="button" data-slip-act="recheck" class="bg-white/15 hover:bg-white/25 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5"><i class="fa-solid fa-rotate"></i> Periksa lagi</button>
+              <button type="button" disabled class="bg-white/30 text-white/80 text-xs font-bold px-3 py-2 rounded-lg cursor-not-allowed flex items-center gap-1.5"><i class="fa-solid fa-lock"></i> Ajukan slip gaji</button>
+            </div>
+          </div>`;
+      } else {
+        box.className = 'rounded-2xl p-4 shadow-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 border border-blue-500 space-y-2 ring-4 ring-blue-200';
+        box.innerHTML = `${head}
+          <div class="bg-white/15 rounded-xl px-3 py-2 text-xs font-semibold"><i class="fa-solid fa-circle-check mr-1"></i> Semua desain periode ini sudah "Approved · Sudah di Canva". Silakan ajukan slip gaji Anda hari ini.</div>
+          ${errLine}
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            ${sisa}
+            <button type="button" data-slip-act="open" class="bg-white text-blue-700 hover:bg-blue-50 text-xs sm:text-sm font-extrabold px-4 py-2 rounded-lg shadow transition flex items-center gap-1.5"><i class="fa-solid fa-paper-plane"></i> Ajukan slip gaji</button>
+          </div>`;
+      }
+      box.querySelectorAll('[data-slip-act]').forEach((b) => b.addEventListener('click', () => {
+        if (b.dataset.slipAct === 'open') slipOpenModal();
+        else if (b.dataset.slipAct === 'recheck') { b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa…'; slipRefreshDesigner(); }
+      }));
+      if (info.sisa_detik != null) {
+        slipState.tick = setInterval(() => {
+          const el = box.querySelector('[data-slip-sisa]');
+          if (el) el.textContent = slipSisaLabel();
+          const left = info.sisa_detik - Math.floor((Date.now() - slipState.infoAt) / 1000);
+          if (left <= 0) { clearInterval(slipState.tick); slipState.tick = null; setTimeout(() => slipRefreshDesigner(true), 2000); }
+        }, 30000);
+      }
+    }
+
+    /* ---------- realtime status pengajuan sendiri + efek "gaji sudah dibayar" ---------- */
+
+    function slipSubscribeOwn() {
+      if (slipState.rt || !currentUser || isAdminUser || !supabaseClient || !supabaseClient.channel) return;
+      try {
+        slipState.rt = supabaseClient
+          .channel('kl-slip-own-' + currentUser.id)
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'slip_gaji_pengajuan', filter: 'designer_id=eq.' + currentUser.id }, slipOnOwnChange)
+          .subscribe();
+      } catch (e) { console.warn('Slip gaji realtime:', e); }
+      // Cadangan bila koneksi realtime terputus: cek ulang saat desainer kembali ke tab ini.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible' || slipState.submitting) return;
+        if (Date.now() - (slipState.lastVisRefresh || 0) < 60 * 1000) return;
+        slipState.lastVisRefresh = Date.now();
+        slipRefreshDesigner(true);
+      });
+    }
+
+    function slipOnOwnChange(payload) {
+      const row = payload && payload.new && payload.new.id != null ? payload.new : null;
+      if (!row || payload.eventType === 'DELETE') { slipRefreshDesigner(true); return; }
+      if (currentUser && row.designer_id && row.designer_id !== currentUser.id) return;
+      const own = slipState.own;
+      if (!own || own.id === row.id || new Date(row.created_at) >= new Date(own.created_at)) {
+        slipState.own = Object.assign({}, own && own.id === row.id ? own : {}, row);
+      }
+      const p = slipState.info && slipState.info.pengajuan;
+      if (p && p.id === row.id) Object.assign(p, { status: row.status, dibayar_at: row.dibayar_at });
+      slipRenderCard();
+    }
+
+    function slipPaidLabel(at) {
+      if (!at) return '';
+      const d = new Date(at);
+      const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      const today = d.toDateString() === new Date().toDateString();
+      return 'Dibayar ' + (today ? 'hari ini' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })) + ' pukul ' + jam;
+    }
+
+    function slipShineCss() {
+      if (document.getElementById('kl-slip-shine-css')) return;
+      const st = document.createElement('style');
+      st.id = 'kl-slip-shine-css';
+      st.textContent = `
+        .kl-slip-shine{position:relative;overflow:hidden;isolation:isolate}
+        .kl-slip-shine::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+          background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.18) 42%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.18) 58%,transparent 70%);
+          transform:translateX(-110%);animation:klSlipShine 4s ease-in-out infinite;will-change:transform}
+        @keyframes klSlipShine{0%{transform:translateX(-110%)}40%,100%{transform:translateX(110%)}}
+        @media (prefers-reduced-motion: reduce){.kl-slip-shine::after{animation:none;display:none}}`;
+      document.head.appendChild(st);
+    }
+
+    // Confetti ringan di dalam banner: 1 canvas kecil, ±40 potong kertas, berhenti sendiri setelah ±8 detik.
+    const slipCoins = { cv: null, raf: 0, running: false };
+    const slipCoinSeen = {};
+    function slipCoinSprite() {
+      if (slipCoins.sprite) return slipCoins.sprite;
+      const S = 64, c = document.createElement('canvas');
+      c.width = c.height = S;
+      const g = c.getContext('2d'), r = S / 2 - 1;
+      const face = g.createRadialGradient(S * 0.36, S * 0.32, 2, S / 2, S / 2, r);
+      face.addColorStop(0, '#fff7cc'); face.addColorStop(0.35, '#fcd34d'); face.addColorStop(0.75, '#f59e0b'); face.addColorStop(1, '#b45309');
+      g.fillStyle = face; g.beginPath(); g.arc(S / 2, S / 2, r, 0, Math.PI * 2); g.fill();
+      g.lineWidth = 3; g.strokeStyle = 'rgba(146,64,14,.55)'; g.beginPath(); g.arc(S / 2, S / 2, r * 0.74, 0, Math.PI * 2); g.stroke();
+      g.fillStyle = 'rgba(146,64,14,.8)'; g.font = 'bold 20px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('Rp', S / 2, S / 2 + 1);
+      g.fillStyle = 'rgba(255,255,255,.55)'; g.beginPath(); g.ellipse(S * 0.36, S * 0.28, r * 0.28, r * 0.12, -0.6, 0, Math.PI * 2); g.fill();
+      return (slipCoins.sprite = c);
+    }
+    function slipCoinStop() {
+      slipCoins.running = false;
+      if (slipCoins.raf) cancelAnimationFrame(slipCoins.raf);
+      slipCoins.raf = 0;
+      if (slipCoins.cv) slipCoins.cv.remove();
+      slipCoins.cv = null;
+    }
+    function slipCoinRain(box) {
+      slipCoinStop();
+      const colors = ['#fde047', '#f472b6', '#38bdf8', '#a78bfa', '#fb923c', '#ffffff', '#4ade80'];
+      const cv = document.createElement('canvas');
+      cv.setAttribute('aria-hidden', 'true');
+      cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2';
+      box.appendChild(cv);
+      const ctx = cv.getContext('2d');
+      let W = 0, H = 0;
+      const size = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        W = box.clientWidth; H = box.clientHeight;
+        cv.width = Math.max(1, Math.round(W * dpr)); cv.height = Math.max(1, Math.round(H * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      size();
+      const max = Math.max(14, Math.min(45, Math.round(W / 24)));
+      const rnd = (a, b) => a + Math.random() * (b - a);
+      const coins = [];
+      const spawn = (c) => {
+        c.r = rnd(4, 7); c.x = rnd(0, W); c.y = rnd(-H * 0.8, -c.r * 2);
+        c.vy = rnd(0.8, 1.6); c.vx = rnd(-0.5, 0.5); c.spin = rnd(0, Math.PI * 2); c.vs = rnd(0.08, 0.16); c.tilt = rnd(0, Math.PI * 2); c.vr = rnd(-0.08, 0.08);
+        c.sway = rnd(0, Math.PI * 2); c.color = colors[(Math.random() * colors.length) | 0]; c.shape = Math.random() < 0.7 ? 0 : 1;
+        return c;
+      };
+      for (let i = 0; i < max; i++) coins.push(spawn({}));
+      const SPAWN_MS = 6000, MAX_MS = 9500;
+      let active = 0, last = 0;
+      slipCoins.cv = cv; slipCoins.running = true;
+      const frame = (t) => {
+        if (!slipCoins.running || slipCoins.cv !== cv) return;
+        const dms = last ? Math.min(50, t - last) : 16.7;   // tab tersembunyi: rAF berhenti, waktu tidak melompat
+        last = t; active += dms;
+        const dt = dms / 16.7;
+        if (cv.parentNode !== box) box.appendChild(cv);
+        if (box.clientWidth !== W || box.clientHeight !== H) size();
+        ctx.clearRect(0, 0, W, H);
+        let alive = 0;
+        for (const c of coins) {
+          if (c.done) continue;
+          c.vy = Math.min(c.vy + 0.03 * dt, 2.6);
+          c.sway += 0.04 * dt; c.tilt += c.vr * dt;
+          c.x += (c.vx + Math.sin(c.sway) * 0.6) * dt; c.y += c.vy * dt; c.spin += c.vs * dt;
+          if (c.y - c.r > H) { if (active < SPAWN_MS) spawn(c); else { c.done = true; continue; } }
+          alive++;
+          const sy = Math.cos(c.spin);
+          ctx.save();
+          ctx.translate(c.x, c.y); ctx.rotate(c.tilt);
+          ctx.fillStyle = c.color;
+          if (c.shape === 1) { ctx.beginPath(); ctx.arc(0, 0, c.r * 0.45, 0, Math.PI * 2); ctx.fill(); }
+          else ctx.fillRect(-c.r, -c.r * 0.45 * sy, c.r * 2, c.r * 0.9 * sy);
+          ctx.restore();
+        }
+        if (!alive || active > MAX_MS) { slipCoinStop(); return; }
+        slipCoins.raf = requestAnimationFrame(frame);
+      };
+      slipCoins.raf = requestAnimationFrame(frame);
+    }
+
+    // Dipanggil setiap kartu digambar ulang. Koin hanya diputar sekali per pembayaran.
+    function slipPaidFx(box, paidRow) {
+      if (!paidRow) { slipCoinStop(); return; }
+      if (slipCoins.running && slipCoins.cv) { box.appendChild(slipCoins.cv); return; }
+      const key = 'kl_slip_koin_' + paidRow.id + '_' + (paidRow.dibayar_at || '');
+      let seen = !!slipCoinSeen[key];
+      try { seen = seen || localStorage.getItem(key) === '1'; } catch (e) { /* abaikan */ }
+      if (seen) return;
+      slipCoinSeen[key] = true;
+      try { localStorage.setItem(key, '1'); } catch (e) { /* abaikan */ }
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      try { slipCoinRain(box); } catch (e) { /* efek hanya hiasan */ }
+    }
+
+    function slipPeriodeLabel(row) {
+      const f = (d) => d ? new Date(d + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
+      return row.periode_mulai ? `${f(row.periode_mulai)} – ${f(row.periode_akhir)}` : String(row.periode || '');
+    }
+
+    /* ---------- jendela pengajuan ---------- */
+
+    function slipModal() {
+      let m = document.getElementById('modal-ajukan-slip');
+      if (m) return m;
+      m = document.createElement('div');
+      m.id = 'modal-ajukan-slip';
+      m.className = 'fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-4';
+      m.innerHTML = `
+        <div class="bg-white text-slate-900 w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 relative max-h-[92vh] overflow-y-auto">
+          <button type="button" data-slip-close class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center" title="Tutup"><i class="fa-solid fa-xmark"></i></button>
+          <div class="p-4 sm:p-6 space-y-4" id="slip-modal-body"></div>
+        </div>`;
+      document.body.appendChild(m);
+      m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('[data-slip-close]')) slipCloseModal(); });
+      return m;
+    }
+
+    function slipCloseModal() {
+      if (slipState.submitting) return;
+      const m = document.getElementById('modal-ajukan-slip');
+      if (m) m.classList.add('hidden');
+      if (slipState.image && slipState.image.url) URL.revokeObjectURL(slipState.image.url);
+      slipState.image = null;
+      slipState.qr = null;
+    }
+
+    async function slipOpenModal() {
+      const m = slipModal();
+      const body = m.querySelector('#slip-modal-body');
+      slipState.image = null;
+      slipState.qr = null;
+      body.innerHTML = `<div class="py-10 text-center text-slate-500 text-sm"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Menghitung ulang slip gaji…</div>`;
+      m.classList.remove('hidden');
+      try {
+        slipState.info = await slipCall('slip_info');   // hitung ulang: desain yang baru Approved hari ini ikut terhitung
+        slipState.infoAt = Date.now();
+      } catch (err) {
+        body.innerHTML = `<div class="py-8 text-center text-rose-600 text-sm font-semibold">${esc(err.message)}</div>`;
+        return;
+      }
+      slipRenderCard();
+      const info = slipState.info;
+      if (!info.tampil || info.pengajuan || (info.belum_siap || []).length || !(Number(info.slip && info.slip.total) > 0)) {
+        slipCloseModal();
+        return;
+      }
+      slipRenderModal();
+    }
+
+    function slipRenderModal() {
+      const body = document.querySelector('#modal-ajukan-slip #slip-modal-body');
+      if (!body) return;
+      const info = slipState.info, s = info.slip;
+      const row = (label, val, cls = '') => `<div class="flex justify-between gap-3"><span class="text-slate-500">${label}</span><span class="font-bold text-right ${cls}">${val}</span></div>`;
+      const qr = slipState.qr;
+      const img = slipState.image;
+
+      let checks = '';
+      let allOk = false;
+      if (qr) {
+        if (qr.error) {
+          checks = `<div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${esc(qr.error)}</div>`;
+        } else if (qr.manual) {
+          const pn = slipState.pernyataan || { milik: false, nominal: false };
+          allOk = !!(pn.milik && pn.nominal);
+          const kotak = (k, teks) => `<label class="flex items-start gap-2.5 p-2.5 rounded-lg bg-white border ${pn[k] ? 'border-emerald-300' : 'border-slate-200'} cursor-pointer"><input type="checkbox" data-slip-pernyataan="${k}" ${pn[k] ? 'checked' : ''} class="mt-0.5 w-4 h-4 accent-emerald-600 shrink-0"/><span class="text-xs font-semibold text-slate-700 leading-snug">${teks}</span></label>`;
+          checks = `
+            <div class="p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-2.5">
+              <div class="font-semibold leading-snug"><i class="fa-solid fa-circle-info mr-1"></i> QR transfer DANA terdeteksi. Nama & nominal tidak tersimpan di dalam QR jenis ini, jadi tidak bisa dicek otomatis dan akan dicek manual oleh admin dari screenshot.</div>
+              <div class="font-bold">Centang kedua pernyataan berikut untuk mengajukan:</div>
+              ${kotak('milik', 'QR DANA ini adalah benar milik saya pribadi')}
+              ${kotak('nominal', `Nominal sudah sesuai dengan Total Penghasilan saya (<b>${esc(slipRp(s.total))}</b>)`)}
+            </div>`;
+        } else {
+          const okDana = qr.dana;
+          const okNama = slipNameMatch(qr.nama, s.nama);
+          const okNom = qr.nominal === Number(s.total);
+          allOk = okDana && okNama && okNom;
+          const line = (ok, label, detail) => `<li class="flex items-start gap-2 ${ok ? 'text-emerald-700' : 'text-rose-700'}"><i class="fa-solid ${ok ? 'fa-circle-check' : 'fa-circle-xmark'} mt-0.5"></i><span><b>${label}</b> ${detail}</span></li>`;
+          const problems = [];
+          if (!okDana) problems.push('QR ini bukan QR DANA. Mohon gunakan QR dari aplikasi DANA.');
+          if (!okNama) problems.push(`Nama di QR (${qr.nama || 'kosong'}) berbeda dengan nama di slip gaji (${s.nama}).`);
+          if (!okNom) problems.push(`Nominal di QR (${qr.nominal == null ? 'tidak ada' : slipRp(qr.nominal)}) berbeda dengan total slip gaji (${slipRp(s.total)}).`);
+          checks = `
+            <ul class="text-xs space-y-1.5 p-3 rounded-xl border ${allOk ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}">
+              ${line(okDana, 'QR DANA', okDana ? '' : '— bukan dari aplikasi DANA')}
+              ${line(okNama, 'Nama:', esc(qr.nama || '(kosong)'))}
+              ${line(okNom, 'Nominal:', qr.nominal == null ? '(QR tanpa nominal)' : esc(slipRp(qr.nominal)))}
+            </ul>
+            ${allOk ? '' : `<div class="p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold space-y-1">
+              <div><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${okNama && okNom ? 'QR tidak sesuai.' : 'Nama atau nominal berbeda.'}</div>
+              ${problems.map((p) => `<div>• ${esc(p)}</div>`).join('')}
+              <div>${esc(SLIP_MSG_FIX)}</div>
+            </div>`}`;
+        }
+      }
+
+      body.innerHTML = `
+        <div class="text-center border-b pb-3 pr-6">
+          <h2 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-blue-900">${info.uji ? '[UJI] ' : ''}SALARY JASA DESAIN ELEMEN CANVA</h2>
+          <p class="text-xs font-bold text-slate-600 mt-0.5">Periode: ${esc(info.periode.label)}</p>
+        </div>
+        <div class="text-xs sm:text-sm space-y-1.5">
+          ${row('Nama Desainer', esc(s.nama), 'text-blue-900')}
+          ${row('Level Desainer', `<span class="px-2 py-0.5 rounded text-[10px] bg-slate-100 border border-slate-200">${esc(slipLevelLabel(s.level))}</span>`)}
+          ${row('Total Desain', `${Number(s.total_desain) || 0} desain`)}
+          ${row('Total Desain Ditolak', `${Number(s.total_ditolak) || 0} kali`, 'text-rose-600')}
+          ${row('Total Desain Diterima', `${Number(s.total_diterima) || 0} kali`, 'text-emerald-600')}
+          <div class="border-t my-2"></div>
+          ${row('Hasil Desain', esc(slipRp(s.hasil_desain)) + ' ,-')}
+          ${row('Reward 1 (Upload ke Canva)', esc(slipRp(s.reward_1)) + ' ,-')}
+          ${row('Reward 2 (Bonus Tiering)', esc(slipRp(s.reward_2)) + ' ,-')}
+          <div class="border-t my-2"></div>
+          <div class="flex justify-between items-center"><span class="font-extrabold text-slate-800">Total Pendapatan</span><span class="text-blue-700 text-base font-black">${esc(slipRp(s.total))} ,-</span></div>
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <div class="text-xs font-bold text-slate-700"><i class="fa-solid fa-qrcode text-blue-600 mr-1"></i> Upload screenshot QR DANA Anda</div>
+          <p class="text-[11px] text-slate-500 leading-snug">Buat QR terima uang di aplikasi DANA dengan nominal <b>${esc(slipRp(s.total))}</b>, lalu screenshot dan upload di sini. Nama di QR harus sama dengan <b>${esc(s.nama)}</b>.</p>
+          <label for="slip-qr-file" class="relative block border-2 border-dashed ${img ? 'border-blue-300 bg-blue-50/40' : 'border-slate-300 hover:border-blue-400 bg-slate-50'} rounded-xl p-3 text-center cursor-pointer transition">
+            <input type="file" accept="image/*" id="slip-qr-file" style="position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"/>
+            ${img
+              ? `<img src="${img.url}" alt="Screenshot QR DANA" class="max-h-56 mx-auto rounded-lg shadow-sm"/><div class="text-[11px] text-blue-700 font-bold mt-2">Ganti gambar</div>`
+              : `<div class="py-4 text-slate-500 text-xs font-semibold"><i class="fa-solid fa-cloud-arrow-up text-2xl text-blue-500 mb-1 block"></i> Pilih gambar screenshot QR DANA</div>`}
+          </label>
+          <div id="slip-qr-checks">${slipState.readingQr ? `<div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-800 font-semibold"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Gambar diterima${slipState.namaFile ? ` (${esc(slipState.namaFile)})` : ''}. Membaca QR…</div>` : checks}</div>
+          <div id="slip-submit-error"></div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t">
+          <button type="button" data-slip-close class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2 rounded-lg font-bold transition">Batal</button>
+          <button type="button" id="btn-slip-submit" ${allOk ? '' : 'disabled'} class="btn-tokopedia-blue text-xs px-4 py-2 rounded-lg font-bold transition flex items-center gap-1.5 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none">
+            <i class="fa-solid fa-paper-plane"></i> Ajukan
+          </button>
+        </div>`;
+
+      const inputQr = body.querySelector('#slip-qr-file');
+      const ambilFile = () => {
+        const f = inputQr.files && inputQr.files[0];
+        if (!f) return;
+        const tanda = [f.name, f.size, f.lastModified].join('|');
+        if (inputQr.dataset.diproses === tanda) return;
+        inputQr.dataset.diproses = tanda;
+        slipState.inputMenunggu = null;
+        slipHandleFile(f);
+      };
+      inputQr.addEventListener('change', ambilFile);
+      inputQr.addEventListener('input', ambilFile);
+      inputQr.addEventListener('click', () => { slipState.inputMenunggu = { ambil: ambilFile, sejak: Date.now() }; });
+      slipPasangCadanganFile();
+      const btn = body.querySelector('#btn-slip-submit');
+      if (btn) btn.addEventListener('click', slipSubmit);
+      body.querySelectorAll('[data-slip-pernyataan]').forEach((cb) => cb.addEventListener('change', () => {
+        slipState.pernyataan = Object.assign({ milik: false, nominal: false }, slipState.pernyataan, { [cb.dataset.slipPernyataan]: cb.checked });
+        const pn = slipState.pernyataan;
+        cb.closest('label').classList.toggle('border-emerald-300', cb.checked);
+        cb.closest('label').classList.toggle('border-slate-200', !cb.checked);
+        const b = document.getElementById('btn-slip-submit');
+        if (b) b.disabled = !(pn.milik && pn.nominal);
+      }));
+    }
+
+    /** Sebagian browser HP tidak memicu event "change" setelah memilih dari galeri: cek ulang saat halaman aktif lagi. */
+    function slipPasangCadanganFile() {
+      if (slipState.cadanganFile) return;
+      slipState.cadanganFile = true;
+      const cek = () => {
+        const t = slipState.inputMenunggu;
+        if (!t || document.visibilityState !== 'visible') return;
+        [300, 900, 2000].forEach((ms) => setTimeout(() => { if (slipState.inputMenunggu === t) t.ambil(); }, ms));
+      };
+      window.addEventListener('focus', cek);
+      document.addEventListener('visibilitychange', cek);
+    }
+
+    /** QR transfer pribadi DANA ("Cuma bisa dibayar pakai DANA"): isinya hanya link, tanpa nama & nominal. */
+    const slipQrLinkDana = (s) => /^https:\/\/qr\.dana\.id\/\S+$/i.test(String(s || '').trim());
+
+    async function slipHandleFile(file) {
+      if (slipState.image && slipState.image.url) URL.revokeObjectURL(slipState.image.url);
+      slipState.image = null;
+      slipState.qr = null;
+      slipState.pernyataan = { milik: false, nominal: false };
+      slipState.readingQr = true;
+      slipState.namaFile = file.name || 'gambar';
+      slipRenderModal();
+      try {
+        if (file.size > 15 * 1024 * 1024) throw new Error('Ukuran gambar terlalu besar (maks 15 MB).');
+        const [gambar, pembaca] = await Promise.allSettled([slipLoadImage(file), slipLoadJsQr()]);
+        if (gambar.status === 'rejected') throw gambar.reason;
+        const { img, url } = gambar.value;
+        const jsQR = pembaca.status === 'fulfilled' ? pembaca.value : null;
+        slipState.image = { file, img, url };
+        if (!jsQR && !('BarcodeDetector' in window)) throw pembaca.reason;
+        const payload = await slipBacaQrGambar(jsQR, img);
+        if (!payload) {
+          slipState.qr = { error: 'QR tidak terbaca dari gambar ini. Pastikan screenshot memuat seluruh kotak QR dengan jelas, lalu coba lagi.' };
+        } else if (slipQrLinkDana(payload)) {
+          slipState.qr = { manual: true, payload: String(payload).trim() };
+        } else {
+          const p = slipParseQris(payload);
+          slipState.qr = p.ok ? Object.assign({ payload }, p) : { error: p.pesan };
+        }
+      } catch (err) {
+        slipState.qr = { error: err.message };
+      } finally {
+        slipState.readingQr = false;
+      }
+      slipRenderModal();
+    }
+
+    async function slipSubmit() {
+      const qr = slipState.qr, img = slipState.image;
+      if (!qr || qr.error || !img || slipState.submitting) return;
+      const btn = document.getElementById('btn-slip-submit');
+      const errBox = document.getElementById('slip-submit-error');
+      slipState.submitting = true;
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim…'; }
+      if (errBox) errBox.innerHTML = '';
+      try {
+        const up = await slipPrepareUpload(img.file, img.img);
+        const pn = slipState.pernyataan || {};
+        if (qr.manual && !(pn.milik && pn.nominal)) throw new Error('Centang kedua pernyataan terlebih dahulu.');
+        const res = await slipCall('slip_submit', { qr_payload: qr.payload, image_base64: up.base64, image_mime: up.mime, pernyataan_milik: !!pn.milik, pernyataan_nominal: !!pn.nominal });
+        slipState.submitting = false;
+        slipCloseModal();
+        await slipRefreshDesigner(true);
+        const tg = res.telegram || {};
+        try { slipConfettiStart(); } catch (e) { /* confetti hanya hiasan */ }
+        await showModalAlert('Slip Gaji Diajukan', 'Pengajuan slip gaji Anda sudah terkirim ke admin' + (tg.terkirim ? '' : ' (notifikasi Telegram admin gagal, tapi pengajuan tetap tersimpan)') + '. Admin akan memproses pembayaran lewat QR DANA Anda.', 'success');
+        slipConfettiStop();
+      } catch (err) {
+        slipState.submitting = false;
+        if (errBox) errBox.innerHTML = `<div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${esc(err.message)}</div>`;
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Ajukan'; }
+        // Data di server mungkin berubah (sudah diajukan / ada desain baru): segarkan kartu.
+        slipRefreshDesigner(true);
+      }
+    }
+
+    /* ---------- confetti perayaan (ringan: 1 canvas, partikel dipakai ulang, jeda saat tab tersembunyi) ---------- */
+    const slipConfetti = { canvas: null, ctx: null, raf: 0, parts: [], running: false, loop: true, w: 0, h: 0, dpr: 1, last: 0, onVis: null, onResize: null };
+    function slipConfettiStart() {
+      const C = slipConfetti;
+      if (C.running) return;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      C.loop = !reduce;
+      const cv = document.createElement('canvas');
+      cv.id = 'kl-slip-confetti';
+      cv.setAttribute('aria-hidden', 'true');
+      cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2147483000';
+      document.body.appendChild(cv);
+      C.canvas = cv; C.ctx = cv.getContext('2d');
+      const size = () => {
+        C.dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        C.w = window.innerWidth; C.h = window.innerHeight;
+        cv.width = Math.round(C.w * C.dpr); cv.height = Math.round(C.h * C.dpr);
+        C.ctx.setTransform(C.dpr, 0, 0, C.dpr, 0, 0);
+      };
+      size();
+      const colors = ['#f43f5e', '#f59e0b', '#facc15', '#22c55e', '#06b6d4', '#3b82f6', '#a855f7', '#ec4899'];
+      const max = C.w < 640 ? 55 : 90;
+      const rnd = (a, b) => a + Math.random() * (b - a);
+      const reset = (p, burst) => {
+        p.color = colors[(Math.random() * colors.length) | 0];
+        p.shape = Math.random() < 0.6 ? 0 : (Math.random() < 0.5 ? 1 : 2); // 0 kertas, 1 bulat, 2 pita
+        p.s = rnd(6, 11);
+        p.rot = rnd(0, Math.PI * 2); p.vr = rnd(-0.2, 0.2);
+        p.tilt = rnd(0, Math.PI * 2); p.vt = rnd(0.05, 0.12);
+        p.sway = rnd(0, Math.PI * 2); p.vs = rnd(0.02, 0.05);
+        if (burst) {
+          const a = rnd(-Math.PI * 0.92, -Math.PI * 0.08), v = rnd(7, 15);
+          p.x = C.w / 2; p.y = C.h * 0.45; p.vx = Math.cos(a) * v; p.vy = Math.sin(a) * v;
+        } else {
+          p.x = rnd(0, C.w); p.y = rnd(-C.h * 0.25, -20); p.vx = rnd(-0.6, 0.6); p.vy = rnd(1.4, 2.8);
+        }
+      };
+      C.parts = [];
+      for (let i = 0; i < max; i++) { const p = {}; reset(p, i < max * 0.7); if (i >= max * 0.7) p.y -= rnd(0, C.h * 0.6); C.parts.push(p); }
+      const frame = (t) => {
+        if (!C.running) return;
+        const dt = Math.min(2.5, C.last ? (t - C.last) / 16.67 : 1);
+        C.last = t;
+        const ctx = C.ctx;
+        ctx.clearRect(0, 0, C.w, C.h);
+        let alive = 0;
+        for (const p of C.parts) {
+          if (p.dead) continue;
+          p.vx *= Math.pow(0.985, dt);
+          p.vy = Math.min(p.vy + 0.18 * dt, 3.2);
+          p.sway += p.vs * dt; p.tilt += p.vt * dt; p.rot += p.vr * dt;
+          p.x += (p.vx + Math.sin(p.sway) * 0.9) * dt; p.y += p.vy * dt;
+          if (p.y > C.h + 20) {
+            if (C.loop) reset(p, false); else { p.dead = true; continue; }
+          }
+          alive++;
+          ctx.save();
+          ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          const sy = Math.cos(p.tilt);
+          if (p.shape === 1) { ctx.beginPath(); ctx.arc(0, 0, p.s * 0.35, 0, Math.PI * 2); ctx.fill(); }
+          else if (p.shape === 2) { ctx.fillRect(-p.s * 0.15, -p.s, p.s * 0.3, p.s * 2 * sy); }
+          else ctx.fillRect(-p.s / 2, -p.s * 0.3 * sy, p.s, p.s * 0.6 * sy);
+          ctx.restore();
+        }
+        if (!alive) { slipConfettiStop(); return; }
+        C.raf = requestAnimationFrame(frame);
+      };
+      C.onVis = () => {
+        if (!C.running) return;
+        if (document.hidden) { cancelAnimationFrame(C.raf); C.raf = 0; }
+        else if (!C.raf) { C.last = 0; C.raf = requestAnimationFrame(frame); }
+      };
+      C.onResize = size;
+      document.addEventListener('visibilitychange', C.onVis);
+      window.addEventListener('resize', C.onResize);
+      C.running = true; C.last = 0;
+      C.raf = requestAnimationFrame(frame);
+    }
+    function slipConfettiStop() {
+      const C = slipConfetti;
+      C.running = false;
+      if (C.raf) cancelAnimationFrame(C.raf);
+      C.raf = 0;
+      if (C.onVis) document.removeEventListener('visibilitychange', C.onVis);
+      if (C.onResize) window.removeEventListener('resize', C.onResize);
+      if (C.canvas) C.canvas.remove();
+      C.canvas = null; C.ctx = null; C.parts = []; C.onVis = null; C.onResize = null;
+    }
+
+    /* ---------- tab admin: daftar pengajuan ---------- */
+
+    function slipOnSwitchTab(tabName) {
+      const view = document.getElementById('view-slip-admin');
+      const btn = document.getElementById('btn-tab-slip-admin');
+      if (!view || !btn) return;
+      const active = tabName === 'slip-admin' && isAdminUser;
+      view.classList.toggle('hidden', !active);
+      btn.className = (active
+        ? 'bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-xs'
+        : 'hover:bg-emerald-50 text-emerald-700') + ' px-3 sm:px-4 py-2 rounded-lg transition flex items-center gap-1.5 font-bold shrink-0' + (isAdminUser ? '' : ' hidden');
+      if (slipState.admin.timer) { clearInterval(slipState.admin.timer); slipState.admin.timer = null; }
+      if (active) {
+        slipLoadAdmin();
+        slipState.admin.timer = setInterval(() => { if (document.visibilityState === 'visible') slipLoadAdmin(true); }, 60000);
+      }
+    }
+
+    function slipInitAdmin() {
+      if (!isAdminUser) return;
+      const btn = document.getElementById('btn-tab-slip-admin');
+      if (btn) btn.classList.remove('hidden');
+      slipLoadAdmin(true);
+      setInterval(() => { if (document.visibilityState === 'visible') slipLoadAdmin(true); }, 2 * 60 * 1000);
+    }
+
+    async function slipLoadAdmin(silent) {
+      if (!isAdminUser) return;
+      const view = document.getElementById('view-slip-admin');
+      if (!silent && view && !slipState.admin.loaded) view.innerHTML = '<div class="p-6 text-center text-slate-400 text-sm"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Memuat pengajuan…</div>';
+      const { data, error } = await supabaseClient.from('slip_gaji_pengajuan').select('*').order('created_at', { ascending: false }).limit(500);
+      if (error) {
+        slipState.admin.error = /slip_gaji_pengajuan/.test(error.message || '') ? 'Tabel pengajuan belum dibuat. Jalankan sql-slip-gaji.sql di Supabase > SQL Editor.' : (error.message || 'Gagal memuat data.');
+      } else {
+        slipState.admin.error = null;
+        slipState.admin.rows = data || [];
+      }
+      slipState.admin.loaded = true;
+      slipUpdateAdminBadge();
+      slipRenderAdmin();
+    }
+
+    function slipUpdateAdminBadge() {
+      const badge = document.getElementById('badge-slip-admin');
+      if (!badge) return;
+      const n = slipState.admin.rows.filter((r) => r.status === 'Menunggu' && !r.is_uji).length;
+      badge.textContent = n;
+      badge.classList.toggle('hidden', !n);
+    }
+
+    function slipRenderAdmin() {
+      const view = document.getElementById('view-slip-admin');
+      if (!view || view.classList.contains('hidden')) return;
+      const st = slipState.admin;
+      if (view.contains(document.activeElement) && document.activeElement.tagName === 'SELECT') return; // jangan ganggu saat memilih filter
+      const periods = [...new Set(st.rows.map((r) => r.periode))].sort().reverse();
+      if (st.filterPeriode && !periods.includes(st.filterPeriode)) st.filterPeriode = '';
+      const rows = st.rows.filter((r) => (!st.filterPeriode || r.periode === st.filterPeriode)
+        && (st.filterStatus === 'Semua' || r.status === st.filterStatus)
+        && (st.showUji || !r.is_uji));
+      const waiting = st.rows.filter((r) => r.status === 'Menunggu' && !r.is_uji);
+      const waitingTotal = waiting.reduce((a, r) => a + (Number(r.total) || 0), 0);
+      const perLabel = (kode) => {
+        const r = st.rows.find((x) => x.periode === kode);
+        return r ? slipPeriodeLabel(r) : kode;
+      };
+
+      const body = rows.length ? rows.map((r) => {
+        const paid = r.status === 'Sudah dibayar';
+        const qrManual = slipQrLinkDana(r.qr_payload);
+        const qrOk = slipNameMatch(r.qr_nama, r.designer_name) && Number(r.qr_nominal) === Number(r.total);
+        return `
+          <tr class="border-t border-slate-100 align-top ${r.is_uji ? 'bg-amber-50/40' : ''}">
+            <td class="p-3 text-slate-500 whitespace-nowrap">${esc(formatFullDateTime(r.created_at))}${r.is_uji ? '<div class="mt-1"><span class="bg-amber-100 text-amber-800 border border-amber-300 text-[10px] font-extrabold px-1.5 py-0.5 rounded">UJI</span></div>' : ''}</td>
+            <td class="p-3"><div class="font-bold text-blue-700">${esc(r.designer_name)}</div><div class="text-[10px] text-slate-500">Level ${esc(r.designer_level || 2)}</div></td>
+            <td class="p-3 text-slate-600 whitespace-nowrap">${esc(slipPeriodeLabel(r))}</td>
+            <td class="p-3 text-[11px] text-slate-600 whitespace-nowrap">
+              <div>Desain ${Number(r.total_desain) || 0} · <span class="text-emerald-600 font-bold">✓${Number(r.total_diterima) || 0}</span> · <span class="text-rose-600 font-bold">✗${Number(r.total_ditolak) || 0}</span></div>
+              <div>Hasil ${esc(slipRp(r.hasil_desain))}</div>
+              <div>Reward 1 ${esc(slipRp(r.reward_1))} · Reward 2 ${esc(slipRp(r.reward_2))}</div>
+            </td>
+            <td class="p-3 font-black text-slate-800 whitespace-nowrap">${esc(slipRp(r.total))}</td>
+            ${qrManual
+              ? `<td class="p-3 text-[11px] whitespace-nowrap text-amber-700"><span class="inline-flex items-center gap-1 bg-amber-100 border border-amber-300 text-amber-800 font-bold px-1.5 py-0.5 rounded"><i class="fa-solid fa-eye"></i> Cek manual</span><div class="mt-0.5 text-slate-500">QR link DANA · cek nama & nominal di screenshot</div></td>`
+              : `<td class="p-3 text-[11px] whitespace-nowrap ${qrOk ? 'text-emerald-700' : 'text-rose-700'}"><i class="fa-solid ${qrOk ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${esc(r.qr_nama || '-')}<div>${esc(slipRp(r.qr_nominal))}</div></td>`}
+            <td class="p-3 whitespace-nowrap">${paid
+              ? `<span class="bg-emerald-600 text-white px-2 py-0.5 rounded font-bold text-[11px]"><i class="fa-solid fa-circle-check"></i> Sudah dibayar</span>${r.dibayar_at ? `<div class="text-[10px] text-slate-500 mt-1">${esc(formatFullDateTime(r.dibayar_at))}</div>` : ''}`
+              : '<span class="bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold text-[11px]">Menunggu</span>'}</td>
+            <td class="p-3">
+              <div class="flex flex-col gap-1.5 min-w-[130px]">
+                <button type="button" data-slip-admin="qr" data-id="${esc(r.id)}" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] px-2.5 py-1.5 rounded font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-qrcode"></i> Lihat QR</button>
+                <button type="button" data-slip-admin="${paid ? 'unpaid' : 'paid'}" data-id="${esc(r.id)}" class="${paid ? 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-300' : 'bg-emerald-600 hover:bg-emerald-700 text-white'} text-[11px] px-2.5 py-1.5 rounded font-bold flex items-center justify-center gap-1"><i class="fa-solid ${paid ? 'fa-rotate-left' : 'fa-check'}"></i> ${paid ? 'Batalkan tanda bayar' : 'Tandai sudah dibayar'}</button>
+                <button type="button" data-slip-admin="delete" data-id="${esc(r.id)}" class="bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 text-[11px] px-2.5 py-1.5 rounded font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-trash"></i> Hapus</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('') : `<tr><td colspan="8" class="p-6 text-center text-slate-400">${st.rows.length ? 'Tidak ada pengajuan yang cocok dengan filter.' : 'Belum ada pengajuan slip gaji.'}</td></tr>`;
+
+      view.innerHTML = `
+        <div class="bg-gradient-to-r from-emerald-700 to-teal-700 text-white p-4 sm:p-5 rounded-2xl shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-sm sm:text-base font-black flex items-center gap-2"><i class="fa-solid fa-money-check-dollar"></i> Pengajuan Slip Gaji</h2>
+            <p class="text-[11px] text-emerald-100 mt-0.5">Diajukan desainer setiap tanggal 28. Nama &amp; nominal QR DANA sudah dicek otomatis oleh sistem.</p>
+          </div>
+          <div class="flex gap-2 text-center">
+            <div class="bg-white/15 rounded-xl px-3 py-2"><div class="text-[10px] uppercase font-bold text-emerald-100">Menunggu</div><div class="text-lg font-black">${waiting.length}</div></div>
+            <div class="bg-white/15 rounded-xl px-3 py-2"><div class="text-[10px] uppercase font-bold text-emerald-100">Total menunggu</div><div class="text-lg font-black">${esc(slipRp(waitingTotal))}</div></div>
+          </div>
+        </div>
+        ${st.error ? `<div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">${esc(st.error)}</div>` : ''}
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">
+          <div class="p-3 sm:p-4 flex flex-wrap items-center gap-2 border-b border-slate-100 text-xs">
+            <select data-slip-filter="periode" class="border border-slate-300 rounded-lg px-2 py-1.5 font-bold text-slate-700 bg-white">
+              <option value="">Semua periode</option>
+              ${periods.map((p) => `<option value="${esc(p)}" ${p === st.filterPeriode ? 'selected' : ''}>${esc(perLabel(p))}</option>`).join('')}
+            </select>
+            <select data-slip-filter="status" class="border border-slate-300 rounded-lg px-2 py-1.5 font-bold text-slate-700 bg-white">
+              ${['Menunggu', 'Sudah dibayar', 'Semua'].map((s) => `<option ${s === st.filterStatus ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+            <label class="flex items-center gap-1.5 font-semibold text-slate-600"><input type="checkbox" data-slip-filter="uji" ${st.showUji ? 'checked' : ''}/> Tampilkan pengajuan uji</label>
+            <button type="button" data-slip-admin="reload" class="ml-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i class="fa-solid fa-rotate"></i> Muat ulang</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-500 uppercase text-[10px]">
+                <tr><th class="p-3">Diajukan</th><th class="p-3">Desainer</th><th class="p-3">Periode</th><th class="p-3">Rincian</th><th class="p-3">Total</th><th class="p-3">QR DANA</th><th class="p-3">Status</th><th class="p-3">Aksi</th></tr>
+              </thead>
+              <tbody>${body}</tbody>
+            </table>
+          </div>
+        </div>`;
+
+      view.querySelectorAll('[data-slip-filter]').forEach((el) => el.addEventListener('change', () => {
+        const k = el.dataset.slipFilter;
+        if (k === 'periode') st.filterPeriode = el.value;
+        else if (k === 'status') st.filterStatus = el.value;
+        else if (k === 'uji') st.showUji = el.checked;
+        el.blur();
+        slipRenderAdmin();
+      }));
+      view.querySelectorAll('[data-slip-admin]').forEach((el) => el.addEventListener('click', () => slipAdminAction(el.dataset.slipAdmin, el.dataset.id, el)));
+    }
+
+    async function slipAdminAction(act, id, el) {
+      if (act === 'reload') { el.disabled = true; await slipLoadAdmin(); return; }
+      const r = slipState.admin.rows.find((x) => String(x.id) === String(id));
+      if (!r) return;
+      if (act === 'qr') return slipShowQr(r);
+      if (act === 'paid' || act === 'unpaid') {
+        const paid = act === 'paid';
+        const ok = await showModalConfirm(paid ? 'Tandai Sudah Dibayar' : 'Batalkan Tanda Bayar',
+          paid ? `Tandai slip gaji ${r.designer_name} (${slipRp(r.total)}) sudah dibayar?` : `Kembalikan status slip gaji ${r.designer_name} menjadi "Menunggu"?`);
+        if (!ok) return;
+        el.disabled = true;
+        const { error } = await supabaseClient.from('slip_gaji_pengajuan')
+          .update(paid ? { status: 'Sudah dibayar', dibayar_at: new Date().toISOString(), dibayar_oleh: currentUser.email || '' } : { status: 'Menunggu', dibayar_at: null, dibayar_oleh: null })
+          .eq('id', r.id);
+        if (error) { el.disabled = false; return showModalAlert('Gagal', error.message || 'Gagal menyimpan.', 'error'); }
+        await slipLoadAdmin(true);
+        return;
+      }
+      if (act === 'delete') {
+        const ok = await showModalConfirm('Hapus Pengajuan', `Hapus pengajuan slip gaji ${r.is_uji ? '[UJI] ' : ''}${r.designer_name} (${slipRp(r.total)})? Gambar QR-nya ikut dipindah ke Sampah Drive. Desainer bisa mengajukan ulang jika masih tanggal 28.`);
+        if (!ok) return;
+        el.disabled = true;
+        try {
+          await slipCall('slip_delete', { id: r.id });
+        } catch (err) {
+          el.disabled = false;
+          return showModalAlert('Gagal', err.message, 'error');
+        }
+        await slipLoadAdmin(true);
+      }
+    }
+
+    async function slipShowQr(r) {
+      const m = slipModal();
+      const body = m.querySelector('#slip-modal-body');
+      body.innerHTML = `
+        <div class="text-center pr-6">
+          <h2 class="text-sm font-extrabold text-slate-800">${r.is_uji ? '[UJI] ' : ''}QR DANA · ${esc(r.designer_name)}</h2>
+          <p class="text-xs text-slate-500">Periode ${esc(slipPeriodeLabel(r))} · <b class="text-blue-700">${esc(slipRp(r.total))}</b></p>
+        </div>
+        <div id="slip-qr-view" class="py-8 text-center text-slate-400 text-sm"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Memuat gambar dari Drive…</div>
+        <div class="flex justify-end pt-2 border-t"><button type="button" data-slip-close class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2 rounded-lg font-bold">Tutup</button></div>`;
+      m.classList.remove('hidden');
+      try {
+        const res = await slipCall('slip_image', { id: r.id });
+        const box = body.querySelector('#slip-qr-view');
+        if (box) box.innerHTML = `<img alt="QR DANA" class="max-h-[65vh] mx-auto rounded-lg shadow" src="data:${esc(res.mime)};base64,${res.base64}"/><p class="text-[11px] text-slate-500 mt-2">Scan QR ini dari aplikasi DANA untuk membayar.</p>`;
+      } catch (err) {
+        const box = body.querySelector('#slip-qr-view');
+        if (box) box.innerHTML = `<div class="text-rose-600 font-semibold">${esc(err.message)}</div>`;
+      }
+    }
+
+/* 4) Penyesuaian karena dimuat belakangan. */
+if (window.YT && window.YT.Player && !ytApiReady && typeof window.onYouTubeIframeAPIReady === 'function') window.onYouTubeIframeAPIReady();
+window.KL_DASH_VERSION = '1.0.24';
+document.documentElement.classList.add('kl-dash-ready');
+if (window.klWantLogin) {
+  window.klWantLogin = false;
+  var _m = document.getElementById('modal-login'); if (_m) _m.classList.remove('hidden');
+  var _e = document.getElementById('login-email'); if (_e) setTimeout(function () { _e.focus(); }, 60);
+}
